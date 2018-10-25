@@ -1,4 +1,4 @@
-package gilgCity;
+package gilgCity.model;
 
 public class Defender {
 
