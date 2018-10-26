@@ -1,13 +1,13 @@
 package gilgCity.model;
 
 public class Bazaar {
-<<<<<<< HEAD
+
     public double score;
     public double cost;
     public int level;
     public int unitId;
     public int blockId;
-    public int dayExists;
+    private int dayExists=1;
 
 
 
@@ -34,14 +34,11 @@ public class Bazaar {
     }
 
     public void addDayslive(){
+        dayExists++;
 
     }
-=======
-
-    double score;
-    int level;
-    int numberOfplayers;
 
 
->>>>>>> origin/master
+
+
 }
