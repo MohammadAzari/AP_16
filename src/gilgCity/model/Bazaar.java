@@ -1,6 +1,7 @@
 package gilgCity.model;
 
 public class Bazaar {
+<<<<<<< HEAD
     public double score;
     public double cost;
     public int level;
@@ -35,4 +36,12 @@ public class Bazaar {
     public void addDayslive(){
 
     }
+=======
+
+    double score;
+    int level;
+    int numberOfplayers;
+
+
+>>>>>>> origin/master
 }
