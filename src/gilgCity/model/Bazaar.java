@@ -1,20 +1,20 @@
 package gilgCity.model;
 
+import gilgCity.costants.Constant;
+
 import java.util.ArrayList;
 
-public class Bazaar {
+public class Bazaar extends Entity {
 
-    private double cost;
+
     private final int score=5;
     private int level=1;
     private int unitId;
     private int blockId;
-
-
-
+    private double increaseScoreAmount = Constant.START_MARKET_AMOUNT_SCORE;
     private int dayExists=1;
     private long numberOfemployees=50L;
-    private ArrayList<User> employees =new ArrayList<>();
+    private ArrayList<Person> employees =new ArrayList<>();
 
     public int getDayExists() {
         return dayExists;
@@ -24,13 +24,13 @@ public class Bazaar {
         this.dayExists = dayExists;
     }
 
-    public void setEmployees(ArrayList<User> employees) {
+    public void setEmployees(ArrayList<Person> employees) {
         this.employees = employees;
     }
 
 
 
-    public ArrayList<User> getEmployees() {
+    public ArrayList<Person> getEmployees() {
         return employees;
     }
 
@@ -55,6 +55,7 @@ public class Bazaar {
         this.level = level;
     }
 
+
     public int getUnitId() {
         return unitId;
     }
@@ -71,29 +72,32 @@ public class Bazaar {
         this.blockId = blockId;
     }
 
+    public double getIncreaseScoreAmount() {
+        return increaseScoreAmount;
+    }
+
+    public void setIncreaseScoreAmount(double increaseScoreAmount) {
+        this.increaseScoreAmount = increaseScoreAmount;
+    }
+
+    @Override
+    public void update() {
+
+    }
+
+    @Override
+    public void remove(int unitId) {
+
+    }
+
+    @Override
+    public double calculateScore() {
+        return Math.pow(score,dayExists);
+    }
 
 
-//    public void upgrade(int level, double score, int unitId, int numberOfplayers) {
-//
-//        if (level == 2) {
-//            score = numberOfplayers*(score*1.4);
-//        }
-//        if(level == 3){
-//            score=numberOfplayers*(score*1.6);
-//        }
-//
-//
-//    }
-//    public void remove(int level,double score,int numberOfplayers){
-//        if(level == 2){
-//            score=score*numberOfplayers/1.4;
-//        }
-//        if(level == 3){
-//            score=score*numberOfplayers/1.6;
-//        }
-//
-//
-//    }
+
+
 
 
 
