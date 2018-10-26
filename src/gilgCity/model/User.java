@@ -1,12 +1,12 @@
 package gilgCity.model;
 
-import gilgCity.controller.counter;
+import gilgCity.controller.Counter;
 import gilgCity.costants.Constant;
 
 public class User {
     private double score=0L;
     private double baseScore;
-    private counter counter=new counter();
+    private Counter counter=new Counter();
     private double gills;
     private City city=new City();
     private boolean turn=false;

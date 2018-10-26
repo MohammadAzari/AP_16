@@ -1,6 +1,6 @@
 package gilgCity.controller;
 
-public class counter {
+public class Counter {
     private int blockNumber = 0;
     private int entityNumber = 0;
     private int personNumber;
@@ -13,7 +13,7 @@ public class counter {
         this.entityNumber = entityNumber;
     }
 
-    public counter() {
+    public Counter() {
     }
 
     public int getHomeNumber() {

@@ -1,13 +1,12 @@
 package gilgCity.model;
 
-import gilgCity.controller.counter;
+import gilgCity.controller.Counter;
 
 import java.util.ArrayList;
-import gilgCity.model.Entity;
 
 public class Block extends Entity{
     private int capacity = 15;
-    private gilgCity.controller.counter counter = new counter();
+    private Counter counter = new Counter();
     public int getUnitId() {
         return unitId;
     }
@@ -62,7 +61,7 @@ public class Block extends Entity{
         this.capacity = capacity;
     }
 
-    public counter getEntityCounter() {
+    public Counter getEntityCounter() {
         return counter;
     }
 
