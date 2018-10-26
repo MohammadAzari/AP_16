@@ -1,6 +1,7 @@
 package gilgCity.model;
 
 import gilgCity.controller.counter;
+import gilgCity.costants.Constant;
 
 public class User {
     private double score=0L;
@@ -10,6 +11,7 @@ public class User {
     private City city=new City();
     private boolean turn=false;
     private String name;
+    private Long money= Constant.START_MONEY;
 
     public boolean turn() {
         return turn;
@@ -53,12 +55,12 @@ public class User {
 
     public void showScore(){
 
-        System.out.println(this.score);
+        System.out.printf("%.2f\n",baseScore+this.city.calculateScore());
     }
 
     public void showGills(){
 
-        System.out.println(this.gills);
+        System.out.println(this.money);
     }
 
     public void yield(){

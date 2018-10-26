@@ -1,6 +1,6 @@
 package gilgCity.costants;
 
-public class constant {
+public class Constant {
 
     public static final Long START_MONEY = 30000L;
     public static final Long START_SCORE = 0L;
