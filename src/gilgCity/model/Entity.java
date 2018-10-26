@@ -32,7 +32,9 @@ public abstract class Entity {
         }
 
         public abstract void update();
+
         public abstract void remove(int unitId);
+
         public abstract double calculateScore();
 
     }
