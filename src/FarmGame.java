@@ -17,6 +17,7 @@ class Wild extends Animal{
 
     public void addToWildAnimals(){//game
 
+        System.out.println("HI");
         wildAnimals.add(new Wild());
     }
 
@@ -31,7 +32,7 @@ class WildController{
     public void collision(Product product , Wild wild){//wild controller
 
         //if(map)
-        //remove product
+        //remove product bgdcsbgb
 
     }
 }
