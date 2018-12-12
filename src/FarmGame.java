@@ -1,4 +1,88 @@
 import java.util.ArrayList;
+import java.util.Random;
+
+class Constants{
+    public static final int NORTHEAST = 0;
+    public static final int NORTH = 1;
+    public static final int NORTHWEST = 2;
+    public static final int WEST = 3;
+    public static final int EAST = 4;
+    public static final int SOUTHWEST = 5;
+    public static final int SOUTH = 6;
+    public static final int SOUTHEAST = 7;
+}
+
+class GetRandonNumber{
+    private double doub;
+    private Random random = new Random();
+    public int getInt(int toN){
+        return random.nextInt(toN);
+    }
+}
+
+class Position{
+    private int x, y;
+    public Position(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
+    public Position(){
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+}
+
+class Map{
+    private Position [][] positions;
+    private int size;
+    public Map(int size){
+        this.size = size;
+        positions = new Position[size][];
+        for (int i = 0 ; i < size ; i++){
+            positions[i] = new Position[size];
+            for (int k = 0 ; k < size ; k++)
+                positions[i][k] = new Position();
+        }
+        for (int a = 0 ; a < size ; a++){
+            for (int b = 0 ; b < size ; b++){
+                positions[a][b].setX(a);
+                positions[a][b].setY(b);
+            }
+        }
+    }
+
+    public Position[][] getPositions() {
+        return positions;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void printMap(){
+        for (int i = 0 ; i < size ; i++){
+            for (int j = 0 ; j < size ; j++){
+                System.out.print("|" + this.positions[i][j].getX() + " ");
+                System.out.print(this.positions[i][j].getY()+ "|");
+            }
+            System.out.println();
+        }
+    }
+}
 
 abstract class Animal {
 
