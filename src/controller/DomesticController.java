@@ -30,6 +30,6 @@ class DomesticController{
 
         Map map = new Map(3);
         map.getDomestics().remove(domestic);
-       // domestic.domesticAnimals.remove(domestics);
+
     }
 }

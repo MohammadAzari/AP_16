@@ -6,5 +6,12 @@ public class Product{
 
     Position position = new Position();
     double price;
-    private ArrayList<Product> products = new ArrayList<>();//game
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
 }

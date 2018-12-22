@@ -14,6 +14,14 @@ public class FarmGame{
     private ArrayList<Chicken> chickens;
     ArrayList<Cow> cows;
 
+    public int getCoins() {
+        return coins;
+    }
+
+    public void setCoins(int coins) {
+        this.coins = coins;
+    }
+
     public void addToWildAnimals(){
 
         wildAnimals.add(new Wild());
