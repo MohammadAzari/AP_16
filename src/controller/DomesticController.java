@@ -1,6 +1,8 @@
 package controller;
 
 import model.Domestic;
+import model.Grass;
+import model.Map;
 import model.Product;
 
 import java.util.ArrayList;
@@ -8,19 +10,26 @@ import java.util.ArrayList;
 class DomesticController{
 
     private Domestic domestic;
-    public void eatGrass(ArrayList grass) {//controler
+    public void eatGrass() {
+
+        Map map = new Map(3);
+        //map.getGrasses().remove();
 
         //removeGrassFromMap
     }
 
-    public Product produce(){//con
+    public Product produce(){
 
         Product product = new Product();
+        Map map = new Map(3);
+        map.getProducts().add(product);
         return product;
     }
 
-    public void die(Domestic domestics){     //control
+    public void die(){
 
+        Map map = new Map(3);
+        map.getDomestics().remove(domestic);
        // domestic.domesticAnimals.remove(domestics);
     }
 }

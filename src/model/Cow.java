@@ -4,10 +4,8 @@ import java.util.ArrayList;
 
 class Cow extends Domestic {
 
-    ArrayList<Cow> cows;//game
 
-    Cow() {
-        cows = new ArrayList<>();
+    public Cow(Map map) {
+        super(map);
     }
-
 }

@@ -1,11 +1,12 @@
 package model;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.util.ArrayList;
 
 public class Domestic extends Animal{
 
     int stomach;
-    private ArrayList<Domestic> domesticAnimals = new ArrayList<>();//game
+    int MaxStomach = 10;
 
     public Domestic(Map map) {
         super(map);

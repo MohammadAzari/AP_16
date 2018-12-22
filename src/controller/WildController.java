@@ -1,5 +1,6 @@
 package controller;
 
+import model.Map;
 import model.Product;
 import model.Wild;
 
@@ -7,10 +8,12 @@ class WildController{
 
     private Wild wild;
 
-    public void collision(Product product , Wild wild){//wild controller
+    public void collision(){
 
         //if(map)
-        //remove product bgdcsbgb
+        Map map = new Map(3);
+        //map.getProducts().remove(products);
+        //remove product
 
     }
 }
