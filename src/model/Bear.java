@@ -1,5 +1,5 @@
 package model;
 
-class Bear extends Wild {
+public class Bear extends Wild {
 
 }

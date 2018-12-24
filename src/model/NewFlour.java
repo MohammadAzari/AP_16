@@ -1,5 +1,5 @@
 package model;
 
-class NewFlour extends Product {
+public class NewFlour extends Product {
 
 }

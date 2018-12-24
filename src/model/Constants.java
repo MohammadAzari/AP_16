@@ -1,6 +1,6 @@
 package model;
 
-class Constants{
+public class Constants{
     public static final int NORTHEAST = 0;
     public static final int NORTH = 1;
     public static final int NORTHWEST = 2;

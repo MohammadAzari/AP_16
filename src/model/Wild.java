@@ -8,10 +8,6 @@ public class Wild extends Animal {
         super(map);
     }
 
-    public Wild() {
-        super();
-    }
-
 
 
 

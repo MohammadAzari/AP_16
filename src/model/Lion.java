@@ -1,5 +1,5 @@
 package model;
 
-class Lion extends Wild {
+public class Lion extends Wild {
 
 }

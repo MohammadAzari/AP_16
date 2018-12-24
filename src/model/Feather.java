@@ -1,5 +1,5 @@
 package model;
 
-class Feather extends Product {
+public class Feather extends Product {
 
 }

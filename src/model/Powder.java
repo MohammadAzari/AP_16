@@ -1,5 +1,5 @@
 package model;
 
-class Powder extends Product {
+public class Powder extends Product {
 
 }

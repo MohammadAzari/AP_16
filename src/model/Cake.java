@@ -1,5 +1,5 @@
 package model;
 
-class Cake extends Product {
+public class Cake extends Product {
 
 }

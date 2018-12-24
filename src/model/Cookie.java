@@ -1,5 +1,5 @@
 package model;
 
-class Cookie extends Product {
+public class Cookie extends Product {
 
 }

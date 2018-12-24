@@ -1,5 +1,5 @@
 package model;
 
-class Cotton extends Product {
+public class Cotton extends Product {
 
 }
