@@ -4,7 +4,7 @@ import model.Map;
 import model.Product;
 import model.Wild;
 
-class WildController{
+public class WildController{
 
     private Wild wild;
 

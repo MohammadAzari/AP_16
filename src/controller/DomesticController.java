@@ -7,7 +7,7 @@ import model.Product;
 
 import java.util.ArrayList;
 
-class DomesticController{
+public class DomesticController{
 
     private Domestic domestic;
 

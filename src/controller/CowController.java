@@ -5,7 +5,7 @@ import model.Map;
 import model.Milk;
 import model.Product;
 
-class CowController{
+public class CowController{
 
     public Product produce(){
 

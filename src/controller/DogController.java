@@ -2,7 +2,7 @@ package controller;
 
 import model.Map;
 
-class DogController{
+public class DogController{
 
     public void run(){
 

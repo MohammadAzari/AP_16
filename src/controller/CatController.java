@@ -2,7 +2,7 @@ package controller;
 
 import model.Product;
 
-class CatController{
+public class CatController{
 
     public void move(){
       //  if(level == 1)
