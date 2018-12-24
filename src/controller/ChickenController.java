@@ -19,6 +19,6 @@ class ChickenController{
 
         Map map = new Map(3);
         map.getDomestics().remove(chicken);
-       // chickens.remove(chicken);
+
     }
 }

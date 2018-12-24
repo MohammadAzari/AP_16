@@ -10,12 +10,16 @@ import java.util.ArrayList;
 class DomesticController{
 
     private Domestic domestic;
+
     public void eatGrass() {
 
-        Map map = new Map(3);
-        //map.getGrasses().remove();
 
-        //removeGrassFromMap
+        Map map = new Map(3);
+        if (map.getGrasses().isEmpty())
+            die();
+        else
+            //map.getGrasses().remove();
+        produce();
     }
 
     public Product produce(){
