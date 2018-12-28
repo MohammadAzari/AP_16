@@ -12,7 +12,6 @@ public class AnimalController {
         this.animalModel = model;
     }
 
-
     public void move(){
         int tempX = animalModel.getPosition().getX();
         int tempY = animalModel.getPosition().getY();
