@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -37,14 +38,14 @@ class Well{
     private int capacity;
     private int capacityUnit = 5;
     private int level;
-    private Well singleton = new Well();
+    private static Well singleton = new Well();
 
     private Well(){
         capacity = capacityUnit;
         level = 0;
     }
 
-    public Well getclass(){
+    public static Well getclass(){
         return singleton;
     }
 
@@ -61,6 +62,10 @@ class Well{
             capacity--;
     }
 
+    public int getCapacity() {
+        return capacity;
+    }
+
     public void load(){
         if (capacity == capacityUnit)
             System.out.println("well is full!!");
@@ -70,12 +75,33 @@ class Well{
 }
 
 class Position{
+    private ArrayList<Product> products = new ArrayList<>();
     private int x, y;
+    private boolean hasFood;
+
+    public void addProduct(Product product){
+        products.add(product);
+    }
+
+    public ArrayList<Product> getProducts() {
+        return products;
+    }
+
+    public boolean isHasFood() {
+        return hasFood;
+    }
+
+    public void setHasFood(boolean hasFood) {
+        this.hasFood = hasFood;
+    }
+
     public Position(int x, int y){
         this.x = x;
         this.y = y;
+        hasFood = true;
     }
     public Position(){
+        hasFood = true;
     }
 
     public void setX(int x) {
@@ -93,6 +119,7 @@ class Position{
     public int getY() {
         return y;
     }
+
 }
 
 class Map{
@@ -113,6 +140,7 @@ class Map{
             }
         }
     }
+
 
     public Position[][] getPositions() {
         return positions;
@@ -145,10 +173,10 @@ interface Moveable{
     void move();
 }
 class Animal implements Moveable{
-    private Position position = new Position();
-    private Map map;
-    private Random random = new Random();
-    private Constants constants = new Constants();
+    protected Position position = new Position();
+    protected Map map;
+    protected Random random = new Random();
+    protected Constants constants = new Constants();
 
     public Animal(Map map){
         this.map = map;
@@ -359,6 +387,66 @@ class Animal implements Moveable{
         }
     }
 }
+
+abstract class Pet extends Animal {
+    protected int feedCapacityUnit;
+    protected int feedCapacity;
+    protected int level;
+
+    public Pet(Map map) {
+        super(map);
+        feedCapacity = 0;
+        level = 0;
+    }
+
+    public void eatGrass() {
+        if (map.getPositions()[position.getX()][position.getY()].isHasFood()) {
+            map.getPositions()[position.getX()][position.getY()].setHasFood(false);
+            feedCapacity++;
+            if (feedCapacity == feedCapacityUnit) {
+                makeProduct();
+            }
+        }
+    }
+
+    public abstract void makeProduct();
+
+    public void upgrade(){
+        level++;
+        feedCapacityUnit--;
+    }
+
+}
+
+class Chicken extends Pet{
+
+    Product egg;
+
+    public Chicken(Map map) {
+        super(map);
+        feedCapacityUnit = 3;
+    }
+
+    @Override
+    public void makeProduct() {
+        if (feedCapacity == feedCapacityUnit){
+            egg = new Egg();
+            map.getPositions()[position.getX()][position.getY()].addProduct(egg);
+            System.out.println("an egg is produced and placed in [" + position.getX() + " " +
+                    position.getY() + "]");
+            feedCapacity = 0;
+        }
+    }
+}
+
+class Product{
+
+}
+
+class Egg extends Product{
+
+}
+
 
 public class Test {
     public static void main(String[] args) {
