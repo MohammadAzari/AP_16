@@ -4,14 +4,14 @@ public class Well {
     private int capacity;
     private int capacityUnit = 5;
     private int level;
-    private Well singleton = new Well();
+    private static Well singleton = new Well();
 
     private Well(){
         capacity = capacityUnit;
         level = 0;
     }
 
-    public Well getclass(){
+    public static Well getclass(){
         return singleton;
     }
 
