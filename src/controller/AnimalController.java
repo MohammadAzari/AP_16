@@ -7,202 +7,202 @@ import java.util.Random;
 
 public class AnimalController {
     Random random = new Random();
-    model.Animal model;
+    model.Animal animalModel;
     public AnimalController(Animal model){
-        this.model = model;
+        this.animalModel = model;
     }
 
 
     public void move(){
-        int tempX = model.getPosition().getX();
-        int tempY = model.getPosition().getY();
-        switch (random.nextInt(model.getMap().getSize())){
+        int tempX = animalModel.getPosition().getX();
+        int tempY = animalModel.getPosition().getY();
+        switch (random.nextInt(animalModel.getMap().getSize())){
 
             case Constants.EAST:
-                if (model.getPosition().getX() + 1 < model.getMap().getSize()) {
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setX(tempX);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setY(tempY);
-                    model.getPosition().setX(model.getPosition().getX() + 1);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setX(-1);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setY(-1);
-                    tempX = model.getPosition().getX();
-                    tempY = model.getPosition().getY();
-                    model.getMap().printMap();
+                if (animalModel.getPosition().getX() + 1 < animalModel.getMap().getSize()) {
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setX(tempX);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setY(tempY);
+                    animalModel.getPosition().setX(animalModel.getPosition().getX() + 1);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setX(-1);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setY(-1);
+                    tempX = animalModel.getPosition().getX();
+                    tempY = animalModel.getPosition().getY();
+                    animalModel.getMap().printMap();
                 }
                 else {
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setX(tempX);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setY(tempY);
-                    model.getPosition().setX(model.getPosition().getX() - 1);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setX(-1);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setY(-1);
-                    tempX = model.getPosition().getX();
-                    tempY = model.getPosition().getY();
-                    model.getMap().printMap();
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setX(tempX);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setY(tempY);
+                    animalModel.getPosition().setX(animalModel.getPosition().getX() - 1);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setX(-1);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setY(-1);
+                    tempX = animalModel.getPosition().getX();
+                    tempY = animalModel.getPosition().getY();
+                    animalModel.getMap().printMap();
                 }
                 break;
 
             case Constants.NORTH:
-                if (model.getPosition().getY() - 1 >= 0) {
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setX(tempX);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setY(tempY);
-                    model.getPosition().setY(model.getPosition().getY() - 1);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setX(-1);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setY(-1);
-                    tempX = model.getPosition().getX();
-                    tempY = model.getPosition().getY();
-                    model.getMap().printMap();
+                if (animalModel.getPosition().getY() - 1 >= 0) {
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setX(tempX);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setY(tempY);
+                    animalModel.getPosition().setY(animalModel.getPosition().getY() - 1);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setX(-1);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setY(-1);
+                    tempX = animalModel.getPosition().getX();
+                    tempY = animalModel.getPosition().getY();
+                    animalModel.getMap().printMap();
                 }
                 else {
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setX(tempX);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setY(tempY);
-                    model.getPosition().setY(model.getPosition().getY() + 1);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setX(-1);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setY(-1);
-                    tempX = model.getPosition().getX();
-                    tempY = model.getPosition().getY();
-                    model.getMap().printMap();
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setX(tempX);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setY(tempY);
+                    animalModel.getPosition().setY(animalModel.getPosition().getY() + 1);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setX(-1);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setY(-1);
+                    tempX = animalModel.getPosition().getX();
+                    tempY = animalModel.getPosition().getY();
+                    animalModel.getMap().printMap();
                 }
                 break;
 
             case Constants.SOUTH:
-                if (model.getPosition().getY() + 1 < model.getMap().getSize()) {
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setX(tempX);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setY(tempY);
-                    model.getPosition().setY(model.getPosition().getY() + 1);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setX(-1);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setY(-1);
-                    tempX = model.getPosition().getX();
-                    tempY = model.getPosition().getY();
-                    model.getMap().printMap();
+                if (animalModel.getPosition().getY() + 1 < animalModel.getMap().getSize()) {
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setX(tempX);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setY(tempY);
+                    animalModel.getPosition().setY(animalModel.getPosition().getY() + 1);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setX(-1);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setY(-1);
+                    tempX = animalModel.getPosition().getX();
+                    tempY = animalModel.getPosition().getY();
+                    animalModel.getMap().printMap();
                 }
                 else {
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setX(tempX);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setY(tempY);
-                    model.getPosition().setY(model.getPosition().getY() - 1);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setX(-1);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setY(-1);
-                    tempX = model.getPosition().getX();
-                    tempY = model.getPosition().getY();
-                    model.getMap().printMap();
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setX(tempX);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setY(tempY);
+                    animalModel.getPosition().setY(animalModel.getPosition().getY() - 1);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setX(-1);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setY(-1);
+                    tempX = animalModel.getPosition().getX();
+                    tempY = animalModel.getPosition().getY();
+                    animalModel.getMap().printMap();
                 }
                 break;
 
             case Constants.WEST:
-                if (model.getPosition().getX() - 1 >= 0){
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setX(tempX);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setY(tempY);
-                    model.getPosition().setX(model.getPosition().getX() - 1);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setX(-1);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setY(-1);
-                    tempX = model.getPosition().getX();
-                    tempY = model.getPosition().getY();
-                    model.getMap().printMap();
+                if (animalModel.getPosition().getX() - 1 >= 0){
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setX(tempX);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setY(tempY);
+                    animalModel.getPosition().setX(animalModel.getPosition().getX() - 1);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setX(-1);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setY(-1);
+                    tempX = animalModel.getPosition().getX();
+                    tempY = animalModel.getPosition().getY();
+                    animalModel.getMap().printMap();
                 }
                 else {
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setX(tempX);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setY(tempY);
-                    model.getPosition().setX(model.getPosition().getX() + 1);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setX(-1);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setY(-1);
-                    tempX = model.getPosition().getX();
-                    tempY = model.getPosition().getY();
-                    model.getMap().printMap();
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setX(tempX);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setY(tempY);
+                    animalModel.getPosition().setX(animalModel.getPosition().getX() + 1);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setX(-1);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setY(-1);
+                    tempX = animalModel.getPosition().getX();
+                    tempY = animalModel.getPosition().getY();
+                    animalModel.getMap().printMap();
                 }
                 break;
             case Constants.NORTHEAST:
-                if (model.getPosition().getX() + 1 < model.getMap().getSize() && model.getPosition().getY() - 1 >= 0){
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setX(tempX);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setY(tempY);
-                    model.getPosition().setX(model.getPosition().getX() + 1);
-                    model.getPosition().setY(model.getPosition().getY() - 1);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setX(-1);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setY(-1);
-                    tempX = model.getPosition().getX();
-                    tempY = model.getPosition().getY();
-                    model.getMap().printMap();
+                if (animalModel.getPosition().getX() + 1 < animalModel.getMap().getSize() && animalModel.getPosition().getY() - 1 >= 0){
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setX(tempX);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setY(tempY);
+                    animalModel.getPosition().setX(animalModel.getPosition().getX() + 1);
+                    animalModel.getPosition().setY(animalModel.getPosition().getY() - 1);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setX(-1);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setY(-1);
+                    tempX = animalModel.getPosition().getX();
+                    tempY = animalModel.getPosition().getY();
+                    animalModel.getMap().printMap();
                 }
                 else {
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setX(tempX);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setY(tempY);
-                    model.getPosition().setX(model.getPosition().getX() - 1);
-                    model.getPosition().setY(model.getPosition().getY() + 1);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setX(-1);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setY(-1);
-                    tempX = model.getPosition().getX();
-                    tempY = model.getPosition().getY();
-                    model.getMap().printMap();
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setX(tempX);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setY(tempY);
+                    animalModel.getPosition().setX(animalModel.getPosition().getX() - 1);
+                    animalModel.getPosition().setY(animalModel.getPosition().getY() + 1);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setX(-1);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setY(-1);
+                    tempX = animalModel.getPosition().getX();
+                    tempY = animalModel.getPosition().getY();
+                    animalModel.getMap().printMap();
                 }
                 break;
             case Constants.SOUTHEAST:
-                if (model.getPosition().getX() + 1 < model.getMap().getSize() && model.getPosition().getY() + 1 < model.getMap().getSize()){
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setX(tempX);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setY(tempY);
-                    model.getPosition().setX(model.getPosition().getX() + 1);
-                    model.getPosition().setY(model.getPosition().getY() + 1);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setX(-1);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setY(-1);
-                    tempX = model.getPosition().getX();
-                    tempY = model.getPosition().getY();
-                    model.getMap().printMap();
+                if (animalModel.getPosition().getX() + 1 < animalModel.getMap().getSize() && animalModel.getPosition().getY() + 1 < animalModel.getMap().getSize()){
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setX(tempX);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setY(tempY);
+                    animalModel.getPosition().setX(animalModel.getPosition().getX() + 1);
+                    animalModel.getPosition().setY(animalModel.getPosition().getY() + 1);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setX(-1);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setY(-1);
+                    tempX = animalModel.getPosition().getX();
+                    tempY = animalModel.getPosition().getY();
+                    animalModel.getMap().printMap();
                 }
                 else {
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setX(tempX);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setY(tempY);
-                    model.getPosition().setX(model.getPosition().getX() - 1);
-                    model.getPosition().setY(model.getPosition().getY() - 1);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setX(-1);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setY(-1);
-                    tempX = model.getPosition().getX();
-                    tempY = model.getPosition().getY();
-                    model.getMap().printMap();
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setX(tempX);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setY(tempY);
+                    animalModel.getPosition().setX(animalModel.getPosition().getX() - 1);
+                    animalModel.getPosition().setY(animalModel.getPosition().getY() - 1);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setX(-1);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setY(-1);
+                    tempX = animalModel.getPosition().getX();
+                    tempY = animalModel.getPosition().getY();
+                    animalModel.getMap().printMap();
                 }
                 break;
             case Constants.NORTHWEST:
-                if (model.getPosition().getX() - 1 >= 0 && model.getPosition().getY() - 1 >= 0){
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setX(tempX);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setY(tempY);
-                    model.getPosition().setX(model.getPosition().getX() - 1);
-                    model.getPosition().setY(model.getPosition().getY() - 1);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setX(-1);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setY(-1);
-                    tempX = model.getPosition().getX();
-                    tempY = model.getPosition().getY();
-                    model.getMap().printMap();
+                if (animalModel.getPosition().getX() - 1 >= 0 && animalModel.getPosition().getY() - 1 >= 0){
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setX(tempX);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setY(tempY);
+                    animalModel.getPosition().setX(animalModel.getPosition().getX() - 1);
+                    animalModel.getPosition().setY(animalModel.getPosition().getY() - 1);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setX(-1);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setY(-1);
+                    tempX = animalModel.getPosition().getX();
+                    tempY = animalModel.getPosition().getY();
+                    animalModel.getMap().printMap();
                 }
                 else {
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setX(tempX);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setY(tempY);
-                    model.getPosition().setX(model.getPosition().getX() + 1);
-                    model.getPosition().setY(model.getPosition().getX() + 1);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setX(-1);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setY(-1);
-                    tempX = model.getPosition().getX();
-                    tempY = model.getPosition().getY();
-                    model.getMap().printMap();
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setX(tempX);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setY(tempY);
+                    animalModel.getPosition().setX(animalModel.getPosition().getX() + 1);
+                    animalModel.getPosition().setY(animalModel.getPosition().getX() + 1);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setX(-1);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setY(-1);
+                    tempX = animalModel.getPosition().getX();
+                    tempY = animalModel.getPosition().getY();
+                    animalModel.getMap().printMap();
                 }
                 break;
             case Constants.SOUTHWEST:
-                if (model.getPosition().getX() - 1 >= 0 && model.getPosition().getY() + 1 < model.getMap().getSize()){
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setX(tempX);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setY(tempY);
-                    model.getPosition().setX(model.getPosition().getX() - 1);
-                    model.getPosition().setY(model.getPosition().getY() + 1);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setX(-1);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setY(-1);
-                    tempX = model.getPosition().getX();
-                    tempY = model.getPosition().getY();
-                    model.getMap().printMap();
+                if (animalModel.getPosition().getX() - 1 >= 0 && animalModel.getPosition().getY() + 1 < animalModel.getMap().getSize()){
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setX(tempX);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setY(tempY);
+                    animalModel.getPosition().setX(animalModel.getPosition().getX() - 1);
+                    animalModel.getPosition().setY(animalModel.getPosition().getY() + 1);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setX(-1);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setY(-1);
+                    tempX = animalModel.getPosition().getX();
+                    tempY = animalModel.getPosition().getY();
+                    animalModel.getMap().printMap();
                 }
                 else {
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setX(tempX);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setY(tempY);
-                    model.getPosition().setX(model.getPosition().getX() + 1);
-                    model.getPosition().setY(model.getPosition().getY() - 1);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setX(-1);
-                    model.getMap().getPositions()[model.getPosition().getX()][model.getPosition().getY()].setY(-1);
-                    tempX = model.getPosition().getX();
-                    tempY = model.getPosition().getY();
-                    model.getMap().printMap();
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setX(tempX);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setY(tempY);
+                    animalModel.getPosition().setX(animalModel.getPosition().getX() + 1);
+                    animalModel.getPosition().setY(animalModel.getPosition().getY() - 1);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setX(-1);
+                    animalModel.getMap().getPositions()[animalModel.getPosition().getX()][animalModel.getPosition().getY()].setY(-1);
+                    tempX = animalModel.getPosition().getX();
+                    tempY = animalModel.getPosition().getY();
+                    animalModel.getMap().printMap();
                 }
                 break;
 
