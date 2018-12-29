@@ -56,6 +56,7 @@ class Well{
 class Position{
     ArrayList<Product> products = new ArrayList<>();
     ArrayList<Cage> cages = new ArrayList<>();
+    ArrayList<Pet> pets = new ArrayList<>();
     private int x, y;
     private boolean hasFood;
 
@@ -81,7 +82,7 @@ class Position{
         hasFood = false;
     }
     public Position(){
-        hasFood = true;
+        hasFood = false;
     }
 
     public void setX(int x) {
@@ -377,18 +378,26 @@ class Animal implements Moveable{
 }
 
 enum TypeOfPet {
-    Chicken
+    Chicken, Sheep, Cow
 }
 
-abstract class Wild extends Animal implements Upgradable{
+enum TypeOfWild{
+    Lion, Bear
+}
+
+abstract class Wild extends Animal{
+
+    int level;
+    TypeOfWild type;
 
     public Wild(Map map) {
         super(map);
+        level = 1;
     }
 
-    public void upgrade(){
-
-    }
+    /*public void eatPets(){
+        if (map.positions[position.getX()][position.getY()].)
+    }*/
 }
 
 abstract class Pet extends Animal implements Upgradable,Printable {
@@ -396,11 +405,18 @@ abstract class Pet extends Animal implements Upgradable,Printable {
     protected int feedCapacity;
     protected int level;
     protected TypeOfPet type;
+    protected Position tempPosition;
 
     public Pet(Map map) {
         super(map);
         feedCapacity = 0;
         level = 1;
+        tempPosition = map.positions[position.getX()][position.getY()];
+    }
+
+    public void placeInPosition(){
+        map.positions[position.getX()][position.getY()].pets.add(this);
+        tempPosition = map.positions[position.getX()][position.getY()];
     }
 
     public void eatGrass() {
@@ -421,6 +437,103 @@ abstract class Pet extends Animal implements Upgradable,Printable {
 
 interface Printable{
     void printInfo();
+}
+
+class Cow extends Pet implements Upgradable, Printable{
+
+    Product milk;
+    int namedLabel;
+
+    public Cow(Map map, int label) {
+        super(map);
+        namedLabel = label;
+        feedCapacityUnit = 5;
+        priceUnit = 200;
+        price = priceUnit;
+        type = TypeOfPet.Cow;
+    }
+
+    @Override
+    public void makeProduct() {
+        if (feedCapacity == feedCapacityUnit){
+            milk = new Milk();
+            map.positions[position.getX()][position.getY()].addProduct(milk);
+            System.out.println("a milk is produced and placed in [" + position.getX() + " " +
+                    position.getY() + "]");
+            feedCapacity = 0;
+        }
+    }
+
+    @Override
+    public void upgrade() {
+        if (feedCapacityUnit == 1){
+            System.out.println("There's no more upgrade for Cow!");
+        }
+        else {
+            level++;
+            feedCapacityUnit--;
+            price += 50;
+            System.out.println("Cow is upgraded to level " + level);
+        }
+    }
+
+    @Override
+    public void printInfo() {
+        System.out.println("Cow number: " + namedLabel + "{\n\t" +
+                "price: " + price + "\n\t" +
+                "food capacity: " + feedCapacity + "\n\t" +
+                "level: " + level + "\n\t" +
+                "feed capacity unit: " + feedCapacityUnit + "\n}");
+    }
+}
+
+class Sheep extends Pet implements Upgradable,Printable{
+
+    Product wool;
+    int namedLabel;
+
+
+    public Sheep(Map map, int label) {
+        super(map);
+        namedLabel = label;
+        feedCapacityUnit = 4;
+        priceUnit = 150;
+        price = priceUnit;
+        type = TypeOfPet.Sheep;
+    }
+
+    @Override
+    public void makeProduct() {
+        if (feedCapacity == feedCapacityUnit){
+            wool = new Wool();
+            map.positions[position.getX()][position.getY()].addProduct(wool);
+            System.out.println("a wool is produced and placed in [" + position.getX() + " " +
+                    position.getY() + "]");
+            feedCapacity = 0;
+        }
+    }
+
+    @Override
+    public void upgrade() {
+        if (feedCapacityUnit == 1){
+            System.out.println("There's no more upgrade for Sheep!");
+        }
+        else {
+            level++;
+            feedCapacityUnit--;
+            price += 50;
+            System.out.println("Chicken is upgraded to level " + level);
+        }
+    }
+
+    @Override
+    public void printInfo() {
+        System.out.println("Sheep number: " + namedLabel + "{\n\t" +
+                "price: " + price + "\n\t" +
+                "food capacity: " + feedCapacity + "\n\t" +
+                "level: " + level + "\n\t" +
+                "feed capacity unit: " + feedCapacityUnit + "\n}");
+    }
 }
 
 class Chicken extends Pet implements Upgradable, Printable{
@@ -458,6 +571,9 @@ class Chicken extends Pet implements Upgradable, Printable{
 
     @Override
     public void upgrade(){
+        if (feedCapacityUnit == 1){
+            System.out.println("There's no more upgrade for Chicken!");
+        }
         level++;
         feedCapacityUnit--;
         price += 50;
@@ -470,6 +586,14 @@ class Product{
 }
 
 class Egg extends Product{
+
+}
+
+class Wool extends Product{
+
+}
+
+class Milk extends Product{
 
 }
 
@@ -519,7 +643,9 @@ class GameInfo{
     Map map = new Map(10);
     Warehouse warehouse = Warehouse.getclass();
     Well well = Well.getclass();
-    ArrayList<Pet> pets = new ArrayList<>();
+    ArrayList<Sheep> sheeps = new ArrayList<>();
+    ArrayList<Cow> cows = new ArrayList<>();
+    ArrayList<Chicken> chickens = new ArrayList<>();
 
     public GameInfo(){
         time = 0;
@@ -530,26 +656,65 @@ class GameInfo{
 class Orders{
     private GameInfo gameInfo = new GameInfo();
     private int chickenLabel = 1;
+    private int sheepLabel = 1;
+    private int cowLabel = 1;
     public GameInfo getGameInfo() {
         return gameInfo;
     }
 
+    public void buyCow(){
+        Cow cow = new Cow(gameInfo.map, cowLabel);
+        cowLabel++;
+        gameInfo.cows.add(cow);
+        if (gameInfo.money - cow.price < 0) System.out.println("You haven't enough money!!");
+        else {
+            gameInfo.money -= cow.price;
+            System.out.println("A cow is bought and money = " + gameInfo.money);
+        }
+    }
+
     public void buyChicken(){
-        Pet chicken = new Chicken(gameInfo.map, chickenLabel);
+        Chicken chicken = new Chicken(gameInfo.map, chickenLabel);
         chickenLabel++;
-        gameInfo.pets.add(chicken);
-        gameInfo.money -= chicken.price;
-        System.out.println("A chicken is bought! and money = " + gameInfo.money);
+        gameInfo.chickens.add(chicken);
+        if (gameInfo.money - chicken.price < 0) System.out.println("You haven't enough money!!");
+        else {
+            gameInfo.money -= chicken.price;
+            System.out.println("A chicken is bought! and money = " + gameInfo.money);
+        }
+    }
+
+    public void  buySheep(){
+        Sheep sheep = new Sheep(gameInfo.map, sheepLabel);
+        sheepLabel++;
+        gameInfo.sheeps.add(sheep);
+        if (gameInfo.money - sheep.price < 0) System.out.println("You haven't enough money!!");
+        else {
+            gameInfo.money -= sheep.price;
+            System.out.println("A sheep is bought and money = " + gameInfo.money);
+        }
     }
 
     public void turn(int numOfTurns){
         for (int i = 0 ; i < numOfTurns ; i++){
-            for (Pet p : gameInfo.pets){
-                p.move();
-                p.eatGrass();
+            for (Cow c : gameInfo.cows){
+                c.move();
+                c.eatGrass();
+            }
+            for (Sheep s : gameInfo.sheeps){
+                s.move();
+                s.eatGrass();
+            }
+            for (Chicken c : gameInfo.chickens){
+                c.move();
+                c.eatGrass();
             }
             gameInfo.time++;
         }
+    }
+
+    public void addMoney(int moneyAdded){
+        gameInfo.money += moneyAdded;
     }
 
     public void plant(int x, int y) {
@@ -565,6 +730,7 @@ class Orders{
                 }
                 gameInfo.map.positions[x - 1][y + 1].setHasFood(true);
                 gameInfo.map.positions[x + 1][y - 1].setHasFood(true);
+                gameInfo.well.unload();
                 System.out.println("Grass is planted at [" + x + " " + y +
                         "], " + "[" + (x) + " " + (y + 1) +
                         "], " + "[" + (x + 1) + " " + (y) +
@@ -581,6 +747,7 @@ class Orders{
                     gameInfo.map.positions[x + 1][y].setHasFood(true);
                     gameInfo.map.positions[x][y + 1].setHasFood(true);
                     gameInfo.map.positions[x + 1][y + 1].setHasFood(true);
+                    gameInfo.well.unload();
                     System.out.println("Grass is planted at [" + x + " " + y +
                             "], " + "[" + (x + 1) + " " + (y) +
                             "], " + "[" + (x) + " " + (y + 1) +
@@ -591,6 +758,7 @@ class Orders{
                     gameInfo.map.positions[x + 1][y].setHasFood(true);
                     gameInfo.map.positions[x][y - 1].setHasFood(true);
                     gameInfo.map.positions[x + 1][y - 1].setHasFood(true);
+                    gameInfo.well.unload();
                     System.out.println("Grass is planted at [" + x + " " + y +
                             "], " + "[" + (x + 1) + " " + (y) +
                             "], " + "[" + (x) + " " + (y - 1) +
@@ -603,6 +771,7 @@ class Orders{
                     gameInfo.map.positions[x + 1][y + 1].setHasFood(true);
                     gameInfo.map.positions[x][y - 1].setHasFood(true);
                     gameInfo.map.positions[x + 1][y - 1].setHasFood(true);
+                    gameInfo.well.unload();
                     System.out.println("Grass is planted at [" + x + " " + y +
                             "], " + "[" + (x + 1) + " " + (y) +
                             "], " + "[" + (x) + " " + (y + 1) +
@@ -617,6 +786,7 @@ class Orders{
                     gameInfo.map.positions[x][y + 1].setHasFood(true);
                     gameInfo.map.positions[x - 1][y + 1].setHasFood(true);
                     gameInfo.map.positions[x - 1][y].setHasFood(true);
+                    gameInfo.well.unload();
                     System.out.println("Grass is planted at [" + x + " " + y +
                             "], " + "[" + (x) + " " + (y + 1) +
                             "], " + "[" + (x - 1) + " " + (y + 1) +
@@ -627,6 +797,7 @@ class Orders{
                     gameInfo.map.positions[x][y - 1].setHasFood(true);
                     gameInfo.map.positions[x - 1][y - 1].setHasFood(true);
                     gameInfo.map.positions[x - 1][y].setHasFood(true);
+                    gameInfo.well.unload();
                     System.out.println("Grass is planted at [" + x + " " + y +
                             "], " + "[" + (x) + " " + (y - 1) +
                             "], " + "[" + (x - 1) + " " + (y - 1) +
@@ -639,6 +810,7 @@ class Orders{
                     gameInfo.map.positions[x - 1][y + 1].setHasFood(true);
                     gameInfo.map.positions[x][y - 1].setHasFood(true);
                     gameInfo.map.positions[x - 1][y - 1].setHasFood(true);
+                    gameInfo.well.unload();
                     System.out.println("Grass is planted at [" + x + " " + y +
                             "], " + "[" + (x - 1) + " " + (y) +
                             "], " + "[" + (x) + " " + (y + 1) +
@@ -653,6 +825,7 @@ class Orders{
                     gameInfo.map.positions[x + 1][y].setHasFood(true);
                     gameInfo.map.positions[x][y + 1].setHasFood(true);
                     gameInfo.map.positions[x + 1][y + 1].setHasFood(true);
+                    gameInfo.well.unload();
                     System.out.println("Grass is planted at [" + x + " " + y +
                             "], " + "[" + (x + 1) + " " + (y) +
                             "], " + "[" + (x) + " " + (y + 1) +
@@ -663,6 +836,7 @@ class Orders{
                     gameInfo.map.positions[x][y + 1].setHasFood(true);
                     gameInfo.map.positions[x - 1][y + 1].setHasFood(true);
                     gameInfo.map.positions[x - 1][y].setHasFood(true);
+                    gameInfo.well.unload();
                     System.out.println("Grass is planted at [" + x + " " + y +
                             "], " + "[" + (x) + " " + (y + 1) +
                             "], " + "[" + (x - 1) + " " + (y + 1) +
@@ -675,6 +849,7 @@ class Orders{
                     gameInfo.map.positions[x - 1][y + 1].setHasFood(true);
                     gameInfo.map.positions[x + 1][y].setHasFood(true);
                     gameInfo.map.positions[x + 1][y + 1].setHasFood(true);
+                    gameInfo.well.unload();
                     System.out.println("Grass is planted at [" + x + " " + y +
                             "], " + "[" + (x - 1) + " " + (y) +
                             "], " + "[" + (x) + " " + (y + 1) +
@@ -689,6 +864,7 @@ class Orders{
                     gameInfo.map.positions[x + 1][y].setHasFood(true);
                     gameInfo.map.positions[x][y - 1].setHasFood(true);
                     gameInfo.map.positions[x + 1][y - 1].setHasFood(true);
+                    gameInfo.well.unload();
                     System.out.println("Grass is planted at [" + x + " " + y +
                             "], " + "[" + (x + 1) + " " + (y) +
                             "], " + "[" + (x) + " " + (y - 1) +
@@ -699,6 +875,7 @@ class Orders{
                     gameInfo.map.positions[x][y - 1].setHasFood(true);
                     gameInfo.map.positions[x - 1][y - 1].setHasFood(true);
                     gameInfo.map.positions[x - 1][y].setHasFood(true);
+                    gameInfo.well.unload();
                     System.out.println("Grass is planted at [" + x + " " + y +
                             "], " + "[" + (x) + " " + (y - 1) +
                             "], " + "[" + (x - 1) + " " + (y - 1) +
@@ -711,6 +888,7 @@ class Orders{
                     gameInfo.map.positions[x - 1][y - 1].setHasFood(true);
                     gameInfo.map.positions[x + 1][y].setHasFood(true);
                     gameInfo.map.positions[x + 1][y - 1].setHasFood(true);
+                    gameInfo.well.unload();
                     System.out.println("Grass is planted at [" + x + " " + y +
                             "], " + "[" + (x - 1) + " " + (y) +
                             "], " + "[" + (x) + " " + (y - 1) +
@@ -746,8 +924,80 @@ class Orders{
     }
 }
 
+
 public class Test {
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String order;
+        Orders orders = new Orders();
+        System.out.println("Welcome to Farm Frenzy 3!!");
+        System.out.println("Your money is: " + orders.getGameInfo().money);
+        System.out.println("Please enter an order:\n\t\"buy [Animal]\": to buy an animal" +
+                "\n\t\"plant [x y]\": to plant grass around point [x y]\n\t" +
+                "\"well\": to load well\n\t\"print [Printable]\": to print info about a Printable" +
+                "\n\t\"turn [n]\": to trun the game n times" +
+                "\n\t\"upgrade [Upgradable]\": to level up an Upgradable" +
+                "\n\t\"add money [amount]\": to add money" +
+                "\n\t\"end game\": to end up the game");
+        order = scanner.nextLine();
+        while (true){
+            if (order.equals("end game")) break;
+            else {
+                if (order.startsWith("buy")){
+                    if (order.endsWith("chicken")) orders.buyChicken();
+                    else if (order.endsWith("sheep")) orders.buySheep();
+                    else if (order.endsWith("cow")) orders.buyCow();
+                    else System.out.println("Please enter a valid type order!");
+                }
 
+                else if (order.startsWith("plant")){
+                    String[] strTemp = order.split(" ");
+                    int x, y;
+                    x = Integer.parseInt(strTemp[1]);
+                    y = Integer.parseInt(strTemp[2]);
+                    orders.plant(x, y);
+                }
+
+                else if (order.startsWith("well")){
+                    orders.well();
+                }
+
+                else if (order.startsWith("print")){
+                    String [] strTemp = order.split(" ");
+                    switch (strTemp[1]){
+                        case "sheep": orders.print(orders.getGameInfo().sheeps.get(0)); break;
+                        case "chicken": orders.print(orders.getGameInfo().chickens.get(0)); break;
+                        case "cow" : orders.print(orders.getGameInfo().cows.get(0)); break;
+                        case "map": orders.print(orders.getGameInfo().map); break;
+                        default:
+                            System.out.println("Please enter a valid format to print!!");
+                            break;
+                    }
+                }
+
+                else if (order.startsWith("turn")){
+                    String [] strTemp = order.split(" ");
+                    orders.turn(Integer.parseInt(strTemp[1]));
+                }
+
+                else if (order.startsWith("upgrade")){
+
+                }
+
+                else if (order.startsWith("add money")){
+                    String []strTemp = order.split(" ");
+                    orders.addMoney(Integer.parseInt(strTemp[1]));
+                }
+                System.out.println("Your money is: " + orders.getGameInfo().money);
+                System.out.println("Please enter an order:\n\t\"buy [Animal]\": to buy an animal" +
+                        "\n\t\"plant [x y]\": to plant grass around point [x y]\n\t" +
+                        "\"well\": to load well\n\t\"print [Printable]\": to print info about a Printable" +
+                        "\n\t\"turn [n]\": to trun the game n times" +
+                        "\n\t\"upgrade [Upgradable]\": to level up an Upgradable" +
+                        "\n\t\"add money [amount]\": to add money" +
+                        "\n\t\"end game\": to end up the game");
+                order = scanner.nextLine();
+            }
+        }
     }
 }
