@@ -11,4 +11,8 @@ public class Domestic extends Animal{
     public Domestic(Map map) {
         super(map);
     }
+
+    public Domestic() {
+
+    }
 }

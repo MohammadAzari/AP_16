@@ -2,11 +2,12 @@ package model;
 
 import java.util.ArrayList;
 
-class Cow extends Domestic {
+public class Cow extends Domestic {
 
     ArrayList<Cow> cows;//game
 
     Cow() {
+        super();
         cows = new ArrayList<>();
     }
 

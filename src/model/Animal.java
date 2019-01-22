@@ -3,7 +3,7 @@ package model;
 import java.util.Random;
 
 
-class Animal implements Moveable {
+public class Animal implements Moveable {
     private Position position = new Position();
     private Map map;
     private Random random = new Random();
@@ -13,10 +13,22 @@ class Animal implements Moveable {
         this.map = map;
         position.setX(random.nextInt(map.getSize()));
         position.setY(random.nextInt(map.getSize()));
+
+
+
     }
 
     public Animal() {
 
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+
+    public Map getMap() {
+        return map;
     }
 
     public void move(){
