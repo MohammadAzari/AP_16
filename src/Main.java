@@ -26,6 +26,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -815,97 +816,16 @@ class ChickenView{
 
 
 
-public class Main extends Application {
+class MainGame extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
 
 
         Group root = new Group();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        Pane menuRoot = new Pane();
-
-        menuRoot.setPrefSize(1050, 600);
-
-        try (InputStream is = getClass().getResourceAsStream("menu.jpg")) {
-            ImageView img = new ImageView(new Image(is));
-            img.setFitWidth(1500);
-            img.setFitHeight(1000);
-            menuRoot.getChildren().add(img);
-        } catch (IOException e) {
-            System.out.println("Couldn't load image");
-        }
-
-        Title title = new Title(" F A R M   C R A Z Y ");
-        title.setTranslateX(50);
-        title.setTranslateY(200);
-
-        MenuBox vbox = new MenuBox();
-        MenuItem startButton = new MenuItem("Start");
-        MenuItem loadButton = new MenuItem("Load");
-        MenuItem exitButton = new MenuItem("Exit");
-        vbox.getChildren().addAll(startButton, loadButton, exitButton);
-        vbox.setTranslateX(100);
-        vbox.setTranslateY(300);
-
-        menuRoot.getChildren().addAll(title, vbox);
-
-
-        Scene scene = new Scene(menuRoot);
-        primaryStage.setTitle("VIDEO GAME");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-
-
-        startButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-
-            }
-        });
-
-        exitButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                primaryStage.close();
-            }
-        });
-
-
-
-
-
-
         Scene scene1 = new Scene(root, 1000, 1000);
         Orders orders = new Orders();
+        primaryStage.setTitle("Farm Crazy");
         //Map map = new Map(5);
         // Chicken chicken = new Chicken(map  , 10);
 
@@ -918,6 +838,49 @@ public class Main extends Application {
 //        ImageView app = (ImageView)(Node) anchorPane.getChildren().get(0);
 //        app.setX(50);
 //        app.setY(50);
+
+/*
+        Label exitLabel = new Label("EXIT");
+        Rectangle exit = new Rectangle(60, 70);
+        exit.setX(60);
+        exit.setY(60);
+        exit.setFill(Color.BLACK);
+        exitLabel.setLabelFor(exit);
+        root.getChildren().add(exit);
+        exit.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                primaryStage.close();
+            }
+        });*/
+
+
+
+        Button exitButton = new Button("Exit");
+        Scene exitScene = new Scene(exitButton , 500 , 500);
+        primaryStage.setScene(exitScene);
+        primaryStage.show();
+
+
+
+
+
+
+
+
+
+
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String path = Main.class.getResource("/main.mp3").toString();
+                Media media = new Media(path);
+                MediaPlayer mp = new MediaPlayer(media);
+                mp.setCycleCount(Timeline.INDEFINITE);
+                mp.play();
+            }
+        }).start();
 
         Image mapImage = new Image(Main.class.getResourceAsStream("back.png"));
         ImageView mapView = new ImageView(mapImage);
@@ -934,9 +897,7 @@ public class Main extends Application {
         Circle circle = new Circle(40,40,40);
         Image chickenImage = new Image(Main.class.getResourceAsStream("chicken.png"));
         circle.setFill(new ImagePattern(chickenImage));
-
         root.getChildren().add(circle);
-
         circle.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -945,7 +906,7 @@ public class Main extends Application {
                     Image chickenImage = new Image(Main.class.getResourceAsStream("down_left.png"));
                     ImageView chickenView = new ImageView(chickenImage);
 
-                } catch (FileNotFoundException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -983,9 +944,89 @@ public class Main extends Application {
 
 
 
-        primaryStage.setScene(scene);
+        primaryStage.setScene(scene1);
         primaryStage.setFullScreen(true);
         primaryStage.show();
+
+    }
+}
+
+
+public class Main extends Application {
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+
+        Pane menuRoot = new Pane();
+
+        menuRoot.setPrefSize(1050, 600);
+        primaryStage.setTitle("Farm Crazy");
+
+        try (InputStream is = getClass().getResourceAsStream("menu.jpg")) {
+            ImageView img = new ImageView(new Image(is));
+            img.setFitWidth(1500);
+            img.setFitHeight(1000);
+            menuRoot.getChildren().add(img);
+        } catch (IOException e) {
+            System.out.println("Couldn't load image");
+        }
+
+        Title title = new Title(" F A R M   C R A Z Y ");
+        title.setTranslateX(50);
+        title.setTranslateY(200);
+
+        MenuBox vbox = new MenuBox();
+        MenuItem startButton = new MenuItem("Start");
+        MenuItem loadButton = new MenuItem("Load");
+        MenuItem exitButton = new MenuItem("Exit");
+        vbox.getChildren().addAll(startButton, loadButton, exitButton);
+        vbox.setTranslateX(100);
+        vbox.setTranslateY(300);
+
+        menuRoot.getChildren().addAll(title, vbox);
+
+
+        Scene scene = new Scene(menuRoot);
+        primaryStage.setTitle("VIDEO GAME");
+        primaryStage.setScene(scene);
+        primaryStage.setFullScreen(true);
+        /*Thread musicp = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String path = Main.class.getResource("/sm.mp3").toString();
+                Media media = new Media(path);
+                MediaPlayer mp = new MediaPlayer(media);
+                mp.setCycleCount(Timeline.INDEFINITE);
+                mp.play();
+            }
+        });
+        musicp.start();*/
+        String path = Main.class.getResource("/sm.mp3").toString();
+        Media media = new Media(path);
+        MediaPlayer mp = new MediaPlayer(media);
+        mp.setCycleCount(Timeline.INDEFINITE);
+        mp.play();
+        primaryStage.show();
+
+
+        startButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                try {
+                    new MainGame().start(primaryStage);
+                    mp.stop();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        exitButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                primaryStage.close();
+            }
+        });
 
     }
 
@@ -1065,6 +1106,9 @@ public class Main extends Application {
                 bg.setFill(gradient);
             });
 
+
+
+
         }
     }
 
@@ -1092,17 +1136,6 @@ public class Main extends Application {
 
 
     public static void main(String[] args){
-        Thread musicp = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String path = Main.class.getResource("/sm.mp3").toString();
-                Media media = new Media(path);
-                MediaPlayer mp = new MediaPlayer(media);
-                mp.setCycleCount(Timeline.INDEFINITE);
-                mp.play();
-            }
-        });
-        musicp.start();
         launch(args);
     }
 
