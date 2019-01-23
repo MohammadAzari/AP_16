@@ -817,49 +817,6 @@ class ChickenView{
 
 public class Main extends Application {
 
-
-
-
-
-
-    private Parent createContent() throws IOException {
-        Pane root = new Pane();
-
-        root.setPrefSize(1050, 600);
-
-        try (InputStream is = getClass().getResourceAsStream("menu.jpg")) {
-            ImageView img = new ImageView(new Image(is));
-            img.setFitWidth(1500);
-            img.setFitHeight(1000);
-            root.getChildren().add(img);
-        } catch (IOException e) {
-            System.out.println("Couldn't load image");
-        }
-
-        Title title = new Title(" F A R M   C R A Z Y ");
-        title.setTranslateX(50);
-        title.setTranslateY(200);
-
-        MenuBox vbox = new MenuBox(
-                new MenuItem("Start"),
-                new MenuItem("Load"),
-                new MenuItem("Exit"));
-        vbox.setTranslateX(100);
-        vbox.setTranslateY(300);
-
-        root.getChildren().addAll(title, vbox);
-
-        return root;
-
-
-    }
-
-
-
-
-
-
-
     @Override
     public void start(Stage primaryStage) throws Exception {
 
@@ -894,11 +851,53 @@ public class Main extends Application {
 
 
 
-        Scene scene = new Scene(createContent());
+        Pane menuRoot = new Pane();
+
+        menuRoot.setPrefSize(1050, 600);
+
+        try (InputStream is = getClass().getResourceAsStream("menu.jpg")) {
+            ImageView img = new ImageView(new Image(is));
+            img.setFitWidth(1500);
+            img.setFitHeight(1000);
+            menuRoot.getChildren().add(img);
+        } catch (IOException e) {
+            System.out.println("Couldn't load image");
+        }
+
+        Title title = new Title(" F A R M   C R A Z Y ");
+        title.setTranslateX(50);
+        title.setTranslateY(200);
+
+        MenuBox vbox = new MenuBox();
+        MenuItem startButton = new MenuItem("Start");
+        MenuItem loadButton = new MenuItem("Load");
+        MenuItem exitButton = new MenuItem("Exit");
+        vbox.getChildren().addAll(startButton, loadButton, exitButton);
+        vbox.setTranslateX(100);
+        vbox.setTranslateY(300);
+
+        menuRoot.getChildren().addAll(title, vbox);
+
+
+        Scene scene = new Scene(menuRoot);
         primaryStage.setTitle("VIDEO GAME");
         primaryStage.setScene(scene);
         primaryStage.show();
 
+
+        startButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+
+            }
+        });
+
+        exitButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                primaryStage.close();
+            }
+        });
 
 
 
@@ -907,9 +906,8 @@ public class Main extends Application {
 
         Scene scene1 = new Scene(root, 1000, 1000);
         Orders orders = new Orders();
-        Map map = new Map(5);
-        map.printInfo();
-        Chicken chicken = new Chicken(map  , 10);
+        //Map map = new Map(5);
+        // Chicken chicken = new Chicken(map  , 10);
 
         //Image wellImage = new Image(new FileInputStream("/Users/sara/Desktop/Textures/Service/Well/01.png"));
         //ImageView wellView = new ImageView(wellImage);
@@ -1106,7 +1104,6 @@ public class Main extends Application {
         });
         musicp.start();
         launch(args);
-
     }
 
 }
