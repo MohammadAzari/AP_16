@@ -962,9 +962,11 @@ class MainGame extends Application {
 
 
 
+
+
+
     @Override
     public void start(Stage primaryStage) throws Exception {
-
 
 
 
@@ -992,6 +994,31 @@ class MainGame extends Application {
         Scene scene1 = new Scene(root, 1000, 1000);
         Orders orders = new Orders();
         primaryStage.setTitle("Farm Crazy");
+
+        Orders orders1 = new Orders();
+
+
+
+
+
+        scene1.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                orders.plant((int)event.getX() , (int)event.getY());
+
+
+                Image grassImage = new Image(Main.class.getResourceAsStream("images.jpeg"));
+                ImageView grassView = new ImageView(grassImage);
+                if(event.getX() > 200 && event.getY() > 300 && event.getX()<1300) {
+                    Circle circle8 = new Circle(event.getX(), event.getY(), 40);
+                    circle8.setFill(new ImagePattern(grassImage));
+                    root.getChildren().add(circle8);
+
+                }
+            }
+        });
+
+
         //Map map = new Map(5);
         // Chicken chicken = new Chicken(map  , 10);
 
@@ -1023,8 +1050,9 @@ class MainGame extends Application {
 
 
         Button exitButton = new Button("Exit");
-        Scene exitScene = new Scene(exitButton , 500 , 500);
-        primaryStage.setScene(exitScene);
+
+        root.getChildren().add(exitButton);
+        primaryStage.setScene(scene1);
         primaryStage.show();
 
 
