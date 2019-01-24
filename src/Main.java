@@ -871,16 +871,29 @@ class MainGame extends Application{
 
 
 
+
+
+
+
+
+
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String path = Main.class.getResource("/main.mp3").toString();
+                String path = MainGame.class.getResource("main.mp3").toString();
                 Media media = new Media(path);
                 MediaPlayer mp = new MediaPlayer(media);
                 mp.setCycleCount(Timeline.INDEFINITE);
                 mp.play();
+                primaryStage.show();
             }
         }).start();
+
+
+
+
+
+
 
         Image mapImage = new Image(Main.class.getResourceAsStream("back.png"));
         ImageView mapView = new ImageView(mapImage);
@@ -894,6 +907,17 @@ class MainGame extends Application{
 
 
 
+        Circle circle2 = new Circle(700 , 210 , 65);
+        Image wellImage = new Image(Main.class.getResourceAsStream("welll.png"));
+        circle2.setFill(new ImagePattern(wellImage));
+        root.getChildren().add(circle2);
+
+
+
+
+
+
+
         Circle circle = new Circle(40,40,40);
         Image chickenImage = new Image(Main.class.getResourceAsStream("chicken.png"));
         circle.setFill(new ImagePattern(chickenImage));
@@ -903,14 +927,29 @@ class MainGame extends Application{
             public void handle(MouseEvent event) {
                 try {
                     orders.buyChicken();
-                    Image chickenImage = new Image(Main.class.getResourceAsStream("down_left.png"));
+                    Image chickenImage = new Image(Main.class.getResourceAsStream("guinea_fowl.png"));
                     ImageView chickenView = new ImageView(chickenImage);
+                    Circle circle1 = new Circle(Math.random()*900 + 250 , Math.random()*600 + 300, 40);
+                    circle1.setFill(new ImagePattern(chickenImage));
+                    root.getChildren().add(circle1);
+
 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1111,22 +1150,6 @@ public class Main extends Application {
 
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
