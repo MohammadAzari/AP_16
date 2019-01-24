@@ -1,8 +1,9 @@
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
+import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
@@ -30,10 +31,12 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import javax.print.DocFlavor;
 import javax.sound.sampled.*;
@@ -423,7 +426,7 @@ class Animal implements Moveable{
 }
 
 enum TypeOfPet {
-    Chicken
+    Chicken , Cow , Sheep
 }
 
 abstract class Wild extends Animal implements Upgradable{
@@ -511,12 +514,120 @@ class Chicken extends Pet implements Upgradable, Printable{
     }
 }
 
+class Cow extends Pet implements Upgradable , Printable{
+
+    Product milk;
+    int namedLabel;
+
+    public Cow(Map map, int label) {
+        super(map);
+        namedLabel = label;
+        feedCapacityUnit = 5;
+        priceUnit = 200;
+        price = priceUnit;
+        type = TypeOfPet.Cow;
+    }
+
+
+    public void printInfo(){
+        System.out.println("Cow number: " + namedLabel + "{\n\t" +
+                "price: " + price + "\n\t" +
+                "food capacity: " + feedCapacity + "\n\t" +
+                "level: " + level + "\n\t" +
+                "feed capacity unit: " + feedCapacityUnit + "\n}");
+    }
+
+
+    @Override
+    public void makeProduct() {
+        if (feedCapacity == feedCapacityUnit){
+            milk = new Milk();
+            map.getPositions()[position.getX()][position.getY()].addProduct(milk);
+            System.out.println("a bottle of milk is produced and placed in [" + position.getX() + " " +
+                    position.getY() + "]");
+            feedCapacity = 0;
+        }
+    }
+
+    @Override
+    public void upgrade(){
+        level++;
+        feedCapacityUnit--;
+        price += 50;
+        System.out.println("Cow is upgraded to level " + level);
+    }
+
+
+}
+
+
+
+
+class Sheep extends Pet implements Upgradable , Printable{
+
+    Product wool;
+    int namedLabel;
+
+    public Sheep(Map map, int label) {
+        super(map);
+        namedLabel = label;
+        feedCapacityUnit = 4;
+        priceUnit = 150;
+        price = priceUnit;
+        type = TypeOfPet.Sheep;
+    }
+
+
+    public void printInfo(){
+        System.out.println("Sheep number: " + namedLabel + "{\n\t" +
+                "price: " + price + "\n\t" +
+                "food capacity: " + feedCapacity + "\n\t" +
+                "level: " + level + "\n\t" +
+                "feed capacity unit: " + feedCapacityUnit + "\n}");
+    }
+
+
+    @Override
+    public void makeProduct() {
+        if (feedCapacity == feedCapacityUnit){
+            wool = new Wool();
+            map.getPositions()[position.getX()][position.getY()].addProduct(wool);
+            System.out.println("wool is produced and placed in [" + position.getX() + " " +
+                    position.getY() + "]");
+            feedCapacity = 0;
+        }
+    }
+
+    @Override
+    public void upgrade(){
+        level++;
+        feedCapacityUnit--;
+        price += 50;
+        System.out.println("Sheep is upgraded to level " + level);
+    }
+
+
+}
+
+
+
+
+
+
 class Product{
 
 }
 
 class Egg extends Product{
 
+
+}
+
+class Milk extends Product{
+
+}
+
+class Wool extends Product{
 
 }
 
@@ -579,6 +690,8 @@ class Orders{
 
     private GameInfo gameInfo = new GameInfo();
     private int chickenLabel = 1;
+    private  int cowLabel = 1;
+    private  int sheepLabel = 1;
     public GameInfo getGameInfo() {
         return gameInfo;
     }
@@ -594,6 +707,35 @@ class Orders{
 
 
     }
+
+
+    public void buyCow() throws FileNotFoundException {
+        Pet cow = new Cow(gameInfo.map, cowLabel);
+        cowLabel++;
+        gameInfo.pets.add(cow);
+        gameInfo.money -= cow.price;
+        System.out.println("A cow is bought! and money = " + gameInfo.money);
+
+
+
+
+    }
+
+
+    public void buySheep() throws FileNotFoundException {
+        Pet sheep = new Sheep(gameInfo.map, sheepLabel);
+        cowLabel++;
+        gameInfo.pets.add(sheep);
+        gameInfo.money -= sheep.price;
+        System.out.println("A sheep is bought! and money = " + gameInfo.money);
+
+
+
+
+    }
+
+
+
 
     public void turn(int numOfTurns){
         for (int i = 0 ; i < numOfTurns ; i++){
@@ -816,10 +958,23 @@ class ChickenView{
 
 
 
-class MainGame extends Application{
+class MainGame extends Application {
+
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -950,6 +1105,10 @@ class MainGame extends Application{
                     root.getChildren().add(circle1);
 
 
+
+
+
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -962,6 +1121,98 @@ class MainGame extends Application{
 
 
 
+
+        Circle circle4 = new Circle(120,40,40);
+        Image cowImage = new Image(Main.class.getResourceAsStream("brown_cow.png"));
+        circle4.setFill(new ImagePattern(cowImage));
+        root.getChildren().add(circle4);
+        circle4.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                try {
+                    orders.buyCow();
+                    Image cowImage = new Image(Main.class.getResourceAsStream("cow.png"));
+                    ImageView cowView = new ImageView(cowImage);
+                    Circle circle5 = new Circle(Math.random()*900 + 250 , Math.random()*600 + 300, 40);
+                    circle5.setFill(new ImagePattern(cowImage));
+                    root.getChildren().add(circle5);
+
+
+
+
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+
+
+
+
+        Circle circle6 = new Circle(200,40,40);
+        Image sheepImage = new Image(Main.class.getResourceAsStream("sheep.png"));
+        circle6.setFill(new ImagePattern(sheepImage));
+        root.getChildren().add(circle6);
+        circle6.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                try {
+                    orders.buySheep();
+                    Image sheepImage = new Image(Main.class.getResourceAsStream("download (1).jpeg"));
+                    ImageView sheepView = new ImageView(sheepImage);
+                    Circle circle7 = new Circle(Math.random()*900 + 250 , Math.random()*600 + 300, 40);
+                    circle7.setFill(new ImagePattern(sheepImage));
+                    root.getChildren().add(circle7);
+
+
+
+
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+
+
+
+
+
+
+
+        //GameInfo gameInfo = new GameInfo();
+        //Circle circle3 = new Circle(1400 , 50 , 40);
+
+        //Image coinImage = new Image(Main.class.getResourceAsStream("download.png"));
+        //circle3.setFill(new ImagePattern(coinImage));
+        //root.getChildren().add(circle3);
+
+
+
+
+
+
+
+        //HBox hbox = new HBox();
+
+//        Label label1 = new Label(String.valueOf(gameInfo.money));
+//        label1.setGraphic(new ImageView(coinImage));
+//        label1.setTranslateX(1000);
+//        label1.setTranslateY(60);
+
+        //hbox.setSpacing(10);
+        //root.getChildren().add((label1));
+        //((Group) scene1.getRoot()).getChildren().add(hbox);
+
+        //primaryStage.setScene(scene1);
+        //primaryStage.show();
 
 
 
@@ -1005,6 +1256,67 @@ class MainGame extends Application{
 
     }
 }
+
+//class Move implements Initializable{
+//
+//
+//    public void initialize(URL url , ResourceBundle resourceBundle){
+//
+//
+//
+//        PathTransition pathTransition = new PathTransition();
+//        pathTransition.setNode();
+//        pathTransition.setDuration(Duration.INDEFINITE);
+//        pathTransition.setPath();
+//
+//    }
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 public class Main extends Application {
