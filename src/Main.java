@@ -822,6 +822,17 @@ class MainGame extends Application{
     public void start(Stage primaryStage) throws Exception {
 
 
+
+//        String path = MainGame.class.getResource("main.mp3").toString();
+//        Media media = new Media(path);
+//        MediaPlayer mp = new MediaPlayer(media);
+//        mp.setCycleCount(Timeline.INDEFINITE);
+//        mp.play();
+//        primaryStage.show();
+
+
+
+
         Group root = new Group();
         Scene scene1 = new Scene(root, 1000, 1000);
         Orders orders = new Orders();
@@ -865,6 +876,8 @@ class MainGame extends Application{
 
 
 
+        AudioClip audioClip = new AudioClip(this.getClass().getResource("main.mp3").toString());
+        audioClip.play();
 
 
 
@@ -877,17 +890,20 @@ class MainGame extends Application{
 
 
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String path = MainGame.class.getResource("main.mp3").toString();
-                Media media = new Media(path);
-                MediaPlayer mp = new MediaPlayer(media);
-                mp.setCycleCount(Timeline.INDEFINITE);
-                mp.play();
-                primaryStage.show();
-            }
-        }).start();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                String path = MainGame.class.getResource("main.mp3").toString();
+//                Media media = new Media(path);
+//                MediaPlayer mp = new MediaPlayer(media);
+//                mp.setCycleCount(Timeline.INDEFINITE);
+//                mp.play();
+//                primaryStage.show();
+//            }
+//        }).start();
+
+
+
 
 
 
