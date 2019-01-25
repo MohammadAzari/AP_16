@@ -1009,7 +1009,7 @@ class MainGame extends Application {
 
                 Image grassImage = new Image(Main.class.getResourceAsStream("images.jpeg"));
                 ImageView grassView = new ImageView(grassImage);
-                if(event.getX() > 200 && event.getY() > 300 && event.getX()<1300) {
+                if(event.getX() > 350 && event.getY() > 300 && event.getX()<1200 && event.getY()<650) {
                     Circle circle8 = new Circle(event.getX(), event.getY(), 40);
                     circle8.setFill(new ImagePattern(grassImage));
                     root.getChildren().add(circle8);
@@ -1050,8 +1050,14 @@ class MainGame extends Application {
 
 
         Button exitButton = new Button("Exit");
-
+        exitButton.relocate(500 , 500);
         root.getChildren().add(exitButton);
+        exitButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                primaryStage.close();
+            }
+        });
         primaryStage.setScene(scene1);
         primaryStage.show();
 
@@ -1128,7 +1134,7 @@ class MainGame extends Application {
                     orders.buyChicken();
                     Image chickenImage = new Image(Main.class.getResourceAsStream("guinea_fowl.png"));
                     ImageView chickenView = new ImageView(chickenImage);
-                    Circle circle1 = new Circle(Math.random()*900 + 250 , Math.random()*600 + 300, 40);
+                    Circle circle1 = new Circle(Math.random()*770 + 300 , Math.random()*350 + 300, 40);
                     circle1.setFill(new ImagePattern(chickenImage));
                     root.getChildren().add(circle1);
 
@@ -1161,7 +1167,7 @@ class MainGame extends Application {
                     orders.buyCow();
                     Image cowImage = new Image(Main.class.getResourceAsStream("cow.png"));
                     ImageView cowView = new ImageView(cowImage);
-                    Circle circle5 = new Circle(Math.random()*900 + 250 , Math.random()*600 + 300, 40);
+                    Circle circle5 = new Circle(Math.random()*770 + 300 , Math.random()*350 + 300, 40);
                     circle5.setFill(new ImagePattern(cowImage));
                     root.getChildren().add(circle5);
 
@@ -1192,7 +1198,7 @@ class MainGame extends Application {
                     orders.buySheep();
                     Image sheepImage = new Image(Main.class.getResourceAsStream("download (1).jpeg"));
                     ImageView sheepView = new ImageView(sheepImage);
-                    Circle circle7 = new Circle(Math.random()*900 + 250 , Math.random()*600 + 300, 40);
+                    Circle circle7 = new Circle(Math.random()*770 + 300 , Math.random()*350 + 300, 40);
                     circle7.setFill(new ImagePattern(sheepImage));
                     root.getChildren().add(circle7);
 
@@ -1208,6 +1214,26 @@ class MainGame extends Application {
         });
 
 
+
+
+
+
+
+        Circle circle8 = new Circle(500,820,90);
+        Image truckImage = new Image(Main.class.getResourceAsStream("01.png"));
+        circle8.setFill(new ImagePattern(truckImage));
+        root.getChildren().add(circle8);
+
+
+
+
+
+
+
+        Circle circle9 = new Circle(700,800,130);
+        Image wareHouseImage = new Image(Main.class.getResourceAsStream("1.png"));
+        circle9.setFill(new ImagePattern(wareHouseImage));
+        root.getChildren().add(circle9);
 
 
 
