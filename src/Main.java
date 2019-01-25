@@ -2,6 +2,7 @@ import javafx.animation.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
@@ -1009,10 +1010,15 @@ class MainGame extends Application {
 
                 Image grassImage = new Image(Main.class.getResourceAsStream("images.jpeg"));
                 ImageView grassView = new ImageView(grassImage);
-                if(event.getX() > 350 && event.getY() > 300 && event.getX()<1200 && event.getY()<650) {
-                    Circle circle8 = new Circle(event.getX(), event.getY(), 40);
-                    circle8.setFill(new ImagePattern(grassImage));
-                    root.getChildren().add(circle8);
+                grassView.setFitWidth(70);
+                grassView.setFitHeight(70);
+
+                if(event.getX() > 350 && event.getY() > 300 && event.getX()<1200 && event.getY()<600) {
+                    grassView.setX(event.getX());
+                    grassView.setY(event.getY());
+                    //Circle circle8 = new Circle(event.getX(), event.getY(), 40);
+                    //circle8.setFill(new ImagePattern(grassImage));
+                    root.getChildren().add(grassView);
 
                 }
             }
@@ -1112,10 +1118,15 @@ class MainGame extends Application {
 
 
 
-        Circle circle2 = new Circle(700 , 210 , 65);
+        //Circle circle2 = new Circle(700 , 210 , 65);
         Image wellImage = new Image(Main.class.getResourceAsStream("welll.png"));
-        circle2.setFill(new ImagePattern(wellImage));
-        root.getChildren().add(circle2);
+        ImageView wellView = new ImageView(wellImage);
+        wellView.setFitHeight(170);
+        wellView.setFitWidth(170);
+        wellView.setY(115);
+        wellView.setX(620);
+        //circle2.setFill(new ImagePattern(wellImage));
+        root.getChildren().add(wellView);
 
 
 
@@ -1134,9 +1145,13 @@ class MainGame extends Application {
                     orders.buyChicken();
                     Image chickenImage = new Image(Main.class.getResourceAsStream("guinea_fowl.png"));
                     ImageView chickenView = new ImageView(chickenImage);
-                    Circle circle1 = new Circle(Math.random()*770 + 300 , Math.random()*350 + 300, 40);
-                    circle1.setFill(new ImagePattern(chickenImage));
-                    root.getChildren().add(circle1);
+                    chickenView.setFitWidth(80);
+                    chickenView.setFitHeight(80);
+                    chickenView.setY(Math.random()*350 + 300);
+                    chickenView.setX(Math.random()*770 + 300);
+                    //Circle circle1 = new Circle(Math.random()*770 + 300 , Math.random()*350 + 300, 40);
+                    //circle1.setFill(new ImagePattern(chickenImage));
+                    root.getChildren().add(chickenView);
 
 
 
@@ -1167,9 +1182,13 @@ class MainGame extends Application {
                     orders.buyCow();
                     Image cowImage = new Image(Main.class.getResourceAsStream("cow.png"));
                     ImageView cowView = new ImageView(cowImage);
-                    Circle circle5 = new Circle(Math.random()*770 + 300 , Math.random()*350 + 300, 40);
-                    circle5.setFill(new ImagePattern(cowImage));
-                    root.getChildren().add(circle5);
+                    cowView.setX(Math.random()*770 + 300);
+                    cowView.setY(Math.random()*350 + 300);
+                    cowView.setFitHeight(70);
+                    cowView.setFitWidth(70);
+                    //Circle circle5 = new Circle(Math.random()*770 + 300 , Math.random()*350 + 300, 40);
+                    //circle5.setFill(new ImagePattern(cowImage));
+                    root.getChildren().add(cowView);
 
 
 
@@ -1198,9 +1217,14 @@ class MainGame extends Application {
                     orders.buySheep();
                     Image sheepImage = new Image(Main.class.getResourceAsStream("download (1).jpeg"));
                     ImageView sheepView = new ImageView(sheepImage);
-                    Circle circle7 = new Circle(Math.random()*770 + 300 , Math.random()*350 + 300, 40);
-                    circle7.setFill(new ImagePattern(sheepImage));
-                    root.getChildren().add(circle7);
+                    sheepView.setX(Math.random()*770 + 300);
+                    sheepView.setY(Math.random()*350 + 300);
+                    sheepView.setFitWidth(70);
+                    sheepView.setFitHeight(70);
+
+                    //Circle circle7 = new Circle(Math.random()*770 + 300 , Math.random()*350 + 300, 40);
+                    //circle7.setFill(new ImagePattern(sheepImage));
+                    root.getChildren().add(sheepView);
 
 
 
@@ -1219,10 +1243,15 @@ class MainGame extends Application {
 
 
 
-        Circle circle8 = new Circle(500,820,90);
+        //Circle circle8 = new Circle(500,820,90);
         Image truckImage = new Image(Main.class.getResourceAsStream("01.png"));
-        circle8.setFill(new ImagePattern(truckImage));
-        root.getChildren().add(circle8);
+        ImageView truckView = new ImageView(truckImage);
+        truckView.setX(400);
+        truckView.setY(700);
+        truckView.setFitWidth(200);
+        truckView.setFitHeight(200);
+        //circle8.setFill(new ImagePattern(truckImage));
+        root.getChildren().add(truckView);
 
 
 
@@ -1230,10 +1259,21 @@ class MainGame extends Application {
 
 
 
-        Circle circle9 = new Circle(700,800,130);
+        //Circle circle9 = new Circle(700,800,130);
         Image wareHouseImage = new Image(Main.class.getResourceAsStream("1.png"));
-        circle9.setFill(new ImagePattern(wareHouseImage));
-        root.getChildren().add(circle9);
+        ImageView wareHouseView = new ImageView(wareHouseImage);
+        wareHouseView.setFitHeight(250);
+        wareHouseView.setFitWidth(250);
+        wareHouseView.setY(665);
+        wareHouseView.setX(590);
+        //circle9.setFill(new ImagePattern(wareHouseImage));
+        root.getChildren().add(wareHouseView);
+        wareHouseView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+
+            }
+        });
 
 
 
