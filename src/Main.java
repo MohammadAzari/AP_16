@@ -2,22 +2,10 @@ import javafx.animation.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.geometry.Bounds;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -25,31 +13,19 @@ import javafx.scene.layout.*;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
 import javafx.scene.paint.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import javax.print.DocFlavor;
-import javax.sound.sampled.*;
-import java.awt.*;
 import java.io.*;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.ResourceBundle;
 
 
 class Constants {
@@ -427,7 +403,7 @@ class Animal implements Moveable{
 }
 
 enum TypeOfPet {
-    Chicken , Cow , Sheep
+    Chicken , Cow , Ostrich
 }
 
 abstract class Wild extends Animal implements Upgradable{
@@ -564,23 +540,23 @@ class Cow extends Pet implements Upgradable , Printable{
 
 
 
-class Sheep extends Pet implements Upgradable , Printable{
+class Ostrich extends Pet implements Upgradable , Printable{
 
     Product wool;
     int namedLabel;
 
-    public Sheep(Map map, int label) {
+    public Ostrich(Map map, int label) {
         super(map);
         namedLabel = label;
         feedCapacityUnit = 4;
-        priceUnit = 150;
+        priceUnit = 300;
         price = priceUnit;
-        type = TypeOfPet.Sheep;
+        type = TypeOfPet.Ostrich;
     }
 
 
     public void printInfo(){
-        System.out.println("Sheep number: " + namedLabel + "{\n\t" +
+        System.out.println("Ostrich number: " + namedLabel + "{\n\t" +
                 "price: " + price + "\n\t" +
                 "food capacity: " + feedCapacity + "\n\t" +
                 "level: " + level + "\n\t" +
@@ -604,7 +580,7 @@ class Sheep extends Pet implements Upgradable , Printable{
         level++;
         feedCapacityUnit--;
         price += 50;
-        System.out.println("Sheep is upgraded to level " + level);
+        System.out.println("Ostrich is upgraded to level " + level);
     }
 
 
@@ -674,7 +650,7 @@ class Warehouse implements Upgradable{
 
 class GameInfo{
     int time;
-    int initialMoney = 350;
+    int initialMoney = 3500;
     int money;
     Map map = new Map(10);
     Warehouse warehouse = Warehouse.getclass();
@@ -692,7 +668,7 @@ class Orders{
     private GameInfo gameInfo = new GameInfo();
     private int chickenLabel = 1;
     private  int cowLabel = 1;
-    private  int sheepLabel = 1;
+    private  int ostrichLabel = 1;
     public GameInfo getGameInfo() {
         return gameInfo;
     }
@@ -723,12 +699,12 @@ class Orders{
     }
 
 
-    public void buySheep() throws FileNotFoundException {
-        Pet sheep = new Sheep(gameInfo.map, sheepLabel);
+    public void buyOstrich() throws FileNotFoundException {
+        Pet ostrich = new Ostrich(gameInfo.map, ostrichLabel);
         cowLabel++;
-        gameInfo.pets.add(sheep);
-        gameInfo.money -= sheep.price;
-        System.out.println("A sheep is bought! and money = " + gameInfo.money);
+        gameInfo.pets.add(ostrich);
+        gameInfo.money -= ostrich.price;
+        System.out.println("A ostrich is bought! and money = " + gameInfo.money);
 
 
 
@@ -952,13 +928,6 @@ class Hellicopter{
 
 
 
-class ChickenView{
-
-
-}
-
-
-
 class MainGame extends Application {
 
 
@@ -969,37 +938,10 @@ class MainGame extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-
-
-
-
-
-
-
-
-
-
-
-
-//        String path = MainGame.class.getResource("main.mp3").toString();
-//        Media media = new Media(path);
-//        MediaPlayer mp = new MediaPlayer(media);
-//        mp.setCycleCount(Timeline.INDEFINITE);
-//        mp.play();
-//        primaryStage.show();
-
-
-
-
         Group root = new Group();
         Scene scene1 = new Scene(root, 1000, 1000);
         Orders orders = new Orders();
         primaryStage.setTitle("Farm Crazy");
-
-        Orders orders1 = new Orders();
-
-
-
 
 
         scene1.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -1008,7 +950,7 @@ class MainGame extends Application {
                 orders.plant((int)event.getX() , (int)event.getY());
 
 
-                Image grassImage = new Image(Main.class.getResourceAsStream("images.jpeg"));
+                Image grassImage = new Image(Main.class.getResourceAsStream("grass.png"));
                 ImageView grassView = new ImageView(grassImage);
                 grassView.setFitWidth(70);
                 grassView.setFitHeight(70);
@@ -1016,27 +958,11 @@ class MainGame extends Application {
                 if(event.getX() > 350 && event.getY() > 300 && event.getX()<1200 && event.getY()<600) {
                     grassView.setX(event.getX());
                     grassView.setY(event.getY());
-                    //Circle circle8 = new Circle(event.getX(), event.getY(), 40);
-                    //circle8.setFill(new ImagePattern(grassImage));
                     root.getChildren().add(grassView);
 
                 }
             }
         });
-
-
-        //Map map = new Map(5);
-        // Chicken chicken = new Chicken(map  , 10);
-
-        //Image wellImage = new Image(new FileInputStream("/Users/sara/Desktop/Textures/Service/Well/01.png"));
-        //ImageView wellView = new ImageView(wellImage);
-        //wellView.fitHeightProperty();
-
-//        AnchorPane anchorPane = new AnchorPane();
-//        anchorPane.getChildren().add(wellView);
-//        ImageView app = (ImageView)(Node) anchorPane.getChildren().get(0);
-//        app.setX(50);
-//        app.setY(50);
 
 /*
         Label exitLabel = new Label("EXIT");
@@ -1055,7 +981,9 @@ class MainGame extends Application {
 
 
 
-        Button exitButton = new Button("Exit");
+
+
+       /* Button exitButton = new Button("Exit");
         exitButton.relocate(500 , 500);
         root.getChildren().add(exitButton);
         exitButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -1063,46 +991,14 @@ class MainGame extends Application {
             public void handle(MouseEvent event) {
                 primaryStage.close();
             }
-        });
+        });*/
         primaryStage.setScene(scene1);
         primaryStage.show();
 
 
-
-
-
         AudioClip audioClip = new AudioClip(this.getClass().getResource("main.mp3").toString());
+        audioClip.setCycleCount(Animation.INDEFINITE);
         audioClip.play();
-
-
-
-
-
-
-
-
-
-
-
-
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                String path = MainGame.class.getResource("main.mp3").toString();
-//                Media media = new Media(path);
-//                MediaPlayer mp = new MediaPlayer(media);
-//                mp.setCycleCount(Timeline.INDEFINITE);
-//                mp.play();
-//                primaryStage.show();
-//            }
-//        }).start();
-
-
-
-
-
-
-
 
 
 
@@ -1118,24 +1014,24 @@ class MainGame extends Application {
 
 
 
-        //Circle circle2 = new Circle(700 , 210 , 65);
         Image wellImage = new Image(Main.class.getResourceAsStream("welll.png"));
         ImageView wellView = new ImageView(wellImage);
         wellView.setFitHeight(170);
         wellView.setFitWidth(170);
         wellView.setY(115);
         wellView.setX(620);
-        //circle2.setFill(new ImagePattern(wellImage));
         root.getChildren().add(wellView);
-
-
-
-
+        wellView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                orders.well();
+            }
+        });
 
 
 
         Circle circle = new Circle(40,40,40);
-        Image chickenImage = new Image(Main.class.getResourceAsStream("chicken.png"));
+        Image chickenImage = new Image(Main.class.getResourceAsStream("guinea_fowl.png"));
         circle.setFill(new ImagePattern(chickenImage));
         root.getChildren().add(circle);
         circle.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -1143,14 +1039,12 @@ class MainGame extends Application {
             public void handle(MouseEvent event) {
                 try {
                     orders.buyChicken();
-                    Image chickenImage = new Image(Main.class.getResourceAsStream("guinea_fowl.png"));
+                    Image chickenImage = new Image(Main.class.getResourceAsStream("guinea_fowl_map.png"));
                     ImageView chickenView = new ImageView(chickenImage);
-                    chickenView.setFitWidth(80);
-                    chickenView.setFitHeight(80);
+                    chickenView.setFitWidth(90);
+                    chickenView.setFitHeight(90);
                     chickenView.setY(Math.random()*350 + 300);
                     chickenView.setX(Math.random()*770 + 300);
-                    //Circle circle1 = new Circle(Math.random()*770 + 300 , Math.random()*350 + 300, 40);
-                    //circle1.setFill(new ImagePattern(chickenImage));
                     root.getChildren().add(chickenView);
 
 
@@ -1172,7 +1066,7 @@ class MainGame extends Application {
 
 
         Circle circle4 = new Circle(120,40,40);
-        Image cowImage = new Image(Main.class.getResourceAsStream("brown_cow.png"));
+        Image cowImage = new Image(Main.class.getResourceAsStream("buffalo.png"));
         circle4.setFill(new ImagePattern(cowImage));
         root.getChildren().add(circle4);
         circle4.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -1184,10 +1078,8 @@ class MainGame extends Application {
                     ImageView cowView = new ImageView(cowImage);
                     cowView.setX(Math.random()*770 + 300);
                     cowView.setY(Math.random()*350 + 300);
-                    cowView.setFitHeight(70);
-                    cowView.setFitWidth(70);
-                    //Circle circle5 = new Circle(Math.random()*770 + 300 , Math.random()*350 + 300, 40);
-                    //circle5.setFill(new ImagePattern(cowImage));
+                    cowView.setFitHeight(150);
+                    cowView.setFitWidth(150);
                     root.getChildren().add(cowView);
 
 
@@ -1207,24 +1099,22 @@ class MainGame extends Application {
 
 
         Circle circle6 = new Circle(200,40,40);
-        Image sheepImage = new Image(Main.class.getResourceAsStream("sheep.png"));
-        circle6.setFill(new ImagePattern(sheepImage));
+        Image ostrichImage = new Image(Main.class.getResourceAsStream("ostrich.png"));
+        circle6.setFill(new ImagePattern(ostrichImage));
         root.getChildren().add(circle6);
         circle6.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 try {
-                    orders.buySheep();
-                    Image sheepImage = new Image(Main.class.getResourceAsStream("download (1).jpeg"));
-                    ImageView sheepView = new ImageView(sheepImage);
-                    sheepView.setX(Math.random()*770 + 300);
-                    sheepView.setY(Math.random()*350 + 300);
-                    sheepView.setFitWidth(70);
-                    sheepView.setFitHeight(70);
+                    orders.buyOstrich();
+                    Image ostrichImage = new Image(Main.class.getResourceAsStream("OstrichGame.png"));
+                    ImageView ostrichView = new ImageView(ostrichImage);
+                    ostrichView.setX(Math.random()*770 + 300);
+                    ostrichView.setY(Math.random()*350 + 300);
+                    ostrichView.setFitWidth(150);
+                    ostrichView.setFitHeight(150);
 
-                    //Circle circle7 = new Circle(Math.random()*770 + 300 , Math.random()*350 + 300, 40);
-                    //circle7.setFill(new ImagePattern(sheepImage));
-                    root.getChildren().add(sheepView);
+                    root.getChildren().add(ostrichView);
 
 
 
@@ -1237,36 +1127,63 @@ class MainGame extends Application {
             }
         });
 
+        Circle currentMoney = new Circle(1275, 75, 70);
+        Rectangle moneyCurrent = new Rectangle(120, 40);
+        moneyCurrent.relocate(1245, 0);
+        Image moneyImage = new Image(Main.class.getResourceAsStream("money.png"));
+        moneyCurrent.setFill(new ImagePattern(moneyImage));
+        //currentMoney.setFill(new ImagePattern(moneyImage));
+        //root.getChildren().add(currentMoney);
+        final Label money = new Label();
+        money.setTextFill(Color.YELLOW);
+        final Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1),
+                new EventHandler<ActionEvent>()
+                {
+                    @Override
+                    public void handle(ActionEvent event)
+                    {
+                        money.setText(String.valueOf(orders.getGameInfo().money));
+                    }
+                }));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+        money.relocate(1300, 12);
+        money.setLabelFor(moneyCurrent);
+        root.getChildren().addAll(moneyCurrent, money);
+
+
+        Rectangle exitButton = new Rectangle(120, 50);
+        Image exitImage = new Image(Main.class.getResourceAsStream("exit.png"));
+        exitButton.setFill(new ImagePattern(exitImage));
+        exitButton.relocate(1245, 45);
+        exitButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                primaryStage.close();
+            }
+        });
+        root.getChildren().add(exitButton);
 
 
 
 
-
-
-        //Circle circle8 = new Circle(500,820,90);
         Image truckImage = new Image(Main.class.getResourceAsStream("01.png"));
         ImageView truckView = new ImageView(truckImage);
         truckView.setX(400);
         truckView.setY(700);
         truckView.setFitWidth(200);
         truckView.setFitHeight(200);
-        //circle8.setFill(new ImagePattern(truckImage));
         root.getChildren().add(truckView);
 
 
 
 
-
-
-
-        //Circle circle9 = new Circle(700,800,130);
         Image wareHouseImage = new Image(Main.class.getResourceAsStream("1.png"));
         ImageView wareHouseView = new ImageView(wareHouseImage);
         wareHouseView.setFitHeight(250);
         wareHouseView.setFitWidth(250);
         wareHouseView.setY(665);
         wareHouseView.setX(590);
-        //circle9.setFill(new ImagePattern(wareHouseImage));
         root.getChildren().add(wareHouseView);
         wareHouseView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -1274,72 +1191,6 @@ class MainGame extends Application {
 
             }
         });
-
-
-
-
-
-
-
-        //GameInfo gameInfo = new GameInfo();
-        //Circle circle3 = new Circle(1400 , 50 , 40);
-
-        //Image coinImage = new Image(Main.class.getResourceAsStream("download.png"));
-        //circle3.setFill(new ImagePattern(coinImage));
-        //root.getChildren().add(circle3);
-
-
-
-
-
-
-
-        //HBox hbox = new HBox();
-
-//        Label label1 = new Label(String.valueOf(gameInfo.money));
-//        label1.setGraphic(new ImageView(coinImage));
-//        label1.setTranslateX(1000);
-//        label1.setTranslateY(60);
-
-        //hbox.setSpacing(10);
-        //root.getChildren().add((label1));
-        //((Group) scene1.getRoot()).getChildren().add(hbox);
-
-        //primaryStage.setScene(scene1);
-        //primaryStage.show();
-
-
-
-
-
-
-
-        //Circle circle1 = new Circle(150,150,50);
-        //Image cowImage = new Image(new FileInputStream("/Users/sara/Desktop/Textures/UI/Icons/Products/brown_cow.png"));
-        //circle.setFill(new ImagePattern(cowImage));
-
-//        root.getChildren().add(circle1);
-//        circle1.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent event) {
-//
-//            }
-//        });
-
-
-
-        // circle.setFill();
-
-        // Circle circle = new Circle(100,100,50);
-        //circle.setFill(Color.GRAY);
-        // root.getChildren().add(circle);
-
-
-        // Button chickenButton = new Button("chicken");
-        // root.getChildren().add(chickenButton);
-        //chickenButton.relocate(100,100);
-
-
 
 
 
@@ -1365,51 +1216,6 @@ class MainGame extends Application {
 //
 //    }
 //}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1462,7 +1268,7 @@ public class Main extends Application {
             }
         });
         musicp.start();*/
-        String path = Main.class.getResource("/sm.mp3").toString();
+        String path = Main.class.getResource("/sm.wav").toString();
         Media media = new Media(path);
         MediaPlayer mp = new MediaPlayer(media);
         mp.setCycleCount(Timeline.INDEFINITE);
