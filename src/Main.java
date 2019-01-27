@@ -1,3 +1,8 @@
+import javafx.animation.Interpolator;
+import javafx.animation.Transition;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.image.ImageView;
+import javafx.util.Duration;
 import javafx.animation.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -1195,6 +1200,31 @@ class MainGame extends Application {
 
 
 
+
+
+        // for animation
+
+       // Image image1 = new Image(new FileInputStream("/Users/macbookpro/Desktop/Textures/Animals/Africa/Cat/left.png"));
+        ImageView imageView = new ImageView(chickenImage);
+        imageView.setX(20);
+        imageView.setY(20);
+
+        root.getChildren().add(imageView);
+
+        imageView.setViewport(new Rectangle2D(0,0,820,300));
+
+        final Animation animation = new SpriteAnimation(
+                imageView,
+                Duration.millis(7000),
+                24, 4,
+                0, 0,
+                // 64=829/13
+                100, 50
+        );
+        animation.setCycleCount(Animation.INDEFINITE);
+        animation.play();
+
+
         primaryStage.setScene(scene1);
         primaryStage.setFullScreen(true);
         primaryStage.show();
@@ -1396,3 +1426,73 @@ public class Main extends Application {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class SpriteAnimation extends Transition {
+
+    private final ImageView imageView;
+    private final int count;
+    private final int columns;
+    private final int offsetX;
+    private final int offsetY;
+    private final int width;
+    private final int height;
+
+    private int lastIndex;
+
+    public SpriteAnimation(
+            ImageView imageView,
+            Duration duration,
+            int count, int columns,
+            int offsetX, int offsetY,
+            int width, int height) {
+        this.imageView = imageView;
+        this.count = count;
+        this.columns = columns;
+        this.offsetX = offsetX;
+        this.offsetY = offsetY;
+        this.width = width;
+        this.height = height;
+        setCycleDuration(duration);
+        setInterpolator(Interpolator.LINEAR);
+    }
+
+    @Override
+    protected void interpolate(double k) {
+        final int index = Math.min((int) Math.floor(k * count), count - 1);
+//            if (index != lastIndex) {
+//                final int x = (index % columns) * width + offsetX;
+//                final int y = (index / columns) * height + offsetY;
+//                imageView.setViewport(new Rectangle2D(x, y, width, height));
+//                lastIndex = index;
+//            }
+        final int x = (index%columns)*width + offsetX ;
+        final int y = (index%columns)*height + offsetY ;
+        imageView.setViewport(new Rectangle2D(x,y,width,height));
+
+
+    }
+}
