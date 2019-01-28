@@ -1,6 +1,7 @@
 import javafx.animation.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -652,7 +653,7 @@ class GameInfo{
     int time;
     int initialMoney = 3500;
     int money;
-    Map map = new Map(10);
+    Map map = new Map(1300);
     Warehouse warehouse = Warehouse.getclass();
     Well well = Well.getclass();
     ArrayList<Pet> pets = new ArrayList<>();
@@ -724,11 +725,20 @@ class Orders{
         }
     }
 
-    public void plant(int x, int y) {
-        if (x > 9 || y > 9) System.out.println("Entered Numbers are illigal!!!");
+    public int plant(int x, int y) {
+        if (x > 1200 || y > 1200 || x < 350 || y < 350) {
+            System.out.println("Entered Numbers are illigal!!!");
+            return -1;
+        }
         else {
-            if (x - 1 >= 0 && x + 1 < gameInfo.map.getSize() &&
+            if (gameInfo.well.getCapacity() == 0){
+                System.out.println("well is empty!");
+
+                return -2;
+            }
+            else if (x - 1 >= 0 && x + 1 < gameInfo.map.getSize() &&
                     y - 1 >= 0 && y + 1 < gameInfo.map.getSize()) {
+                gameInfo.well.unload();
                 for (int i = 0; i < 2; i++) {
                     for (int j = 0; j < 2; j++) {
                         gameInfo.map.positions[x - i][y - j].setHasFood(true);
@@ -748,6 +758,7 @@ class Orders{
                         "], " + "[" + (x - 1) + " " + (y - 1) +
                         "]");
             } else if (x - 1 < 0) {
+                gameInfo.well.unload();
                 if (y - 1 < 0) {
                     gameInfo.map.positions[x][y].setHasFood(true);
                     gameInfo.map.positions[x + 1][y].setHasFood(true);
@@ -784,6 +795,7 @@ class Orders{
                             "]");
                 }
             } else if (x + 1 == gameInfo.map.getSize()) {
+                gameInfo.well.unload();
                 if (y - 1 < 0) {
                     gameInfo.map.positions[x][y].setHasFood(true);
                     gameInfo.map.positions[x][y + 1].setHasFood(true);
@@ -820,6 +832,7 @@ class Orders{
                             "]");
                 }
             } else if (y - 1 < 0) {
+                gameInfo.well.unload();
                 if (x - 1 < 0) {
                     gameInfo.map.positions[x][y].setHasFood(true);
                     gameInfo.map.positions[x + 1][y].setHasFood(true);
@@ -856,6 +869,7 @@ class Orders{
                             "]");
                 }
             } else {
+                gameInfo.well.unload();
                 if (x - 1 < 0) {
                     gameInfo.map.positions[x][y].setHasFood(true);
                     gameInfo.map.positions[x + 1][y].setHasFood(true);
@@ -893,6 +907,7 @@ class Orders{
                 }
             }
         }
+        return 0;
     }
 
     public void pickupProduct(int x, int y){
@@ -907,6 +922,7 @@ class Orders{
 
     public void well(){
         gameInfo.well.load();
+        gameInfo.money -= 50;
     }
 
     public void upgrade(Upgradable upgradable){
@@ -947,19 +963,82 @@ class MainGame extends Application {
         scene1.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                orders.plant((int)event.getX() , (int)event.getY());
+                int pNum = orders.plant((int)event.getX() , (int)event.getY());
+                //System.out.println(pNum);
+
+                /*Label emptyWell = new Label("Well is full");
+                emptyWell.setTextFill(Color.BLUE);
+                emptyWell.setFont(Font.font(24));
+                emptyWell.relocate(500, 50);
+                *//*root.getChildren().add(emptyWell);*//*
+                final Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0),
+                        new EventHandler()
+                        {
+                            @Override
+                            public void handle(Event event) {
+                                emptyWell.setText("Well is empty!");
+                                emptyWell.relocate(500, 70);
+                            }
+                        }));*/
+                //System.out.println((int)event.getX());
 
 
                 Image grassImage = new Image(Main.class.getResourceAsStream("grass.png"));
-                ImageView grassView = new ImageView(grassImage);
-                grassView.setFitWidth(70);
-                grassView.setFitHeight(70);
+                ArrayList<ImageView> graasViewOne = new ArrayList<>(3);
+                ArrayList<ImageView> graasViewTwo = new ArrayList<>(3);
+                ArrayList<ImageView> graasViewThree = new ArrayList<>(3);
+                for (int i = 0 ; i < 3 ; i++){
+                    graasViewOne.add(new ImageView(grassImage));
+                    graasViewOne.get(i).setFitWidth(70);
+                    graasViewOne.get(i).setFitHeight(70);
+                    graasViewTwo.add(new ImageView(grassImage));
+                    graasViewTwo.get(i).setFitWidth(70);
+                    graasViewTwo.get(i).setFitHeight(70);
+                    graasViewThree.add(new ImageView(grassImage));
+                    graasViewThree.get(i).setFitWidth(70);
+                    graasViewThree.get(i).setFitHeight(70);
+                }
+                //ImageView grassView = new ImageView(grassImage);
+                /*grassView.setFitWidth(70);
+                grassView.setFitHeight(70);*/
+                int e = 0;
 
-                if(event.getX() > 350 && event.getY() > 300 && event.getX()<1200 && event.getY()<600) {
-                    grassView.setX(event.getX());
+                if(event.getX() > 350 && event.getY() > 300 && event.getX()<1200 && event.getY()<600 && pNum == 0) {
+                    /*emptyWell.setText("");
+                    emptyWell.setText("Well is full");*/
+                    for (ImageView s : graasViewOne){
+                        s.setX(event.getX() + e);
+                        s.setY(event.getY());
+                        root.getChildren().add(s);
+                        e += 40;
+                    }
+                    e = 0;
+                    for (ImageView s : graasViewTwo){
+                        s.setX(event.getX() + e);
+                        s.setY(event.getY() + 40);
+                        root.getChildren().add(s);
+                        e += 40;
+                    }
+                    e = 0;
+                    for (ImageView s : graasViewThree){
+                        s.setX(event.getX() + e);
+                        s.setY(event.getY() + 80);
+                        root.getChildren().add(s);
+                        e += 40;
+                    }
+
+                    /*grassView.setX(event.getX());
                     grassView.setY(event.getY());
-                    root.getChildren().add(grassView);
+                    root.getChildren().add(grassView);*/
 
+                }
+                else if (pNum == -1){
+                    //root.getChildren().remove(emptyWell);
+                }
+                else if (pNum == -2){
+                    //timeline.play();
+                    /*emptyWell.setText("");
+                    emptyWell.setText("Well is empty!");*/
                 }
             }
         });
@@ -1004,9 +1083,13 @@ class MainGame extends Application {
 
         Image mapImage = new Image(Main.class.getResourceAsStream("back.png"));
         ImageView mapView = new ImageView(mapImage);
+        mapView.setPreserveRatio(false);
+        mapView.setSmooth(true);
+        root.getChildren().add(mapView);
+        /*mapView.setFitHeight(780);
+        mapView.setFitWidth(1400);*/
         mapView.setFitHeight(1000);
         mapView.setFitWidth(1500);
-        root.getChildren().add(mapView);
         //mapView.fitWidthProperty();
         //mapView.fitHeightProperty();
         //mapView.setX(100);
@@ -1014,10 +1097,35 @@ class MainGame extends Application {
 
 
 
+        Rectangle emptyShow = new Rectangle(90, 37);
+        emptyShow.setFill(Color.BLUE);
+        emptyShow.relocate(550, 130);
+
+        Label wellCapacity = new Label();
+        wellCapacity.setTextFill(Color.WHITE);
+        wellCapacity.setFont(Font.font(16));
+        wellCapacity.setLabelFor(emptyShow);
+        wellCapacity.relocate(555, 135);
+
+        final Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1),
+                new EventHandler<ActionEvent>()
+                {
+                    @Override
+                    public void handle(ActionEvent event)
+                    {
+                        wellCapacity.setText("Capacity: " + String.valueOf(orders.getGameInfo().well.getCapacity()));
+                    }
+                }));
+
+        root.getChildren().addAll(emptyShow, wellCapacity);
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+
+
         Image wellImage = new Image(Main.class.getResourceAsStream("welll.png"));
         ImageView wellView = new ImageView(wellImage);
-        wellView.setFitHeight(170);
-        wellView.setFitWidth(170);
+        wellView.setFitHeight(150);
+        wellView.setFitWidth(150);
         wellView.setY(115);
         wellView.setX(620);
         root.getChildren().add(wellView);
@@ -1027,6 +1135,7 @@ class MainGame extends Application {
                 orders.well();
             }
         });
+
 
 
 
@@ -1045,6 +1154,7 @@ class MainGame extends Application {
                     chickenView.setFitHeight(90);
                     chickenView.setY(Math.random()*350 + 300);
                     chickenView.setX(Math.random()*770 + 300);
+                    chickenView.toFront();
                     root.getChildren().add(chickenView);
 
 
@@ -1136,7 +1246,7 @@ class MainGame extends Application {
         //root.getChildren().add(currentMoney);
         final Label money = new Label();
         money.setTextFill(Color.YELLOW);
-        final Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1),
+        final Timeline MoneyTimeline = new Timeline(new KeyFrame(Duration.seconds(1),
                 new EventHandler<ActionEvent>()
                 {
                     @Override
@@ -1146,7 +1256,7 @@ class MainGame extends Application {
                     }
                 }));
         timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
+        MoneyTimeline.play();
         money.relocate(1300, 12);
         money.setLabelFor(moneyCurrent);
         root.getChildren().addAll(moneyCurrent, money);
@@ -1196,6 +1306,8 @@ class MainGame extends Application {
 
 
         primaryStage.setScene(scene1);
+        primaryStage.setResizable(true);
+        //primaryStage.setFullScreen(true);
         primaryStage.setFullScreen(true);
         primaryStage.show();
 
