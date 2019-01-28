@@ -11,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -928,6 +929,11 @@ class Orders{
         gameInfo.well.load();
     }
 
+    public void wellUpgrade(){
+        gameInfo.money -= 250;
+        gameInfo.well.upgrade();
+    }
+
     public void upgrade(Upgradable upgradable){
         upgradable.upgrade();
     }
@@ -1121,6 +1127,20 @@ class MainGame extends Application {
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
 
+        Image wellUpgrade = new Image(Main.class.getResourceAsStream("upgrade.png"));
+        ImageView wellUpgradeView = new ImageView(wellUpgrade);
+        wellUpgradeView.setFitHeight(50);
+        wellUpgradeView.setFitWidth(120);
+        wellUpgradeView.setX(750);
+        wellUpgradeView.setY(190);
+        root.getChildren().add(wellUpgradeView);
+        wellUpgradeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                orders.wellUpgrade();
+            }
+        });
+
 
         Image wellImage = new Image(Main.class.getResourceAsStream("welll.png"));
         ImageView wellView = new ImageView(wellImage);
@@ -1248,7 +1268,7 @@ class MainGame extends Application {
             }
         });
 
-        Circle currentMoney = new Circle(1275, 75, 70);
+        //Circle currentMoney = new Circle(1275, 75, 70);
         Rectangle moneyCurrent = new Rectangle(120, 40);
         moneyCurrent.relocate(1245, 0);
         Image moneyImage = new Image(Main.class.getResourceAsStream("money.png"));
@@ -1312,6 +1332,98 @@ class MainGame extends Application {
 
             }
         });
+
+        Rectangle timeBox = new Rectangle(125, 34);
+        Image timeShape = new Image(Main.class.getResourceAsStream("btn.png"));
+        timeBox.setFill(new ImagePattern(timeShape));
+        timeBox.relocate(1236, 103);
+        Label currentTime = new Label();
+        currentTime.setLabelFor(timeBox);
+        currentTime.relocate(1249, 110);
+        currentTime.setTextFill(Color.BLACK);
+        currentTime.toFront();
+        root.getChildren().addAll(timeBox,currentTime);
+        long startSecond = System.currentTimeMillis();
+        Timeline timeShow = new Timeline(new KeyFrame(Duration.seconds(1),
+                new EventHandler()
+                {
+                    @Override
+                    public void handle(Event event) {
+                        //currentTime.setText(String.valueOf(System.currentTimeMillis()));
+                        final long timePassed = (System.currentTimeMillis() - startSecond)/1000;
+                        //currentTime.setText(String.valueOf("Time Passed: "+((System.currentTimeMillis() - startSecond)/1000) + "s"));
+                        currentTime.setText(String.valueOf("Time Passed: "+ timePassed + " s"));
+                    }
+                }));
+        timeShow.setCycleCount(Animation.INDEFINITE);
+        timeShow.play();
+
+
+        Circle circle1 = new Circle(250, 40 ,15);
+        circle1.setFill(Color.RED);
+        root.getChildren().addAll(circle1);
+        Timeline modeShow = new Timeline(new KeyFrame(Duration.seconds(1),
+                new EventHandler()
+                {
+                    @Override
+                    public void handle(Event event) {
+                        final long timePassed = (System.currentTimeMillis() - startSecond)/1000;
+                        if (timePassed % 2 == 0) circle1.setFill(Color.GREEN);
+                        else if (timePassed % 2 != 0) circle1.setFill(Color.RED);
+                    }
+                }));
+        modeShow.setCycleCount(Animation.INDEFINITE);
+        modeShow.play();
+
+        Button button = new Button();
+        /*Rectangle rt = new Rectangle(90, 30);
+        rt.setFill(Color.RED);
+        rt.relocate(90, 30);
+        root.getChildren().addAll(rt);
+        button.setShape(rt);*/
+        button.relocate(280, 27);
+        button.setText("Open Chat Room");
+
+        button.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+
+                Label secondLabel = new Label("There will be a chatroom here soon!");
+
+                StackPane secondaryLayout = new StackPane();
+
+                Image chatBack = new Image(Main.class.getResourceAsStream("table.png"));
+
+                Scene secondScene = new Scene(secondaryLayout, 500, 500);
+
+                // New window (Stage)
+                Stage newWindow = new Stage();
+                newWindow.setTitle("ChatRoom");
+                newWindow.setScene(secondScene);
+
+                // Set position of second window, related to primary window.
+                newWindow.setX(primaryStage.getX() + 200);
+                newWindow.setY(primaryStage.getY() + 100);
+
+
+                ImageView chatView = new ImageView(chatBack);
+                chatView.setPreserveRatio(false);
+                chatView.setSmooth(true);
+                secondaryLayout.getChildren().addAll(chatView, secondLabel);
+                chatView.setFitHeight(secondScene.getHeight());
+                chatView.setFitWidth(secondScene.getWidth());
+
+
+                newWindow.show();
+            }
+        });
+
+        root.getChildren().addAll(button);
+
+
+
+
 
 
 
