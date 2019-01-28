@@ -1004,9 +1004,9 @@ class MainGame extends Application {
 
         Image mapImage = new Image(Main.class.getResourceAsStream("back.png"));
         ImageView mapView = new ImageView(mapImage);
-        root.getChildren().add(mapView);
         mapView.setFitHeight(1000);
         mapView.setFitWidth(1500);
+        root.getChildren().add(mapView);
         //mapView.fitWidthProperty();
         //mapView.fitHeightProperty();
         //mapView.setX(100);
