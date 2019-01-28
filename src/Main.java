@@ -997,8 +997,8 @@ class MainGame extends Application {
                 primaryStage.close();
             }
         });*/
-        primaryStage.setScene(scene1);
-        primaryStage.show();
+        /*primaryStage.setScene(scene1);
+        primaryStage.show();*/
 
 
         AudioClip audioClip = new AudioClip(this.getClass().getResource("main.mp3").toString());
