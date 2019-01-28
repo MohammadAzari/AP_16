@@ -924,6 +924,11 @@ class Orders{
         gameInfo.well.load();
     }
 
+    public void wellUpgrade(){
+        gameInfo.money -= 250;
+        gameInfo.well.upgrade();
+    }
+
     public void upgrade(Upgradable upgradable){
         upgradable.upgrade();
     }
@@ -1116,6 +1121,20 @@ class MainGame extends Application {
         root.getChildren().addAll(emptyShow, wellCapacity);
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
+
+        Image wellUpgrade = new Image(Main.class.getResourceAsStream("upgrade.png"));
+        ImageView wellUpgradeView = new ImageView(wellUpgrade);
+        wellUpgradeView.setFitHeight(50);
+        wellUpgradeView.setFitWidth(120);
+        wellUpgradeView.setX(750);
+        wellUpgradeView.setY(190);
+        root.getChildren().add(wellUpgradeView);
+        wellUpgradeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                orders.wellUpgrade();
+            }
+        });
 
 
         Image wellImage = new Image(Main.class.getResourceAsStream("welll.png"));
