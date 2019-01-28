@@ -16,9 +16,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -948,9 +946,6 @@ class MainGame extends Application {
 
 
 
-
-
-
     @Override
     public void start(Stage primaryStage) throws Exception {
 
@@ -1138,7 +1133,6 @@ class MainGame extends Application {
 
 
 
-
         Circle circle = new Circle(40,40,40);
         Image chickenImage = new Image(Main.class.getResourceAsStream("guinea_fowl.png"));
         circle.setFill(new ImagePattern(chickenImage));
@@ -1147,6 +1141,8 @@ class MainGame extends Application {
             @Override
             public void handle(MouseEvent event) {
                 try {
+                    Map map = new Map(3);
+                    Animal animal = new Animal(map);
                     orders.buyChicken();
                     Image chickenImage = new Image(Main.class.getResourceAsStream("guinea_fowl_map.png"));
                     ImageView chickenView = new ImageView(chickenImage);
@@ -1157,6 +1153,16 @@ class MainGame extends Application {
                     chickenView.toFront();
                     root.getChildren().add(chickenView);
 
+
+
+
+                    Rectangle rectangle = new Rectangle(300 , 300 , 400 , 400);
+                    PathTransition pathTransition = new PathTransition();
+                    pathTransition.setNode(chickenView);
+                    pathTransition.setDuration(Duration.seconds(10));
+                    pathTransition.setPath(rectangle);
+                    pathTransition.setCycleCount(PathTransition.INDEFINITE);
+                    pathTransition.play();
 
 
 
@@ -1312,6 +1318,12 @@ class MainGame extends Application {
         primaryStage.show();
 
     }
+
+
+
+
+
+
 }
 
 //class Move implements Initializable{
