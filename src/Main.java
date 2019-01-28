@@ -1309,9 +1309,10 @@ class MainGame extends Application {
             }
         });
 
-        Rectangle timeBox = new Rectangle(118, 34);
-        timeBox.setFill(Color.WHITE);
-        timeBox.relocate(1245, 100);
+        Rectangle timeBox = new Rectangle(125, 34);
+        Image timeShape = new Image(Main.class.getResourceAsStream("btn.png"));
+        timeBox.setFill(new ImagePattern(timeShape));
+        timeBox.relocate(1236, 103);
         Label currentTime = new Label();
         currentTime.setLabelFor(timeBox);
         currentTime.relocate(1249, 110);
@@ -1334,7 +1335,6 @@ class MainGame extends Application {
         timeShow.play();
 
 
-
         Circle circle1 = new Circle(250, 40 ,15);
         circle1.setFill(Color.RED);
         root.getChildren().addAll(circle1);
@@ -1352,6 +1352,11 @@ class MainGame extends Application {
         modeShow.play();
 
         Button button = new Button();
+        /*Rectangle rt = new Rectangle(90, 30);
+        rt.setFill(Color.RED);
+        rt.relocate(90, 30);
+        root.getChildren().addAll(rt);
+        button.setShape(rt);*/
         button.relocate(280, 27);
         button.setText("Open Chat Room");
 
@@ -1363,9 +1368,10 @@ class MainGame extends Application {
                 Label secondLabel = new Label("There will be a chatroom here soon!");
 
                 StackPane secondaryLayout = new StackPane();
-                secondaryLayout.getChildren().add(secondLabel);
 
-                Scene secondScene = new Scene(secondaryLayout, 230, 100);
+                Image chatBack = new Image(Main.class.getResourceAsStream("table.png"));
+
+                Scene secondScene = new Scene(secondaryLayout, 500, 500);
 
                 // New window (Stage)
                 Stage newWindow = new Stage();
@@ -1375,6 +1381,15 @@ class MainGame extends Application {
                 // Set position of second window, related to primary window.
                 newWindow.setX(primaryStage.getX() + 200);
                 newWindow.setY(primaryStage.getY() + 100);
+
+
+                ImageView chatView = new ImageView(chatBack);
+                chatView.setPreserveRatio(false);
+                chatView.setSmooth(true);
+                secondaryLayout.getChildren().addAll(chatView, secondLabel);
+                chatView.setFitHeight(secondScene.getHeight());
+                chatView.setFitWidth(secondScene.getWidth());
+
 
                 newWindow.show();
             }
