@@ -921,8 +921,8 @@ class Orders{
     }
 
     public void well(){
-        gameInfo.well.load();
         gameInfo.money -= 50;
+        gameInfo.well.load();
     }
 
     public void upgrade(Upgradable upgradable){
@@ -1255,7 +1255,7 @@ class MainGame extends Application {
                         money.setText(String.valueOf(orders.getGameInfo().money));
                     }
                 }));
-        timeline.setCycleCount(Animation.INDEFINITE);
+        MoneyTimeline.setCycleCount(Animation.INDEFINITE);
         MoneyTimeline.play();
         money.relocate(1300, 12);
         money.setLabelFor(moneyCurrent);
