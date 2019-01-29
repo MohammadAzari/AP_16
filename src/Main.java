@@ -1317,6 +1317,43 @@ class MainGame extends Application {
         root.getChildren().add(truckView);
 
 
+// for animation of cookiWS
+
+        Image cookieWS = new Image(Main.class.getResourceAsStream("cakeW.png"));
+        ImageView cookieView = new ImageView(cookieWS);
+        cookieView.setX(20);
+        cookieView.setY(70);
+
+
+        root.getChildren().add(cookieView);
+
+        cookieView.setViewport(new Rectangle2D(0,0,820,300));
+
+    cookieView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+            final Animation animation = new SpriteAnimation(
+                    cookieView,
+                    Duration.millis(7000),
+                    16, 4,
+                    0, 0,
+                    // 64=829/13
+                    120, 120
+            );
+            animation.setCycleCount(Animation.INDEFINITE);
+            animation.play();
+
+        }
+    });
+
+
+
+
+
+
+
+
+
 
 
         Image wareHouseImage = new Image(Main.class.getResourceAsStream("1.png"));
@@ -1433,24 +1470,24 @@ class MainGame extends Application {
         // for animation
 
        // Image image1 = new Image(new FileInputStream("/Users/macbookpro/Desktop/Textures/Animals/Africa/Cat/left.png"));
-        ImageView imageView = new ImageView(chickenImage);
-        imageView.setX(20);
-        imageView.setY(20);
-
-        root.getChildren().add(imageView);
-
-        imageView.setViewport(new Rectangle2D(0,0,820,300));
-
-        final Animation animation = new SpriteAnimation(
-                imageView,
-                Duration.millis(7000),
-                24, 4,
-                0, 0,
-                // 64=829/13
-                100, 50
-        );
-        animation.setCycleCount(Animation.INDEFINITE);
-        animation.play();
+       // ImageView imageView = new ImageView(chickenImage);
+//        imageView.setX(20);
+//        imageView.setY(20);
+//
+//        root.getChildren().add(imageView);
+//
+//        imageView.setViewport(new Rectangle2D(0,0,820,300));
+//
+//        final Animation animation = new SpriteAnimation(
+//                imageView,
+//                Duration.millis(7000),
+//                24, 4,
+//                0, 0,
+//                // 64=829/13
+//                100, 50
+//        );
+//        animation.setCycleCount(Animation.INDEFINITE);
+//        animation.play();
 
 
         primaryStage.setScene(scene1);
@@ -1661,32 +1698,6 @@ public class Main extends Application {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 class SpriteAnimation extends Transition {
 
     private final ImageView imageView;
@@ -1697,7 +1708,6 @@ class SpriteAnimation extends Transition {
     private final int width;
     private final int height;
 
-    private int lastIndex;
 
     public SpriteAnimation(
             ImageView imageView,
@@ -1719,14 +1729,8 @@ class SpriteAnimation extends Transition {
     @Override
     protected void interpolate(double k) {
         final int index = Math.min((int) Math.floor(k * count), count - 1);
-//            if (index != lastIndex) {
-//                final int x = (index % columns) * width + offsetX;
-//                final int y = (index / columns) * height + offsetY;
-//                imageView.setViewport(new Rectangle2D(x, y, width, height));
-//                lastIndex = index;
-//            }
         final int x = (index%columns)*width + offsetX ;
-        final int y = (index%columns)*height + offsetY ;
+        final int y = (index/columns)*height + offsetY ;
         imageView.setViewport(new Rectangle2D(x,y,width,height));
 
 
