@@ -1495,58 +1495,90 @@ class MainGame extends Application {
 
 
 // for animation of cookiWS
-
-        Image cookieWS = new Image(Main.class.getResourceAsStream("cakeW.png"));
-        ImageView cookieView = new ImageView(cookieWS);
-        cookieView.setX(20);
-        cookieView.setY(70);
-
-
-        root.getChildren().add(cookieView);
-
-        cookieView.setViewport(new Rectangle2D(0,0,820,300));
-
-    cookieView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-        @Override
-        public void handle(MouseEvent event) {
-            final Animation animation = new SpriteAnimation(
-                    cookieView,
-                    Duration.millis(7000),
-                    16, 4,
-                    0, 0,
-                    // 64=829/13
-                    120, 120
-            );
-            animation.setCycleCount(Animation.INDEFINITE);
-            animation.play();
-
-        }
-    });
+//
+//        Image cookieWS = new Image(Main.class.getResourceAsStream("cakeW.png"));
+//        ImageView cookieView = new ImageView(cookieWS);
+//        cookieView.setX(20);
+//        cookieView.setY(70);
+//
+//
+//        root.getChildren().add(cookieView);
+//
+//        cookieView.setViewport(new Rectangle2D(0,0,820,300));
+//
+//    cookieView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//        @Override
+//        public void handle(MouseEvent event) {
+//            final Animation animation = new SpriteAnimation(
+//                    cookieView,
+//                    Duration.millis(7000),
+//                    16, 4,
+//                    0, 0,
+//                    120, 120
+//            );
+//            animation.setCycleCount(Animation.INDEFINITE);
+//            animation.play();
+//
+//        }
+//    });
 
 
 // for animation of egg powder
 
         Image eggPowderWS = new Image(Main.class.getResourceAsStream("eggp.png"));
         ImageView eggPowderWSView = new ImageView(eggPowderWS);
-        eggPowderWSView.setX(300);
-        eggPowderWSView.setY(500);
+
+        int COLUMNS1 = 8;
+        int COUNT1 = 3;
+        int OFFSET_X1 = 10;
+        int OFFSET_Y1 = 10;
+        int WIDTH1 = 131;
+        int HEIGHT1 = 100;
+        eggPowderWSView.setViewport(new Rectangle2D(OFFSET_X1, OFFSET_Y1, WIDTH1, HEIGHT1));
+
+        eggPowderWSView.setX(210);
+        eggPowderWSView.setY(275);
 
         root.getChildren().add(eggPowderWSView);
 
-        eggPowderWSView.setViewport(new Rectangle2D(0,0,200,200));
 
         eggPowderWSView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                // if ... rules should be written!
+
                 final Animation eggpWSanimation = new SpriteAnimation(
-                        cookieView,
-                        Duration.millis(7000),
-                        16, 4,
-                        0, 0,
-                        // 64=829/13
-                        120, 120
+                        eggPowderWSView,
+                        Duration.millis(1000),COUNT1, COLUMNS1,
+                        OFFSET_X1, OFFSET_Y1,
+                        WIDTH1, HEIGHT1
                 );
-                eggpWSanimation.setCycleCount(Animation.INDEFINITE);
+                eggpWSanimation.setCycleCount(5);
+                eggpWSanimation.setOnFinished(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        Image flour = new Image(Main.class.getResourceAsStream("EggPowder.png"));
+                        ImageView flourView = new ImageView(flour);
+                        flourView.setX(320);
+                        flourView.setY(300);
+
+                        root.getChildren().add(flourView);
+                        flourView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                            @Override
+                            public void handle(MouseEvent event) {
+                                // add from warehouse
+                               Image flourIcon = new Image(Main.class.getResourceAsStream("EggPowder.png"));
+
+                                Rectangle rec = new Rectangle(400, 900, 25, 25);
+                                rec.setFill(new ImagePattern(flourIcon));
+
+                                root.getChildren().add(rec);
+                                root.getChildren().remove(flourView);
+
+                            }
+                        });
+                    }
+                });
                 eggpWSanimation.play();
             }
         });
@@ -1907,7 +1939,6 @@ public class Main extends Application {
 
 
 class SpriteAnimation extends Transition {
-
     private final ImageView imageView;
     private final int count;
     private final int columns;
@@ -1916,6 +1947,7 @@ class SpriteAnimation extends Transition {
     private final int width;
     private final int height;
 
+    private int lastIndex;
 
     public SpriteAnimation(
             ImageView imageView,
@@ -1934,13 +1966,14 @@ class SpriteAnimation extends Transition {
         setInterpolator(Interpolator.LINEAR);
     }
 
-    @Override
     protected void interpolate(double k) {
         final int index = Math.min((int) Math.floor(k * count), count - 1);
-        final int x = (index%columns)*width + offsetX ;
-        final int y = (index/columns)*height + offsetY ;
-        imageView.setViewport(new Rectangle2D(x,y,width,height));
-
-
+        if (index != lastIndex) {
+            final int x = (index % columns) * width + offsetX;
+            final int y = (index / columns) * height + offsetY;
+            imageView.setViewport(new Rectangle2D(x, y, width, height));
+            lastIndex = index;
+        }
     }
 }
+
