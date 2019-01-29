@@ -1123,6 +1123,8 @@ class MainGame extends Application {
                     }
                 }));
 
+
+
         root.getChildren().addAll(emptyShow, wellCapacity);
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
@@ -1345,6 +1347,34 @@ class MainGame extends Application {
 
         }
     });
+
+
+// for animation of egg powder
+
+        Image eggPowderWS = new Image(Main.class.getResourceAsStream("eggp.png"));
+        ImageView eggPowderWSView = new ImageView(eggPowderWS);
+        eggPowderWSView.setX(300);
+        eggPowderWSView.setY(500);
+
+        root.getChildren().add(eggPowderWSView);
+
+        eggPowderWSView.setViewport(new Rectangle2D(0,0,200,200));
+
+        eggPowderWSView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                final Animation eggpWSanimation = new SpriteAnimation(
+                        cookieView,
+                        Duration.millis(7000),
+                        16, 4,
+                        0, 0,
+                        // 64=829/13
+                        120, 120
+                );
+                eggpWSanimation.setCycleCount(Animation.INDEFINITE);
+                eggpWSanimation.play();
+            }
+        });
 
 
 
