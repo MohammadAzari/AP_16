@@ -14,7 +14,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.media.AudioClip;
@@ -26,7 +25,6 @@ import javafx.scene.shape.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -1500,10 +1498,10 @@ class MainGame extends Application {
 
 
 
-// for animation of egg powder
+// for animation of egg powder workshop
 
-        Image eggPowderWS = new Image(Main.class.getResourceAsStream("eggp.png"));
-        ImageView eggPowderWSView = new ImageView(eggPowderWS);
+        Image flouryCakeWS = new Image(Main.class.getResourceAsStream("eggp.png"));
+        ImageView eggPowderWSView = new ImageView(flouryCakeWS);
 
         int COLUMNS1 = 8;
         int COUNT1 = 3;
@@ -1513,8 +1511,8 @@ class MainGame extends Application {
         int HEIGHT1 = 100;
         eggPowderWSView.setViewport(new Rectangle2D(OFFSET_X1, OFFSET_Y1, WIDTH1, HEIGHT1));
 
-        eggPowderWSView.setX(210);
-        eggPowderWSView.setY(275);
+        eggPowderWSView.setX(311);
+        eggPowderWSView.setY(310);
 
         root.getChildren().add(eggPowderWSView);
 
@@ -1536,8 +1534,8 @@ class MainGame extends Application {
                     public void handle(ActionEvent event) {
                         Image flour = new Image(Main.class.getResourceAsStream("EggPowder.png"));
                         ImageView flourView = new ImageView(flour);
-                        flourView.setX(320);
-                        flourView.setY(300);
+                        flourView.setX(350);
+                        flourView.setY(360);
 
                         root.getChildren().add(flourView);
                         flourView.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -1562,7 +1560,7 @@ class MainGame extends Application {
 
 
 
-        // for animation of cookiWS
+        // for animation of cookie workshop
 
         Image cookieWS = new Image(Main.class.getResourceAsStream("cakeW.png"));
         ImageView cookieWSview = new ImageView(cookieWS);
@@ -1572,10 +1570,10 @@ class MainGame extends Application {
         int OFFSET_X2 = 10;
         int OFFSET_Y2 = 10;
         int WIDTH2 = 131;
-        int HEIGHT2 = 100;
-        cookieWSview.setViewport(new Rectangle2D(OFFSET_X1, OFFSET_Y1, WIDTH1, HEIGHT1));
+        int HEIGHT2 = 140;
+        cookieWSview.setViewport(new Rectangle2D(OFFSET_X2, OFFSET_Y2, WIDTH2, HEIGHT2));
 
-        cookieWSview.setX(210);
+        cookieWSview.setX(1095);
         cookieWSview.setY(475);
 
         root.getChildren().add(cookieWSview);
@@ -1597,7 +1595,7 @@ class MainGame extends Application {
                     public void handle(ActionEvent event) {
                         Image cake = new Image(Main.class.getResourceAsStream("Cake.png"));
                         ImageView cakeView = new ImageView(cake);
-                        cakeView.setX(320);
+                        cakeView.setX(1050);
                         cakeView.setY(500);
 
                         root.getChildren().add(cakeView);
@@ -1605,10 +1603,10 @@ class MainGame extends Application {
                         cakeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
                             @Override
                             public void handle(MouseEvent event) {
-                                Image flourIcon = new Image(Main.class.getResourceAsStream("Cake.png"));
+                                Image cakeIcon = new Image(Main.class.getResourceAsStream("Cake.png"));
 
                                 Rectangle rec = new Rectangle(400, 900, 25, 25);
-                                rec.setFill(new ImagePattern(flourIcon));
+                                rec.setFill(new ImagePattern(cakeIcon));
 
                                 root.getChildren().add(rec);
                                 root.getChildren().remove(cakeView);
@@ -1622,6 +1620,71 @@ class MainGame extends Application {
                 cookieWSanimation.play();
             }
         });
+
+
+
+
+        // for animation of Floury cake workshop
+
+        Image FlouryCakeWS = new Image(Main.class.getResourceAsStream("flouryCakeWS.png"));
+        ImageView flouryCakeWSView = new ImageView(FlouryCakeWS);
+
+        int COLUMNS3 = 8;
+        int COUNT3 = 4;
+        int OFFSET_X3 = 7;
+        int OFFSET_Y3 = 10;
+        int WIDTH3 = 128;
+        int HEIGHT3 = 152;
+        flouryCakeWSView.setViewport(new Rectangle2D(OFFSET_X3, OFFSET_Y3, WIDTH3, HEIGHT3));
+
+        flouryCakeWSView.setX(1000);
+        flouryCakeWSView.setY(220);
+
+        root.getChildren().add(flouryCakeWSView);
+
+
+        flouryCakeWSView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                // if ... rules should be written!
+
+                final Animation FlouryCakeAnimation = new SpriteAnimation(
+                        flouryCakeWSView,
+                        Duration.millis(1000),COUNT3, COLUMNS3,
+                        OFFSET_X3, OFFSET_Y3,
+                        WIDTH3, HEIGHT3
+
+                );
+                FlouryCakeAnimation.setCycleCount(5);
+                FlouryCakeAnimation.setOnFinished(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        Image flouryCake = new Image(Main.class.getResourceAsStream("FlouryCake.png"));
+                        ImageView flouryCakeView = new ImageView(flouryCake);
+                        flouryCakeView.setX(1000);
+                        flouryCakeView.setY(360);
+
+                        root.getChildren().add(flouryCakeView);
+                        flouryCakeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                            @Override
+                            public void handle(MouseEvent event) {
+                                // add from warehouse
+                                Image flouryCakeIcon = new Image(Main.class.getResourceAsStream("FlouryCake.png"));
+
+                                Rectangle rec = new Rectangle(400, 900, 25, 25);
+                                rec.setFill(new ImagePattern(flouryCakeIcon));
+
+                                root.getChildren().add(rec);
+                                root.getChildren().remove(flouryCakeView);
+
+                            }
+                        });
+                    }
+                });
+                FlouryCakeAnimation.play();
+            }
+        });
+
 
 
 
