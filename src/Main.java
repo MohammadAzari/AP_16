@@ -47,7 +47,7 @@ class Well{
 
     private Well(){
         capacity = capacityUnit;
-        level = 0;
+        level = 1;
     }
 
     public static Well getclass(){
@@ -483,6 +483,12 @@ class Chicken extends Pet implements Upgradable, Printable{
         type = TypeOfPet.Chicken;
     }
 
+    public String getInfo(){
+        return "price: " + price + "\n" +
+                "level: " + level + "\n" +
+                "feed capacity unit: " + feedCapacityUnit;
+    }
+
     public void printInfo(){
         System.out.println("Chicken number: " + namedLabel + "{\n\t" +
                 "price: " + price + "\n\t" +
@@ -523,6 +529,12 @@ class Cow extends Pet implements Upgradable , Printable{
         priceUnit = 200;
         price = priceUnit;
         type = TypeOfPet.Cow;
+    }
+
+    public String getInfo(){
+        return "price: " + price + "\n" +
+                "level: " + level + "\n" +
+                "feed capacity unit: " + feedCapacityUnit;
     }
 
 
@@ -574,6 +586,11 @@ class Ostrich extends Pet implements Upgradable , Printable{
         type = TypeOfPet.Ostrich;
     }
 
+    public String getInfo(){
+        return "price: " + price + "\n" +
+                "level: " + level + "\n" +
+                "feed capacity unit: " + feedCapacityUnit;
+    }
 
     public void printInfo(){
         System.out.println("Ostrich number: " + namedLabel + "{\n\t" +
@@ -693,12 +710,13 @@ class Orders{
         return gameInfo;
     }
 
-    public void buyChicken() throws FileNotFoundException {
-        Pet chicken = new Chicken(gameInfo.map, chickenLabel);
+    public Chicken buyChicken() throws FileNotFoundException {
+        Chicken chicken = new Chicken(gameInfo.map, chickenLabel);
         chickenLabel++;
         gameInfo.pets.add(chicken);
         gameInfo.money -= chicken.price;
         System.out.println("A chicken is bought! and money = " + gameInfo.money);
+        return chicken;
 
 
 
@@ -706,12 +724,13 @@ class Orders{
     }
 
 
-    public void buyCow() throws FileNotFoundException {
-        Pet cow = new Cow(gameInfo.map, cowLabel);
+    public Cow buyCow() throws FileNotFoundException {
+        Cow cow = new Cow(gameInfo.map, cowLabel);
         cowLabel++;
         gameInfo.pets.add(cow);
         gameInfo.money -= cow.price;
         System.out.println("A cow is bought! and money = " + gameInfo.money);
+        return cow;
 
 
 
@@ -719,12 +738,13 @@ class Orders{
     }
 
 
-    public void buyOstrich() throws FileNotFoundException {
-        Pet ostrich = new Ostrich(gameInfo.map, ostrichLabel);
+    public Ostrich buyOstrich() throws FileNotFoundException {
+        Ostrich ostrich = new Ostrich(gameInfo.map, ostrichLabel);
         cowLabel++;
         gameInfo.pets.add(ostrich);
         gameInfo.money -= ostrich.price;
         System.out.println("A ostrich is bought! and money = " + gameInfo.money);
+        return ostrich;
 
 
 
@@ -1177,13 +1197,56 @@ class MainGame extends Application {
         Image chickenImage = new Image(Main.class.getResourceAsStream("guinea_fowl.png"));
         circle.setFill(new ImagePattern(chickenImage));
         root.getChildren().add(circle);
+
+        Rectangle chickenDescription = new Rectangle(128, 90);
+        Image descImage = new Image(Main.class.getResourceAsStream("4.png"));
+        chickenDescription.setFill(new ImagePattern(descImage));
+        chickenDescription.relocate(40, 80);
+        Label chickenLabel = new Label();
+        Chicken chicken = orders.buyChicken();
+        chickenLabel.setText(chicken.getInfo());
+        chickenLabel.setLabelFor(chickenDescription);
+        chickenLabel.relocate(48, 110);
+        chickenLabel.setTextFill(Color.BROWN);
+
+
+
+        circle.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().addAll(chickenDescription, chickenLabel);
+                /*circle.setFill(Color.BLACK);
+                circle.setOpacity(2);*/
+            }
+        });
+
+        chickenDescription.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().removeAll(chickenDescription, chickenLabel);
+            }
+        });
+
+        chickenDescription.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().removeAll(chickenDescription, chickenLabel);
+            }
+        });
+
+        circle.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().removeAll(chickenDescription, chickenLabel);
+                //circle.setFill(new ImagePattern(chickenImage));
+            }
+        });
+
         circle.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 try {
-                    Map map = new Map(3);
-                    Animal animal = new Animal(map);
-                    orders.buyChicken();
+                    Pet chicken = orders.buyChicken();
                     Image chickenImage = new Image(Main.class.getResourceAsStream("guinea_fowl_map.png"));
                     ImageView chickenView = new ImageView(chickenImage);
                     chickenView.setFitWidth(90);
@@ -1225,11 +1288,57 @@ class MainGame extends Application {
         Image cowImage = new Image(Main.class.getResourceAsStream("buffalo.png"));
         circle4.setFill(new ImagePattern(cowImage));
         root.getChildren().add(circle4);
+
+        Rectangle cowDescription = new Rectangle(120, 90);
+        //Image descImage = new Image(Main.class.getResourceAsStream("4.png"));
+        cowDescription.setFill(new ImagePattern(descImage));
+        cowDescription.relocate(120, 80);
+        Label cowLabel = new Label();
+        Cow cow = orders.buyCow();
+        //Chicken chicken = orders.buyChicken();
+        cowLabel.setText(cow.getInfo());
+        cowLabel.setLabelFor(cowDescription);
+        cowLabel.relocate(127, 110);
+        cowLabel.setTextFill(Color.BROWN);
+
+
+
+        circle4.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().addAll(cowDescription, cowLabel);
+                /*circle.setFill(Color.BLACK);
+                circle.setOpacity(2);*/
+            }
+        });
+
+        cowDescription.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().removeAll(cowDescription, cowLabel);
+            }
+        });
+
+        cowDescription.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().removeAll(cowDescription, cowLabel);
+            }
+        });
+
+        circle4.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().removeAll(cowDescription, cowLabel);
+                //circle.setFill(new ImagePattern(chickenImage));
+            }
+        });
+
         circle4.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 try {
-                    orders.buyCow();
+                    Cow cowInGame = orders.buyCow();
                     Image cowImage = new Image(Main.class.getResourceAsStream("cow.png"));
                     ImageView cowView = new ImageView(cowImage);
                     cowView.setX(Math.random()*770 + 300);
@@ -1258,6 +1367,52 @@ class MainGame extends Application {
         Image ostrichImage = new Image(Main.class.getResourceAsStream("ostrich.png"));
         circle6.setFill(new ImagePattern(ostrichImage));
         root.getChildren().add(circle6);
+
+        Rectangle ostrichDescription = new Rectangle(120, 90);
+        //Image descImage = new Image(Main.class.getResourceAsStream("4.png"));
+        ostrichDescription.setFill(new ImagePattern(descImage));
+        ostrichDescription.relocate(200, 80);
+        Label ostrichLabel = new Label();
+        Ostrich ostrich = orders.buyOstrich();
+        //Chicken chicken = orders.buyChicken();
+        ostrichLabel.setText(ostrich.getInfo());
+        ostrichLabel.setLabelFor(cowDescription);
+        ostrichLabel.relocate(205, 110);
+        ostrichLabel.setTextFill(Color.BROWN);
+
+
+
+        circle6.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().addAll(ostrichDescription, ostrichLabel);
+                /*circle.setFill(Color.BLACK);
+                circle.setOpacity(2);*/
+            }
+        });
+
+        ostrichDescription.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().removeAll(ostrichDescription, ostrichLabel);
+            }
+        });
+
+        ostrichDescription.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().removeAll(ostrichDescription, ostrichLabel);
+            }
+        });
+
+        circle6.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().removeAll(ostrichDescription, ostrichLabel);
+                //circle.setFill(new ImagePattern(chickenImage));
+            }
+        });
+
         circle6.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
