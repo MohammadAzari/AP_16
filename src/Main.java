@@ -60,6 +60,10 @@ class Well{
         capacity = capacityUnit;
     }
 
+    public int getLevel() {
+        return level;
+    }
+
     public void unload(){
         if (capacity <= 0)
             System.out.println("well is empty!!");
@@ -205,7 +209,7 @@ class Animal implements Moveable{
     public void move(){
         int tempX = this.position.getX();
         int tempY = this.position.getY();
-        switch (random.nextInt(map.getSize())){
+        switch (random.nextInt(8)){
 
             case Constants.EAST:
                 if (position.getX() + 1 < map.getSize()) {
@@ -216,7 +220,8 @@ class Animal implements Moveable{
                     this.map.getPositions()[this.getPosition().getX()][this.getPosition().getY()].setY(-1);
                     tempX = position.getX();
                     tempY = position.getY();
-                    map.printInfo();
+                    System.out.println("Moved to East!");
+                    //map.printInfo();
                 }
                 else {
                     this.map.getPositions()[this.getPosition().getX()][this.getPosition().getY()].setX(tempX);
@@ -226,7 +231,8 @@ class Animal implements Moveable{
                     this.map.getPositions()[this.getPosition().getX()][this.getPosition().getY()].setY(-1);
                     tempX = position.getX();
                     tempY = position.getY();
-                    map.printInfo();
+                    System.out.println("Moved to West!");
+                    //map.printInfo();
                 }
                 break;
 
@@ -239,7 +245,8 @@ class Animal implements Moveable{
                     this.map.getPositions()[this.getPosition().getX()][this.getPosition().getY()].setY(-1);
                     tempX = position.getX();
                     tempY = position.getY();
-                    map.printInfo();
+                    System.out.println("Moved to North!");
+                    //map.printInfo();
                 }
                 else {
                     this.map.getPositions()[this.getPosition().getX()][this.getPosition().getY()].setX(tempX);
@@ -249,7 +256,8 @@ class Animal implements Moveable{
                     this.map.getPositions()[this.getPosition().getX()][this.getPosition().getY()].setY(-1);
                     tempX = position.getX();
                     tempY = position.getY();
-                    map.printInfo();
+                    System.out.println("Moved to South!");
+                    //map.printInfo();
                 }
                 break;
 
@@ -262,7 +270,8 @@ class Animal implements Moveable{
                     this.map.getPositions()[this.getPosition().getX()][this.getPosition().getY()].setY(-1);
                     tempX = position.getX();
                     tempY = position.getY();
-                    map.printInfo();
+                    System.out.println("Moved to South!");
+                    //map.printInfo();
                 }
                 else {
                     this.map.getPositions()[this.getPosition().getX()][this.getPosition().getY()].setX(tempX);
@@ -272,7 +281,8 @@ class Animal implements Moveable{
                     this.map.getPositions()[this.getPosition().getX()][this.getPosition().getY()].setY(-1);
                     tempX = position.getX();
                     tempY = position.getY();
-                    map.printInfo();
+                    System.out.println("Moved to North!");
+                    //map.printInfo();
                 }
                 break;
 
@@ -285,7 +295,8 @@ class Animal implements Moveable{
                     this.map.getPositions()[this.getPosition().getX()][this.getPosition().getY()].setY(-1);
                     tempX = position.getX();
                     tempY = position.getY();
-                    map.printInfo();
+                    System.out.println("Moved to West!");
+                    //map.printInfo();
                 }
                 else {
                     this.map.getPositions()[this.getPosition().getX()][this.getPosition().getY()].setX(tempX);
@@ -295,7 +306,8 @@ class Animal implements Moveable{
                     this.map.getPositions()[this.getPosition().getX()][this.getPosition().getY()].setY(-1);
                     tempX = position.getX();
                     tempY = position.getY();
-                    map.printInfo();
+                    System.out.println("Moved East!");
+                    //map.printInfo();
                 }
                 break;
             case Constants.NORTHEAST:
@@ -308,7 +320,8 @@ class Animal implements Moveable{
                     this.map.getPositions()[this.getPosition().getX()][this.getPosition().getY()].setY(-1);
                     tempX = position.getX();
                     tempY = position.getY();
-                    map.printInfo();
+                    System.out.println("Moved to NorthEast!");
+                    //map.printInfo();
                 }
                 else {
                     this.map.getPositions()[this.getPosition().getX()][this.getPosition().getY()].setX(tempX);
@@ -319,7 +332,8 @@ class Animal implements Moveable{
                     this.map.getPositions()[this.getPosition().getX()][this.getPosition().getY()].setY(-1);
                     tempX = position.getX();
                     tempY = position.getY();
-                    map.printInfo();
+                    System.out.println("Moved to SouthWest!");
+                    //map.printInfo();
                 }
                 break;
             case Constants.SOUTHEAST:
@@ -332,7 +346,8 @@ class Animal implements Moveable{
                     this.map.getPositions()[this.getPosition().getX()][this.getPosition().getY()].setY(-1);
                     tempX = position.getX();
                     tempY = position.getY();
-                    map.printInfo();
+                    System.out.println("Moved to SouthEast!");
+                    //map.printInfo();
                 }
                 else {
                     this.map.getPositions()[this.getPosition().getX()][this.getPosition().getY()].setX(tempX);
@@ -343,7 +358,8 @@ class Animal implements Moveable{
                     this.map.getPositions()[this.getPosition().getX()][this.getPosition().getY()].setY(-1);
                     tempX = position.getX();
                     tempY = position.getY();
-                    map.printInfo();
+                    System.out.println("Moved NorthWest!");
+                    //map.printInfo();
                 }
                 break;
             case Constants.NORTHWEST:
@@ -356,7 +372,8 @@ class Animal implements Moveable{
                     this.map.getPositions()[this.getPosition().getX()][this.getPosition().getY()].setY(-1);
                     tempX = position.getX();
                     tempY = position.getY();
-                    map.printInfo();
+                    System.out.println("Moved to NorthWest!");
+                    //map.printInfo();
                 }
                 else {
                     this.map.getPositions()[this.getPosition().getX()][this.getPosition().getY()].setX(tempX);
@@ -367,7 +384,8 @@ class Animal implements Moveable{
                     this.map.getPositions()[this.getPosition().getX()][this.getPosition().getY()].setY(-1);
                     tempX = position.getX();
                     tempY = position.getY();
-                    map.printInfo();
+                    System.out.println("Moved to SouthEast!");
+                    //map.printInfo();
                 }
                 break;
             case Constants.SOUTHWEST:
@@ -380,7 +398,8 @@ class Animal implements Moveable{
                     this.map.getPositions()[this.getPosition().getX()][this.getPosition().getY()].setY(-1);
                     tempX = position.getX();
                     tempY = position.getY();
-                    map.printInfo();
+                    System.out.println("Moved to SouthWest!");
+                    //map.printInfo();
                 }
                 else {
                     this.map.getPositions()[this.getPosition().getX()][this.getPosition().getY()].setX(tempX);
@@ -391,7 +410,8 @@ class Animal implements Moveable{
                     this.map.getPositions()[this.getPosition().getX()][this.getPosition().getY()].setY(-1);
                     tempX = position.getX();
                     tempY = position.getY();
-                    map.printInfo();
+                    System.out.println("Moved to NorthEast!");
+                    //map.printInfo();
                 }
                 break;
 
@@ -925,7 +945,7 @@ class Orders{
     }
 
     public void wellUpgrade(){
-        gameInfo.money -= 250;
+        gameInfo.money -= 250 * gameInfo.well.getLevel();
         gameInfo.well.upgrade();
     }
 
@@ -1363,7 +1383,10 @@ class MainGame extends Application {
                     @Override
                     public void handle(Event event) {
                         final long timePassed = (System.currentTimeMillis() - startSecond)/1000;
-                        if (timePassed % 2 == 0) circle1.setFill(Color.GREEN);
+                        if (timePassed % 3 == 0){
+                            circle1.setFill(Color.GREEN);
+                            orders.turn(1);
+                        }
                         else if (timePassed % 2 != 0) circle1.setFill(Color.RED);
                     }
                 }));
@@ -1425,8 +1448,8 @@ class MainGame extends Application {
 
         primaryStage.setScene(scene1);
         primaryStage.setResizable(true);
-        //primaryStage.setFullScreen(true);
         primaryStage.setFullScreen(true);
+        //primaryStage.setResizable(true);
         primaryStage.show();
 
     }
