@@ -1494,33 +1494,10 @@ class MainGame extends Application {
         root.getChildren().add(truckView);
 
 
-// for animation of cookiWS
-//
-//        Image cookieWS = new Image(Main.class.getResourceAsStream("cakeW.png"));
-//        ImageView cookieView = new ImageView(cookieWS);
-//        cookieView.setX(20);
-//        cookieView.setY(70);
-//
-//
-//        root.getChildren().add(cookieView);
-//
-//        cookieView.setViewport(new Rectangle2D(0,0,820,300));
-//
-//    cookieView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//        @Override
-//        public void handle(MouseEvent event) {
-//            final Animation animation = new SpriteAnimation(
-//                    cookieView,
-//                    Duration.millis(7000),
-//                    16, 4,
-//                    0, 0,
-//                    120, 120
-//            );
-//            animation.setCycleCount(Animation.INDEFINITE);
-//            animation.play();
-//
-//        }
-//    });
+
+
+
+
 
 
 // for animation of egg powder
@@ -1583,6 +1560,68 @@ class MainGame extends Application {
             }
         });
 
+
+
+        // for animation of cookiWS
+
+        Image cookieWS = new Image(Main.class.getResourceAsStream("cakeW.png"));
+        ImageView cookieWSview = new ImageView(cookieWS);
+
+        int COLUMNS2 = 8;
+        int COUNT2 = 3;
+        int OFFSET_X2 = 10;
+        int OFFSET_Y2 = 10;
+        int WIDTH2 = 131;
+        int HEIGHT2 = 100;
+        cookieWSview.setViewport(new Rectangle2D(OFFSET_X1, OFFSET_Y1, WIDTH1, HEIGHT1));
+
+        cookieWSview.setX(210);
+        cookieWSview.setY(475);
+
+        root.getChildren().add(cookieWSview);
+
+
+        cookieWSview.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                final Animation cookieWSanimation = new SpriteAnimation(
+                        cookieWSview,
+                        Duration.millis(1000),COUNT2, COLUMNS2,
+                        OFFSET_X2, OFFSET_Y2,
+                        WIDTH2, HEIGHT2
+                );
+
+                cookieWSanimation.setCycleCount(5);
+                cookieWSanimation.setOnFinished(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        Image cake = new Image(Main.class.getResourceAsStream("Cake.png"));
+                        ImageView cakeView = new ImageView(cake);
+                        cakeView.setX(320);
+                        cakeView.setY(500);
+
+                        root.getChildren().add(cakeView);
+
+                        cakeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                            @Override
+                            public void handle(MouseEvent event) {
+                                Image flourIcon = new Image(Main.class.getResourceAsStream("Cake.png"));
+
+                                Rectangle rec = new Rectangle(400, 900, 25, 25);
+                                rec.setFill(new ImagePattern(flourIcon));
+
+                                root.getChildren().add(rec);
+                                root.getChildren().remove(cakeView);
+
+                            }
+                        });
+
+                    }
+                });
+
+                cookieWSanimation.play();
+            }
+        });
 
 
 
