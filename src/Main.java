@@ -462,7 +462,7 @@ abstract class Pet extends Animal implements Upgradable,Printable {
         }
     }
 
-    public abstract void makeProduct();
+    public abstract boolean makeProduct();
 
     public abstract void upgrade();
 
@@ -501,14 +501,17 @@ class Chicken extends Pet implements Upgradable, Printable{
     }
 
     @Override
-    public void makeProduct() {
+    public boolean makeProduct() {
         if (feedCapacity == feedCapacityUnit){
             egg = new Egg();
             map.getPositions()[position.getX()][position.getY()].addProduct(egg);
             System.out.println("an egg is produced and placed in [" + position.getX() + " " +
                     position.getY() + "]");
             feedCapacity = 0;
+
+            return true;
         }
+        return false;
     }
 
     @Override
@@ -551,14 +554,18 @@ class Cow extends Pet implements Upgradable , Printable{
 
 
     @Override
-    public void makeProduct() {
+    public boolean makeProduct() {
         if (feedCapacity == feedCapacityUnit){
             milk = new Milk();
             map.getPositions()[position.getX()][position.getY()].addProduct(milk);
             System.out.println("a bottle of milk is produced and placed in [" + position.getX() + " " +
                     position.getY() + "]");
             feedCapacity = 0;
+
+            return true;
         }
+
+        return false;
     }
 
     @Override
@@ -605,14 +612,17 @@ class Ostrich extends Pet implements Upgradable , Printable{
 
 
     @Override
-    public void makeProduct() {
+    public boolean makeProduct() {
         if (feedCapacity == feedCapacityUnit){
             wool = new Wool();
             map.getPositions()[position.getX()][position.getY()].addProduct(wool);
             System.out.println("wool is produced and placed in [" + position.getX() + " " +
                     position.getY() + "]");
             feedCapacity = 0;
+
+            return true;
         }
+        return false;
     }
 
     @Override
@@ -1332,18 +1342,32 @@ class MainGame extends Application {
                     chickenView.setY(Math.random()*350 + 300);
                     chickenView.setX(Math.random()*770 + 300);
                     chickenView.toFront();
+
+                    chicken.move();
+
                     root.getChildren().add(chickenView);
 
 
 
 
-                    Rectangle rectangle = new Rectangle(300 , 300 , 400 , 400);
-                    PathTransition pathTransition = new PathTransition();
-                    pathTransition.setNode(chickenView);
-                    pathTransition.setDuration(Duration.seconds(10));
-                    pathTransition.setPath(rectangle);
-                    pathTransition.setCycleCount(PathTransition.INDEFINITE);
-                    pathTransition.play();
+
+
+
+
+                   if(chicken.makeProduct()){
+                      //Image
+                    }
+
+
+
+
+//                    Rectangle rectangle = new Rectangle(300 , 300 , 400 , 400);
+//                    PathTransition pathTransition = new PathTransition();
+//                    pathTransition.setNode(chickenView);
+//                    pathTransition.setDuration(Duration.seconds(10));
+//                    pathTransition.setPath(rectangle);
+//                    pathTransition.setCycleCount(PathTransition.INDEFINITE);
+//                    pathTransition.play();
 
 
 
@@ -1650,7 +1674,7 @@ class MainGame extends Application {
         int HEIGHT2 = 140;
         cookieWSview.setViewport(new Rectangle2D(OFFSET_X2, OFFSET_Y2, WIDTH2, HEIGHT2));
 
-        cookieWSview.setX(1099);
+        cookieWSview.setX(1110);
         cookieWSview.setY(460);
 
         root.getChildren().add(cookieWSview);
