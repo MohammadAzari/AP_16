@@ -1579,14 +1579,14 @@ class MainGame extends Application {
         int COLUMNS1 = 8;
         int COUNT1 = 3;
         int OFFSET_X1 = 10;
-        int OFFSET_Y1 = 9;
+        int OFFSET_Y1 = 0;
         int WIDTH1 = 131;
-        int HEIGHT1 = 106;
+        int HEIGHT1 = 104;
 
         eggPowderWSView.setViewport(new Rectangle2D(OFFSET_X1, OFFSET_Y1, WIDTH1, HEIGHT1));
 
-        eggPowderWSView.setX(311);
-        eggPowderWSView.setY(310);
+        eggPowderWSView.setX(350);
+        eggPowderWSView.setY(280);
 
         root.getChildren().add(eggPowderWSView);
 
@@ -1608,8 +1608,8 @@ class MainGame extends Application {
                     public void handle(ActionEvent event) {
                         Image flour = new Image(Main.class.getResourceAsStream("EggPowder.png"));
                         ImageView flourView = new ImageView(flour);
-                        flourView.setX(350);
-                        flourView.setY(392);
+                        flourView.setX(380);
+                        flourView.setY(360);
 
                         root.getChildren().add(flourView);
                         flourView.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -1772,7 +1772,7 @@ class MainGame extends Application {
         // for animation of Spinnery workshop
 
         Image SpinneryWS = new Image(Main.class.getResourceAsStream("spinneryWS.png"));
-        ImageView SpinneryWSView = new ImageView(SpinneryWS);
+        ImageView SpinView = new ImageView(SpinneryWS);
 
         int COLUMNS4 = 8;
         int COUNT4 = 2;
@@ -1780,33 +1780,33 @@ class MainGame extends Application {
         int OFFSET_Y4 = 1;
         int WIDTH4 = 130;
         int HEIGHT4 = 100;
-        SpinneryWSView.setViewport(new Rectangle2D(OFFSET_X4, OFFSET_Y4, WIDTH4, HEIGHT4));
+        SpinView.setViewport(new Rectangle2D(OFFSET_X4, OFFSET_Y4, WIDTH4, HEIGHT4));
 
-        SpinneryWSView.setX(200);
-        SpinneryWSView.setY(670);
+        SpinView.setX(200);
+        SpinView.setY(670);
 
-        root.getChildren().add(SpinneryWSView);
+        root.getChildren().add(SpinView);
 
 
-        SpinneryWSView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        SpinView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 // if ... rules should be written!
 
                 final Animation SpinneryAnimation = new SpriteAnimation(
-                        SpinneryWSView,
+                        SpinView,
                         Duration.millis(1000),COUNT4, COLUMNS4,
                         OFFSET_X4, OFFSET_Y4,
                         WIDTH4, HEIGHT4
 
                 );
-                SpinneryAnimation.setCycleCount(6);
+                SpinneryAnimation.setCycleCount(5);
                 SpinneryAnimation.setOnFinished(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
                         Image sewing = new Image(Main.class.getResourceAsStream("Sewing.png"));
                         ImageView sewingView = new ImageView(sewing);
-                        sewingView.setX(200);
+                        sewingView.setX(220);
                         sewingView.setY(760);
 
                         root.getChildren().add(sewingView);
@@ -1829,6 +1829,73 @@ class MainGame extends Application {
                 SpinneryAnimation.play();
             }
         });
+
+
+
+
+
+        // for adding sewing factory
+
+        Image sewingFactory = new Image(Main.class.getResourceAsStream("SewingFactory.png"));
+        ImageView SewingFactoryView = new ImageView(sewingFactory);
+
+        int COLUMNS5 = 8;
+        int COUNT5 = 2;
+        int OFFSET_X5 = 10;
+        int OFFSET_Y5 = 5;
+        int WIDTH5 = 170;
+        int HEIGHT5 = 120;
+        SewingFactoryView.setViewport(new Rectangle2D(OFFSET_X5, OFFSET_Y5, WIDTH5, HEIGHT5));
+
+        SewingFactoryView.setX(270);
+        SewingFactoryView.setY(420);
+
+        root.getChildren().add(SewingFactoryView);
+
+
+        SewingFactoryView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                // if ... rules should be written!
+
+                final Animation SewingAnimation = new SpriteAnimation(
+                        SewingFactoryView,
+                        Duration.millis(1000),COUNT5, COLUMNS5,
+                        OFFSET_X5, OFFSET_Y5,
+                        WIDTH5, HEIGHT5
+
+                );
+                SewingAnimation.setCycleCount(5);
+                SewingAnimation.setOnFinished(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        Image fabric = new Image(Main.class.getResourceAsStream("Fabric.png"));
+                        ImageView fabricView = new ImageView(fabric);
+                        fabricView.setX(320);
+                        fabricView.setY(510);
+
+                        root.getChildren().add(fabricView);
+                        fabricView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                            @Override
+                            public void handle(MouseEvent event) {
+                                // add from warehouse
+                                Image sewingIcon = new Image(Main.class.getResourceAsStream("Fabric.png"));
+
+                                Rectangle rec = new Rectangle(400, 900, 25, 25);
+                                rec.setFill(new ImagePattern(sewingIcon));
+
+                                root.getChildren().add(rec);
+                                root.getChildren().remove(fabricView);
+
+                            }
+                        });
+                    }
+                });
+                SewingAnimation.play();
+            }
+        });
+
+
 
 
 
