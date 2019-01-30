@@ -1650,8 +1650,8 @@ class MainGame extends Application {
         int HEIGHT2 = 140;
         cookieWSview.setViewport(new Rectangle2D(OFFSET_X2, OFFSET_Y2, WIDTH2, HEIGHT2));
 
-        cookieWSview.setX(1098);
-        cookieWSview.setY(465);
+        cookieWSview.setX(1099);
+        cookieWSview.setY(460);
 
         root.getChildren().add(cookieWSview);
 
@@ -1894,6 +1894,75 @@ class MainGame extends Application {
                 SewingAnimation.play();
             }
         });
+
+
+
+
+        // for weaving factory
+
+        Image weavingWS = new Image(Main.class.getResourceAsStream("weaving.png"));
+        ImageView weavingWSview = new ImageView(weavingWS);
+
+        int COLUMNS6 = 8;
+        int COUNT6 = 3;
+        int OFFSET_X6 = 1;
+        int OFFSET_Y6 = 9;
+        int WIDTH6 = 170;
+        int HEIGHT6 = 105;
+        weavingWSview.setViewport(new Rectangle2D(OFFSET_X6, OFFSET_Y6, WIDTH6, HEIGHT6));
+
+        weavingWSview.setX(1098);
+        weavingWSview.setY(640);
+
+        root.getChildren().add(weavingWSview);
+
+
+        weavingWSview.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+
+            @Override
+            public void handle(MouseEvent event) {
+
+                // for working
+                final Animation weavingWSAnimation = new SpriteAnimation(
+                        weavingWSview,
+                        Duration.millis(1000),COUNT6, COLUMNS6,
+                        OFFSET_X6, OFFSET_Y6,
+                        WIDTH6, HEIGHT6
+                );
+
+                weavingWSAnimation.setCycleCount(5);
+                weavingWSAnimation.setOnFinished(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        Image cake = new Image(Main.class.getResourceAsStream("Cake.png"));
+                        ImageView cakeView = new ImageView(cake);
+                        cakeView.setX(1050);
+                        cakeView.setY(700);
+
+                        root.getChildren().add(cakeView);
+
+                        cakeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                            @Override
+                            public void handle(MouseEvent event) {
+                                Image cakeIcon = new Image(Main.class.getResourceAsStream("Cake.png"));
+
+                                Rectangle rec = new Rectangle(400, 900, 25, 25);
+                                rec.setFill(new ImagePattern(cakeIcon));
+
+                                root.getChildren().add(rec);
+                                root.getChildren().remove(cakeView);
+
+                            }
+                        });
+
+                    }
+                });
+
+                weavingWSAnimation.play();
+            }
+        });
+
 
 
 
