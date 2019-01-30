@@ -1167,19 +1167,19 @@ class MainGame extends Application {
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
 
-        Image wellUpgrade = new Image(Main.class.getResourceAsStream("upgrade.png"));
-        ImageView wellUpgradeView = new ImageView(wellUpgrade);
-        wellUpgradeView.setFitHeight(50);
-        wellUpgradeView.setFitWidth(120);
-        wellUpgradeView.setX(750);
-        wellUpgradeView.setY(190);
-        root.getChildren().add(wellUpgradeView);
-        wellUpgradeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                orders.wellUpgrade();
-            }
-        });
+//        Image wellUpgrade = new Image(Main.class.getResourceAsStream("upgrade.png"));
+//        ImageView wellUpgradeView = new ImageView(wellUpgrade);
+//        wellUpgradeView.setFitHeight(50);
+//        wellUpgradeView.setFitWidth(120);
+//        wellUpgradeView.setX(750);
+//        wellUpgradeView.setY(190);
+//        root.getChildren().add(wellUpgradeView);
+//        wellUpgradeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent event) {
+//                orders.wellUpgrade();
+//            }
+//        });
 
 
        // Image wellImage = new Image(Main.class.getResourceAsStream("welll.png"));
@@ -1200,59 +1200,59 @@ class MainGame extends Application {
         Image wellImage = new Image(Main.class.getResourceAsStream("wellA.png"));
         ImageView wellView = new ImageView(wellImage);
 
-        int COLUMNSW = 16;
+
+        int COLUMNSW = 8;
         int COUNTW = 3;
-        int OFFSET_XW = 10;
+        int OFFSET_XW = 2;
         int OFFSET_YW = 10;
-        int WIDTHW = 150;
-        int HEIGHTW = 145;
+        int WIDTHW = 156;
+        int HEIGHTW = 113;
+
         wellView.setViewport(new Rectangle2D(OFFSET_XW, OFFSET_YW, WIDTHW, HEIGHTW));
 
         wellView.setX(620);
-        wellView.setY(150);
+        wellView.setY(145);
 
         root.getChildren().add(wellView);
 
+        wellView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                final Animation wellAnimation = new SpriteAnimation(
+                        wellView,
+                        Duration.millis(1000),COUNTW, COLUMNSW,
+                        OFFSET_XW, OFFSET_YW,
+                        WIDTHW, HEIGHTW
+                );
 
-//        wellView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent event) {
-//                // if ... rules should be written!
-//
-//                final Animation wellAnimation = new SpriteAnimation(
-//                        wellView,
-//                        Duration.millis(1000),COUNTW, COLUMNSW,
-//                        OFFSET_XW, OFFSET_YW,
-//                        WIDTHW, HEIGHTW
-//                );
-//                wellAnimation.setCycleCount(5);
-//                wellAnimation.setOnFinished(new EventHandler<ActionEvent>() {
-//                  @Override
-//                   public void handle(ActionEvent event) {
-//
-//                      orders.wellUpgrade();
-//
-//                        wellView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//////                            @Override
-//                            public void handle(MouseEvent event) {
-//////                                // add from warehouse
-//////                                Image flourIcon = new Image(Main.class.getResourceAsStream("EggPowder.png"));
-//////
-//////                                Rectangle rec = new Rectangle(400, 900, 25, 25);
-//////                                rec.setFill(new ImagePattern(flourIcon));
-//////
-//////                                root.getChildren().add(rec);
-//////
-//////
-//////                            }
-//      });
-//                   }
-//
-//                  }
-//               wellAnimation.play();
-////
-//
-//
+                wellAnimation.setCycleCount(5);
+                wellAnimation.setOnFinished(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        orders.wellUpgrade();
+                    }
+                });
+                  wellAnimation.play();
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
