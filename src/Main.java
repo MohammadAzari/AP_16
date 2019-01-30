@@ -1182,19 +1182,92 @@ class MainGame extends Application {
         });
 
 
-        Image wellImage = new Image(Main.class.getResourceAsStream("welll.png"));
+       // Image wellImage = new Image(Main.class.getResourceAsStream("welll.png"));
+       // ImageView wellView = new ImageView(wellImage);
+       // wellView.setFitHeight(150);
+       // wellView.setFitWidth(150);
+       // wellView.setY(115);
+       // wellView.setX(620);
+       // root.getChildren().add(wellView);
+       // wellView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent event) {
+//                orders.well();
+//            }
+//        });
+
+
+        Image wellImage = new Image(Main.class.getResourceAsStream("wellA.png"));
         ImageView wellView = new ImageView(wellImage);
-        wellView.setFitHeight(150);
-        wellView.setFitWidth(150);
-        wellView.setY(115);
+
+        int COLUMNSW = 16;
+        int COUNTW = 3;
+        int OFFSET_XW = 10;
+        int OFFSET_YW = 10;
+        int WIDTHW = 150;
+        int HEIGHTW = 145;
+        wellView.setViewport(new Rectangle2D(OFFSET_XW, OFFSET_YW, WIDTHW, HEIGHTW));
+
         wellView.setX(620);
+        wellView.setY(150);
+
         root.getChildren().add(wellView);
-        wellView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                orders.well();
-            }
-        });
+
+
+//        wellView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent event) {
+//                // if ... rules should be written!
+//
+//                final Animation wellAnimation = new SpriteAnimation(
+//                        wellView,
+//                        Duration.millis(1000),COUNTW, COLUMNSW,
+//                        OFFSET_XW, OFFSET_YW,
+//                        WIDTHW, HEIGHTW
+//                );
+//                wellAnimation.setCycleCount(5);
+//                wellAnimation.setOnFinished(new EventHandler<ActionEvent>() {
+//                  @Override
+//                   public void handle(ActionEvent event) {
+//
+//                      orders.wellUpgrade();
+//
+//                        wellView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//////                            @Override
+//                            public void handle(MouseEvent event) {
+//////                                // add from warehouse
+//////                                Image flourIcon = new Image(Main.class.getResourceAsStream("EggPowder.png"));
+//////
+//////                                Rectangle rec = new Rectangle(400, 900, 25, 25);
+//////                                rec.setFill(new ImagePattern(flourIcon));
+//////
+//////                                root.getChildren().add(rec);
+//////
+//////
+//////                            }
+//      });
+//                   }
+//
+//                  }
+//               wellAnimation.play();
+////
+//
+//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1506,9 +1579,10 @@ class MainGame extends Application {
         int COLUMNS1 = 8;
         int COUNT1 = 3;
         int OFFSET_X1 = 10;
-        int OFFSET_Y1 = 10;
+        int OFFSET_Y1 = 9;
         int WIDTH1 = 131;
-        int HEIGHT1 = 100;
+        int HEIGHT1 = 106;
+
         eggPowderWSView.setViewport(new Rectangle2D(OFFSET_X1, OFFSET_Y1, WIDTH1, HEIGHT1));
 
         eggPowderWSView.setX(311);
@@ -1535,7 +1609,7 @@ class MainGame extends Application {
                         Image flour = new Image(Main.class.getResourceAsStream("EggPowder.png"));
                         ImageView flourView = new ImageView(flour);
                         flourView.setX(350);
-                        flourView.setY(360);
+                        flourView.setY(392);
 
                         root.getChildren().add(flourView);
                         flourView.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -1562,6 +1636,9 @@ class MainGame extends Application {
 
         // for animation of cookie workshop
 
+
+        // for adding workshop
+
         Image cookieWS = new Image(Main.class.getResourceAsStream("cakeW.png"));
         ImageView cookieWSview = new ImageView(cookieWS);
 
@@ -1573,15 +1650,19 @@ class MainGame extends Application {
         int HEIGHT2 = 140;
         cookieWSview.setViewport(new Rectangle2D(OFFSET_X2, OFFSET_Y2, WIDTH2, HEIGHT2));
 
-        cookieWSview.setX(1095);
-        cookieWSview.setY(475);
+        cookieWSview.setX(1098);
+        cookieWSview.setY(465);
 
         root.getChildren().add(cookieWSview);
 
 
         cookieWSview.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+
             @Override
             public void handle(MouseEvent event) {
+
+                // for working
                 final Animation cookieWSanimation = new SpriteAnimation(
                         cookieWSview,
                         Duration.millis(1000),COUNT2, COLUMNS2,
@@ -1630,14 +1711,14 @@ class MainGame extends Application {
         ImageView flouryCakeWSView = new ImageView(FlouryCakeWS);
 
         int COLUMNS3 = 8;
-        int COUNT3 = 4;
-        int OFFSET_X3 = 7;
+        int COUNT3 = 2;
+        int OFFSET_X3 = 0;
         int OFFSET_Y3 = 10;
-        int WIDTH3 = 128;
+        int WIDTH3 = 170;
         int HEIGHT3 = 152;
         flouryCakeWSView.setViewport(new Rectangle2D(OFFSET_X3, OFFSET_Y3, WIDTH3, HEIGHT3));
 
-        flouryCakeWSView.setX(1000);
+        flouryCakeWSView.setX(970);
         flouryCakeWSView.setY(220);
 
         root.getChildren().add(flouryCakeWSView);
@@ -1655,14 +1736,14 @@ class MainGame extends Application {
                         WIDTH3, HEIGHT3
 
                 );
-                FlouryCakeAnimation.setCycleCount(5);
+                FlouryCakeAnimation.setCycleCount(6);
                 FlouryCakeAnimation.setOnFinished(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
                         Image flouryCake = new Image(Main.class.getResourceAsStream("FlouryCake.png"));
                         ImageView flouryCakeView = new ImageView(flouryCake);
                         flouryCakeView.setX(1000);
-                        flouryCakeView.setY(360);
+                        flouryCakeView.setY(340);
 
                         root.getChildren().add(flouryCakeView);
                         flouryCakeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -1684,6 +1765,72 @@ class MainGame extends Application {
                 FlouryCakeAnimation.play();
             }
         });
+
+
+
+
+        // for animation of Spinnery workshop
+
+        Image SpinneryWS = new Image(Main.class.getResourceAsStream("spinneryWS.png"));
+        ImageView SpinneryWSView = new ImageView(SpinneryWS);
+
+        int COLUMNS4 = 8;
+        int COUNT4 = 2;
+        int OFFSET_X4 = 10;
+        int OFFSET_Y4 = 1;
+        int WIDTH4 = 130;
+        int HEIGHT4 = 100;
+        SpinneryWSView.setViewport(new Rectangle2D(OFFSET_X4, OFFSET_Y4, WIDTH4, HEIGHT4));
+
+        SpinneryWSView.setX(200);
+        SpinneryWSView.setY(670);
+
+        root.getChildren().add(SpinneryWSView);
+
+
+        SpinneryWSView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                // if ... rules should be written!
+
+                final Animation SpinneryAnimation = new SpriteAnimation(
+                        SpinneryWSView,
+                        Duration.millis(1000),COUNT4, COLUMNS4,
+                        OFFSET_X4, OFFSET_Y4,
+                        WIDTH4, HEIGHT4
+
+                );
+                SpinneryAnimation.setCycleCount(6);
+                SpinneryAnimation.setOnFinished(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        Image sewing = new Image(Main.class.getResourceAsStream("Sewing.png"));
+                        ImageView sewingView = new ImageView(sewing);
+                        sewingView.setX(200);
+                        sewingView.setY(760);
+
+                        root.getChildren().add(sewingView);
+                        sewingView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                            @Override
+                            public void handle(MouseEvent event) {
+                                // add from warehouse
+                                Image sewingIcon = new Image(Main.class.getResourceAsStream("Sewing.png"));
+
+                                Rectangle rec = new Rectangle(400, 900, 25, 25);
+                                rec.setFill(new ImagePattern(sewingIcon));
+
+                                root.getChildren().add(rec);
+                                root.getChildren().remove(sewingView);
+
+                            }
+                        });
+                    }
+                });
+                SpinneryAnimation.play();
+            }
+        });
+
+
 
 
 
