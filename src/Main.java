@@ -1872,7 +1872,7 @@ class MainGame extends Application {
                         Image fabric = new Image(Main.class.getResourceAsStream("Fabric.png"));
                         ImageView fabricView = new ImageView(fabric);
                         fabricView.setX(320);
-                        fabricView.setY(510);
+                        fabricView.setY(530);
 
                         root.getChildren().add(fabricView);
                         fabricView.setOnMouseClicked(new EventHandler<MouseEvent>() {
