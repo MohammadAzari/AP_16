@@ -703,6 +703,9 @@ class GameInfo{
     int initialMoney = 3500;
     int money;
     Map map = new Map(1300);
+    Chicken chicken = new Chicken(map, 0);
+    Cow cow = new Cow(map, 0);
+    Ostrich ostrich = new Ostrich(map, 0);
     Warehouse warehouse = Warehouse.getclass();
     Well well = Well.getclass();
     ArrayList<Pet> pets = new ArrayList<>();
@@ -1017,7 +1020,10 @@ class MainGame extends Application {
         scene1.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                int pNum = orders.plant((int)event.getX() , (int)event.getY());
+                int pNum = -1;
+                if (event.getX() > 350 && event.getY() > 300 && event.getX()<1000 && event.getY()<600){
+                    pNum = orders.plant((int)event.getX() , (int)event.getY());
+                }
                 //System.out.println(pNum);
 
                 /*Label emptyWell = new Label("Well is full");
@@ -1057,7 +1063,7 @@ class MainGame extends Application {
                 grassView.setFitHeight(70);*/
                 int e = 0;
 
-                if(event.getX() > 350 && event.getY() > 300 && event.getX()<1200 && event.getY()<600 && pNum == 0) {
+                if(pNum == 0) {
                     /*emptyWell.setText("");
                     emptyWell.setText("Well is full");*/
                     for (ImageView s : graasViewOne){
@@ -1177,39 +1183,30 @@ class MainGame extends Application {
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
 
-//        Image wellUpgrade = new Image(Main.class.getResourceAsStream("upgrade.png"));
-//        ImageView wellUpgradeView = new ImageView(wellUpgrade);
-//        wellUpgradeView.setFitHeight(50);
-//        wellUpgradeView.setFitWidth(120);
-//        wellUpgradeView.setX(750);
-//        wellUpgradeView.setY(190);
-//        root.getChildren().add(wellUpgradeView);
-//        wellUpgradeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent event) {
-//                orders.wellUpgrade();
-//            }
-//        });
+        Image wellUpgrade = new Image(Main.class.getResourceAsStream("upgrade.png"));
+        ImageView wellUpgradeView = new ImageView(wellUpgrade);
+        wellUpgradeView.setFitHeight(50);
+        wellUpgradeView.setFitWidth(120);
+        wellUpgradeView.setX(750);
+        wellUpgradeView.setY(190);
+        root.getChildren().add(wellUpgradeView);
+        wellUpgradeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                orders.wellUpgrade();
+            }
+        });
 
 
-       // Image wellImage = new Image(Main.class.getResourceAsStream("welll.png"));
-       // ImageView wellView = new ImageView(wellImage);
-       // wellView.setFitHeight(150);
-       // wellView.setFitWidth(150);
-       // wellView.setY(115);
-       // wellView.setX(620);
-       // root.getChildren().add(wellView);
-       // wellView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent event) {
-//                orders.well();
-//            }
-//        });
-
-
-        Image wellImage = new Image(Main.class.getResourceAsStream("wellA.png"));
-        ImageView wellView = new ImageView(wellImage);
-
+        //Image wellImage = new Image(Main.class.getResourceAsStream("welll.png"));
+        Image animationWell = new Image(Main.class.getResourceAsStream("WellAnimation.png"));
+        ImageView wellAnimationImage = new ImageView(animationWell);
+        //ImageView wellView = new ImageView(wellImage);
+//        wellView.setFitHeight(150);
+//        wellView.setFitWidth(150);
+//        wellView.setY(115);
+//        wellView.setX(620);
+        //root.getChildren().add(wellView);
 
         int COLUMNSW = 8;
         int COUNTW = 3;
@@ -1218,18 +1215,18 @@ class MainGame extends Application {
         int WIDTHW = 156;
         int HEIGHTW = 113;
 
-        wellView.setViewport(new Rectangle2D(OFFSET_XW, OFFSET_YW, WIDTHW, HEIGHTW));
+        wellAnimationImage.setViewport(new Rectangle2D(OFFSET_XW, OFFSET_YW, WIDTHW, HEIGHTW));
 
-        wellView.setX(620);
-        wellView.setY(145);
+        wellAnimationImage.setX(620);
+        wellAnimationImage.setY(130);
 
-        root.getChildren().add(wellView);
+        root.getChildren().add(wellAnimationImage);
 
-        wellView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        wellAnimationImage.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 final Animation wellAnimation = new SpriteAnimation(
-                        wellView,
+                        wellAnimationImage,
                         Duration.millis(1000),COUNTW, COLUMNSW,
                         OFFSET_XW, OFFSET_YW,
                         WIDTHW, HEIGHTW
@@ -1239,44 +1236,12 @@ class MainGame extends Application {
                 wellAnimation.setOnFinished(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
-                        orders.wellUpgrade();
+                        orders.well();
                     }
                 });
-                  wellAnimation.play();
+                wellAnimation.play();
             }
         });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1291,7 +1256,7 @@ class MainGame extends Application {
         chickenDescription.setFill(new ImagePattern(descImage));
         chickenDescription.relocate(40, 80);
         Label chickenLabel = new Label();
-        Chicken chicken = orders.buyChicken();
+        Chicken chicken = orders.getGameInfo().chicken;
         chickenLabel.setText(chicken.getInfo());
         chickenLabel.setLabelFor(chickenDescription);
         chickenLabel.relocate(48, 110);
@@ -1396,7 +1361,7 @@ class MainGame extends Application {
         cowDescription.setFill(new ImagePattern(descImage));
         cowDescription.relocate(120, 80);
         Label cowLabel = new Label();
-        Cow cow = orders.buyCow();
+        Cow cow = orders.getGameInfo().cow;
         //Chicken chicken = orders.buyChicken();
         cowLabel.setText(cow.getInfo());
         cowLabel.setLabelFor(cowDescription);
@@ -1475,7 +1440,7 @@ class MainGame extends Application {
         ostrichDescription.setFill(new ImagePattern(descImage));
         ostrichDescription.relocate(200, 80);
         Label ostrichLabel = new Label();
-        Ostrich ostrich = orders.buyOstrich();
+        Ostrich ostrich = orders.getGameInfo().ostrich;
         //Chicken chicken = orders.buyChicken();
         ostrichLabel.setText(ostrich.getInfo());
         ostrichLabel.setLabelFor(cowDescription);
@@ -1609,7 +1574,7 @@ class MainGame extends Application {
 
         eggPowderWSView.setViewport(new Rectangle2D(OFFSET_X1, OFFSET_Y1, WIDTH1, HEIGHT1));
 
-        eggPowderWSView.setX(350);
+        eggPowderWSView.setX(150);
         eggPowderWSView.setY(280);
 
         root.getChildren().add(eggPowderWSView);
@@ -1632,7 +1597,7 @@ class MainGame extends Application {
                     public void handle(ActionEvent event) {
                         Image flour = new Image(Main.class.getResourceAsStream("EggPowder.png"));
                         ImageView flourView = new ImageView(flour);
-                        flourView.setX(380);
+                        flourView.setX(270);
                         flourView.setY(360);
 
                         root.getChildren().add(flourView);
@@ -1674,7 +1639,7 @@ class MainGame extends Application {
         int HEIGHT2 = 140;
         cookieWSview.setViewport(new Rectangle2D(OFFSET_X2, OFFSET_Y2, WIDTH2, HEIGHT2));
 
-        cookieWSview.setX(1110);
+        cookieWSview.setX(1210);
         cookieWSview.setY(460);
 
         root.getChildren().add(cookieWSview);
@@ -1700,7 +1665,7 @@ class MainGame extends Application {
                     public void handle(ActionEvent event) {
                         Image cake = new Image(Main.class.getResourceAsStream("Cake.png"));
                         ImageView cakeView = new ImageView(cake);
-                        cakeView.setX(1050);
+                        cakeView.setX(1180);
                         cakeView.setY(500);
 
                         root.getChildren().add(cakeView);
@@ -1742,7 +1707,7 @@ class MainGame extends Application {
         int HEIGHT3 = 152;
         flouryCakeWSView.setViewport(new Rectangle2D(OFFSET_X3, OFFSET_Y3, WIDTH3, HEIGHT3));
 
-        flouryCakeWSView.setX(970);
+        flouryCakeWSView.setX(1100);
         flouryCakeWSView.setY(220);
 
         root.getChildren().add(flouryCakeWSView);
@@ -1766,7 +1731,7 @@ class MainGame extends Application {
                     public void handle(ActionEvent event) {
                         Image flouryCake = new Image(Main.class.getResourceAsStream("FlouryCake.png"));
                         ImageView flouryCakeView = new ImageView(flouryCake);
-                        flouryCakeView.setX(1000);
+                        flouryCakeView.setX(1100);
                         flouryCakeView.setY(340);
 
                         root.getChildren().add(flouryCakeView);
@@ -1806,8 +1771,8 @@ class MainGame extends Application {
         int HEIGHT4 = 100;
         SpinView.setViewport(new Rectangle2D(OFFSET_X4, OFFSET_Y4, WIDTH4, HEIGHT4));
 
-        SpinView.setX(200);
-        SpinView.setY(670);
+        SpinView.setX(130);
+        SpinView.setY(630);
 
         root.getChildren().add(SpinView);
 
@@ -1831,7 +1796,7 @@ class MainGame extends Application {
                         Image sewing = new Image(Main.class.getResourceAsStream("Sewing.png"));
                         ImageView sewingView = new ImageView(sewing);
                         sewingView.setX(220);
-                        sewingView.setY(760);
+                        sewingView.setY(705);
 
                         root.getChildren().add(sewingView);
                         sewingView.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -1871,7 +1836,7 @@ class MainGame extends Application {
         int HEIGHT5 = 120;
         SewingFactoryView.setViewport(new Rectangle2D(OFFSET_X5, OFFSET_Y5, WIDTH5, HEIGHT5));
 
-        SewingFactoryView.setX(270);
+        SewingFactoryView.setX(150);
         SewingFactoryView.setY(420);
 
         root.getChildren().add(SewingFactoryView);
@@ -1893,17 +1858,17 @@ class MainGame extends Application {
                 SewingAnimation.setOnFinished(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
-                        Image fabric = new Image(Main.class.getResourceAsStream("Fabric.png"));
+                        Image fabric = new Image(Main.class.getResourceAsStream("CarnivalDress.png"));
                         ImageView fabricView = new ImageView(fabric);
-                        fabricView.setX(320);
-                        fabricView.setY(530);
+                        fabricView.setX(260);
+                        fabricView.setY(550);
 
                         root.getChildren().add(fabricView);
                         fabricView.setOnMouseClicked(new EventHandler<MouseEvent>() {
                             @Override
                             public void handle(MouseEvent event) {
                                 // add from warehouse
-                                Image sewingIcon = new Image(Main.class.getResourceAsStream("Fabric.png"));
+                                Image sewingIcon = new Image(Main.class.getResourceAsStream("CarnivalDress.png"));
 
                                 Rectangle rec = new Rectangle(400, 900, 25, 25);
                                 rec.setFill(new ImagePattern(sewingIcon));
@@ -1935,7 +1900,7 @@ class MainGame extends Application {
         int HEIGHT6 = 105;
         weavingWSview.setViewport(new Rectangle2D(OFFSET_X6, OFFSET_Y6, WIDTH6, HEIGHT6));
 
-        weavingWSview.setX(1098);
+        weavingWSview.setX(1150);
         weavingWSview.setY(640);
 
         root.getChildren().add(weavingWSview);
@@ -1959,23 +1924,23 @@ class MainGame extends Application {
                 weavingWSAnimation.setOnFinished(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
-                        Image cake = new Image(Main.class.getResourceAsStream("Cake.png"));
-                        ImageView cakeView = new ImageView(cake);
-                        cakeView.setX(1050);
-                        cakeView.setY(700);
+                        Image fabric = new Image(Main.class.getResourceAsStream("Fabric.png"));
+                        ImageView fabricView = new ImageView(fabric);
+                        fabricView.setX(1100);
+                        fabricView.setY(680);
 
-                        root.getChildren().add(cakeView);
-
-                        cakeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        root.getChildren().add(fabricView);
+                        fabricView.setOnMouseClicked(new EventHandler<MouseEvent>() {
                             @Override
                             public void handle(MouseEvent event) {
-                                Image cakeIcon = new Image(Main.class.getResourceAsStream("Cake.png"));
+                                // add from warehouse
+                                Image sewingIcon = new Image(Main.class.getResourceAsStream("Fabric.png"));
 
                                 Rectangle rec = new Rectangle(400, 900, 25, 25);
-                                rec.setFill(new ImagePattern(cakeIcon));
+                                rec.setFill(new ImagePattern(sewingIcon));
 
                                 root.getChildren().add(rec);
-                                root.getChildren().remove(cakeView);
+                                root.getChildren().remove(fabricView);
 
                             }
                         });
