@@ -59,9 +59,12 @@ class Well{
     }
 
     public void upgrade(){
-        level++;
-        capacityUnit += 3;
-        capacity = capacityUnit;
+        if(level < 4) {
+            level++;
+            capacityUnit += 3;
+            capacity = capacityUnit;
+        }
+        else System.out.println("There's no upgrade more!");
     }
 
     public int getLevel() {
@@ -1187,24 +1190,16 @@ class MainGame extends Application {
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
 
-        Image wellUpgrade = new Image(Main.class.getResourceAsStream("upgrade.png"));
-        ImageView wellUpgradeView = new ImageView(wellUpgrade);
-        wellUpgradeView.setFitHeight(50);
-        wellUpgradeView.setFitWidth(120);
-        wellUpgradeView.setX(750);
-        wellUpgradeView.setY(190);
-        root.getChildren().add(wellUpgradeView);
-        wellUpgradeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                orders.wellUpgrade();
-            }
-        });
-
 
         //Image wellImage = new Image(Main.class.getResourceAsStream("welll.png"));
         Image animationWell = new Image(Main.class.getResourceAsStream("WellAnimation.png"));
         ImageView wellAnimationImage = new ImageView(animationWell);
+        Image wellTwo = new Image(Main.class.getResourceAsStream("well2.png"));
+        ImageView wellTwoView = new ImageView(wellTwo);
+        Image wellThree = new Image(Main.class.getResourceAsStream("well3.png"));
+        ImageView wellThreeView = new ImageView(wellThree);
+        Image wellFour = new Image(Main.class.getResourceAsStream("well4.png"));
+        ImageView wellFourView = new ImageView(wellFour);
         //ImageView wellView = new ImageView(wellImage);
 //        wellView.setFitHeight(150);
 //        wellView.setFitWidth(150);
@@ -1220,11 +1215,21 @@ class MainGame extends Application {
         int HEIGHTW = 113;
 
         wellAnimationImage.setViewport(new Rectangle2D(OFFSET_XW, OFFSET_YW, WIDTHW, HEIGHTW));
-
         wellAnimationImage.setX(620);
         wellAnimationImage.setY(130);
 
-        root.getChildren().add(wellAnimationImage);
+        wellTwoView.setViewport(new Rectangle2D(OFFSET_XW, OFFSET_YW, WIDTHW, 135));
+        wellTwoView.setX(620);
+        wellTwoView.setY(130);
+
+        wellThreeView.setViewport(new Rectangle2D(OFFSET_XW, OFFSET_YW, WIDTHW, 135));
+        wellThreeView.setX(620);
+        wellThreeView.setY(130);
+
+        wellFourView.setViewport(new Rectangle2D(OFFSET_XW, OFFSET_YW, WIDTHW, 120));
+        wellFourView.setX(620);
+        wellFourView.setY(120);
+
 
         wellAnimationImage.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -1244,6 +1249,103 @@ class MainGame extends Application {
                     }
                 });
                 wellAnimation.play();
+            }
+        });
+
+        wellTwoView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                final Animation wellAnimation = new SpriteAnimation(
+                        wellTwoView,
+                        Duration.millis(1000),COUNTW, COLUMNSW,
+                        OFFSET_XW, OFFSET_YW,
+                        WIDTHW, 135
+                );
+
+                wellAnimation.setCycleCount(5);
+                wellAnimation.setOnFinished(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        orders.well();
+                    }
+                });
+                wellAnimation.play();
+            }
+        });
+
+        wellThreeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                final Animation wellAnimation = new SpriteAnimation(
+                        wellThreeView,
+                        Duration.millis(1000),COUNTW, COLUMNSW,
+                        OFFSET_XW, OFFSET_YW,
+                        WIDTHW, 135
+                );
+
+                wellAnimation.setCycleCount(5);
+                wellAnimation.setOnFinished(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        orders.well();
+                    }
+                });
+                wellAnimation.play();
+            }
+        });
+
+        wellFourView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                final Animation wellAnimation = new SpriteAnimation(
+                        wellFourView,
+                        Duration.millis(1000),COUNTW, COLUMNSW,
+                        OFFSET_XW, OFFSET_YW,
+                        WIDTHW, 120
+                );
+
+                wellAnimation.setCycleCount(5);
+                wellAnimation.setOnFinished(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        orders.well();
+                    }
+                });
+                wellAnimation.play();
+            }
+        });
+
+        root.getChildren().add(wellAnimationImage);
+
+        Image wellUpgrade = new Image(Main.class.getResourceAsStream("upgrade.png"));
+        ImageView wellUpgradeView = new ImageView(wellUpgrade);
+        wellUpgradeView.setFitHeight(50);
+        wellUpgradeView.setFitWidth(120);
+        wellUpgradeView.setX(750);
+        wellUpgradeView.setY(190);
+        root.getChildren().add(wellUpgradeView);
+        wellUpgradeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (orders.getGameInfo().well.getLevel() >= 4){
+                    orders.wellUpgrade();
+                }
+
+                else if (orders.getGameInfo().well.getLevel() == 1){
+                    orders.wellUpgrade();
+                    root.getChildren().remove(wellAnimationImage);
+                    root.getChildren().add(wellTwoView);
+                }
+                else if(orders.getGameInfo().well.getLevel() == 2){
+                    orders.wellUpgrade();
+                    root.getChildren().remove(wellTwoView);
+                    root.getChildren().add(wellThreeView);
+                }
+                else if (orders.getGameInfo().well.getLevel() == 3){
+                    orders.wellUpgrade();
+                    root.getChildren().remove(wellThreeView);
+                    root.getChildren().add(wellFourView);
+                }
             }
         });
 
