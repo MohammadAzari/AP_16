@@ -1200,35 +1200,29 @@ class MainGame extends Application {
         ImageView wellThreeView = new ImageView(wellThree);
         Image wellFour = new Image(Main.class.getResourceAsStream("well4.png"));
         ImageView wellFourView = new ImageView(wellFour);
-        //ImageView wellView = new ImageView(wellImage);
-//        wellView.setFitHeight(150);
-//        wellView.setFitWidth(150);
-//        wellView.setY(115);
-//        wellView.setX(620);
-        //root.getChildren().add(wellView);
 
-        int COLUMNSW = 8;
-        int COUNTW = 3;
-        int OFFSET_XW = 2;
-        int OFFSET_YW = 10;
-        int WIDTHW = 156;
-        int HEIGHTW = 113;
+        int COLUMNSW = 4;
+        int COUNTW = 16;
+        int OFFSET_XW = 0;
+        int OFFSET_YW = 0;
+        int WIDTHW = 150;
+        int HEIGHTW = 135;
 
         wellAnimationImage.setViewport(new Rectangle2D(OFFSET_XW, OFFSET_YW, WIDTHW, HEIGHTW));
         wellAnimationImage.setX(620);
         wellAnimationImage.setY(130);
 
-        wellTwoView.setViewport(new Rectangle2D(OFFSET_XW, OFFSET_YW, WIDTHW, 135));
+        wellTwoView.setViewport(new Rectangle2D(OFFSET_XW, OFFSET_YW, WIDTHW, 145));
         wellTwoView.setX(620);
         wellTwoView.setY(130);
 
-        wellThreeView.setViewport(new Rectangle2D(OFFSET_XW, OFFSET_YW, WIDTHW, 135));
+        wellThreeView.setViewport(new Rectangle2D(OFFSET_XW, OFFSET_YW, WIDTHW, 145));
         wellThreeView.setX(620);
         wellThreeView.setY(130);
 
-        wellFourView.setViewport(new Rectangle2D(OFFSET_XW, OFFSET_YW, WIDTHW, 120));
+        wellFourView.setViewport(new Rectangle2D(OFFSET_XW, OFFSET_YW, WIDTHW, 130));
         wellFourView.setX(620);
-        wellFourView.setY(120);
+        wellFourView.setY(130);
 
 
         wellAnimationImage.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -1249,6 +1243,7 @@ class MainGame extends Application {
                     }
                 });
                 wellAnimation.play();
+
             }
         });
 
@@ -1259,7 +1254,7 @@ class MainGame extends Application {
                         wellTwoView,
                         Duration.millis(1000),COUNTW, COLUMNSW,
                         OFFSET_XW, OFFSET_YW,
-                        WIDTHW, 135
+                        148, 150
                 );
 
                 wellAnimation.setCycleCount(5);
@@ -1280,7 +1275,7 @@ class MainGame extends Application {
                         wellThreeView,
                         Duration.millis(1000),COUNTW, COLUMNSW,
                         OFFSET_XW, OFFSET_YW,
-                        WIDTHW, 135
+                        144, 159
                 );
 
                 wellAnimation.setCycleCount(5);
@@ -1301,7 +1296,7 @@ class MainGame extends Application {
                         wellFourView,
                         Duration.millis(1000),COUNTW, COLUMNSW,
                         OFFSET_XW, OFFSET_YW,
-                        WIDTHW, 120
+                        149, 135
                 );
 
                 wellAnimation.setCycleCount(5);
@@ -1374,8 +1369,6 @@ class MainGame extends Application {
             @Override
             public void handle(MouseEvent event) {
                 root.getChildren().addAll(chickenDescription, chickenLabel);
-                /*circle.setFill(Color.BLACK);
-                circle.setOpacity(2);*/
             }
         });
 
@@ -1397,7 +1390,6 @@ class MainGame extends Application {
             @Override
             public void handle(MouseEvent event) {
                 root.getChildren().removeAll(chickenDescription, chickenLabel);
-                //circle.setFill(new ImagePattern(chickenImage));
             }
         });
 
