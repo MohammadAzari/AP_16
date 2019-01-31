@@ -2020,11 +2020,43 @@ class MainGame extends Application {
                             circle1.setFill(Color.GREEN);
                             orders.turn(1);
                         }
-                        else if (timePassed % 2 != 0) circle1.setFill(Color.RED);
+                        else if (timePassed % 3 != 0) circle1.setFill(Color.RED);
                     }
                 }));
         modeShow.setCycleCount(Animation.INDEFINITE);
         modeShow.play();
+
+        Image pauseImage = new Image(Main.class.getResourceAsStream("pause.png"));
+        ImageView pauseView = new ImageView(pauseImage);
+        pauseView.relocate(1210, 5);
+        pauseView.setFitWidth(40);
+        pauseView.setFitHeight(40);
+        root.getChildren().add(pauseView);
+
+        Image pauseBack = new Image(Main.class.getResourceAsStream("pausebg.png"));
+        ImageView pauseBgView = new ImageView(pauseBack);
+        pauseBgView.relocate(450, 150);
+        pauseBgView.setFitHeight(500);
+        pauseBgView.setFitWidth(500);
+
+
+
+        pauseView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().add(pauseBgView);
+                /*AnchorPane pauseMenu = new AnchorPane();
+                Scene pauseScene = new Scene(pauseMenu, 400, 500);
+                Stage pauseStage = new Stage();
+                pauseStage.setScene(pauseScene);*/
+                modeShow.pause();
+                timeShow.pause();
+                audioClip.stop();
+
+                /*pauseStage.toFront();
+                pauseStage.show();*/
+            }
+        });
 
         Button button = new Button();
         /*Rectangle rt = new Rectangle(90, 30);
@@ -2042,7 +2074,7 @@ class MainGame extends Application {
 
                 Label secondLabel = new Label("There will be a chatroom here soon!");
 
-                StackPane secondaryLayout = new StackPane();
+                BorderPane secondaryLayout = new BorderPane();
 
                 Image chatBack = new Image(Main.class.getResourceAsStream("table.png"));
 
