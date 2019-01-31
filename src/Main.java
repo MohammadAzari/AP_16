@@ -1,6 +1,7 @@
 import javafx.animation.Interpolator;
 import javafx.animation.Transition;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.ImageCursor;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import javafx.animation.*;
@@ -2045,12 +2046,18 @@ class MainGame extends Application {
         pauseHeaderView.setFitWidth(200);
         pauseHeaderView.setFitHeight(90);
 
+        Image pauseTable = new Image(Main.class.getResourceAsStream("pausetable.png"));
+        ImageView pauseTableView = new ImageView(pauseTable);
+        pauseTableView.relocate(500, 270);
+        pauseTableView.setFitHeight(250);
+        pauseTableView.setFitWidth(380);
+
 
 
         pauseView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                root.getChildren().addAll(pauseBgView, pauseHeaderView);
+                root.getChildren().addAll(pauseBgView, pauseHeaderView, pauseTableView);
                 modeShow.pause();
                 timeShow.pause();
                 audioClip.stop();
