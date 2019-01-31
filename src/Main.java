@@ -1319,8 +1319,8 @@ class MainGame extends Application {
 
 
 
-                   if(chicken.makeProduct()){
-                      //Image
+                    if(chicken.makeProduct()){
+                        //Image
                     }
 
 
@@ -1605,7 +1605,7 @@ class MainGame extends Application {
                             @Override
                             public void handle(MouseEvent event) {
                                 // add from warehouse
-                               Image flourIcon = new Image(Main.class.getResourceAsStream("EggPowder.png"));
+                                Image flourIcon = new Image(Main.class.getResourceAsStream("EggPowder.png"));
 
                                 Rectangle rec = new Rectangle(400, 900, 25, 25);
                                 rec.setFill(new ImagePattern(flourIcon));
@@ -2039,22 +2039,21 @@ class MainGame extends Application {
         pauseBgView.setFitHeight(500);
         pauseBgView.setFitWidth(500);
 
+        Image pauseHeader = new Image(Main.class.getResourceAsStream("pauseheader.png"));
+        ImageView pauseHeaderView = new ImageView(pauseHeader);
+        pauseHeaderView.relocate(590, 170);
+        pauseHeaderView.setFitWidth(200);
+        pauseHeaderView.setFitHeight(90);
+
 
 
         pauseView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                root.getChildren().add(pauseBgView);
-                /*AnchorPane pauseMenu = new AnchorPane();
-                Scene pauseScene = new Scene(pauseMenu, 400, 500);
-                Stage pauseStage = new Stage();
-                pauseStage.setScene(pauseScene);*/
+                root.getChildren().addAll(pauseBgView, pauseHeaderView);
                 modeShow.pause();
                 timeShow.pause();
                 audioClip.stop();
-
-                /*pauseStage.toFront();
-                pauseStage.show();*/
             }
         });
 
@@ -2115,8 +2114,8 @@ class MainGame extends Application {
 
         // for animation
 
-       // Image image1 = new Image(new FileInputStream("/Users/macbookpro/Desktop/Textures/Animals/Africa/Cat/left.png"));
-       // ImageView imageView = new ImageView(chickenImage);
+        // Image image1 = new Image(new FileInputStream("/Users/macbookpro/Desktop/Textures/Animals/Africa/Cat/left.png"));
+        // ImageView imageView = new ImageView(chickenImage);
 //        imageView.setX(20);
 //        imageView.setY(20);
 //
