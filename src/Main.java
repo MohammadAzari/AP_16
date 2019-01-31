@@ -2063,9 +2063,21 @@ class MainGame extends Application {
 
         Image pauseResumeButton = new Image(Main.class.getResourceAsStream("play.png"));
         ImageView pauseResumeView = new ImageView(pauseResumeButton);
-        pauseResumeView.relocate(640, 520);
+        pauseResumeView.relocate(600, 530);
         pauseResumeView.setFitHeight(60);
         pauseResumeView.setFitWidth(60);
+
+        Image pauseExitImage = new Image(Main.class.getResourceAsStream("close.png"));
+        ImageView pauseExView = new ImageView(pauseExitImage);
+        pauseExView.relocate(670, 530);
+        pauseExView.setFitWidth(60);
+        pauseExView.setFitHeight(60);
+
+        Image pauseMenuImage = new Image(Main.class.getResourceAsStream("menu.png"));
+        ImageView pauseMenuView = new ImageView(pauseMenuImage);
+        pauseMenuView.relocate(740, 530);
+        pauseMenuView.setFitHeight(60);
+        pauseMenuView.setFitWidth(60);
 
 
 
@@ -2075,7 +2087,7 @@ class MainGame extends Application {
                 orders.grassChecker = -1;
                 System.out.println(orders.grassChecker);
                 root.getChildren().addAll(pauseBgView, pauseHeaderView, pauseTableView,
-                        pauseTextView, pauseResumeView);
+                        pauseTextView, pauseResumeView, pauseExView, pauseMenuView);
                 modeShow.pause();
                 timeShow.pause();
                 audioClip.stop();
@@ -2086,11 +2098,29 @@ class MainGame extends Application {
             @Override
             public void handle(MouseEvent event) {
                 root.getChildren().removeAll(pauseBgView, pauseHeaderView, pauseTableView,
-                        pauseTextView, pauseResumeView);
+                        pauseTextView, pauseResumeView, pauseExView, pauseMenuView);
                 modeShow.play();
                 timeShow.play();
                 audioClip.play();
                 orders.grassChecker = 0;
+            }
+        });
+
+        pauseExView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                primaryStage.close();
+            }
+        });
+
+        pauseMenuView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                try {
+                    new Main().start(primaryStage);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
