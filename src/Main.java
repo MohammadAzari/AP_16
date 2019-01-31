@@ -723,6 +723,7 @@ class Orders{
     private int chickenLabel = 1;
     private  int cowLabel = 1;
     private  int ostrichLabel = 1;
+    int grassChecker = 0;
     public GameInfo getGameInfo() {
         return gameInfo;
     }
@@ -1022,8 +1023,10 @@ class MainGame extends Application {
             @Override
             public void handle(MouseEvent event) {
                 int pNum = -1;
-                if (event.getX() > 350 && event.getY() > 300 && event.getX()<1000 && event.getY()<600){
+                if (event.getX() > 350 && event.getY() > 300 && event.getX()<1000 && event.getY()<600 && orders.grassChecker == 0){
                     pNum = orders.plant((int)event.getX() , (int)event.getY());
+                    orders.grassChecker = 0;
+                    System.out.println(orders.grassChecker);
                 }
                 //System.out.println(pNum);
 
@@ -1064,7 +1067,7 @@ class MainGame extends Application {
                 grassView.setFitHeight(70);*/
                 int e = 0;
 
-                if(pNum == 0) {
+                if(pNum == 0 && orders.grassChecker == 0) {
                     /*emptyWell.setText("");
                     emptyWell.setText("Well is full");*/
                     for (ImageView s : graasViewOne){
@@ -1320,8 +1323,8 @@ class MainGame extends Application {
 
 
 
-                    if(chicken.makeProduct()){
-                        //Image
+                   if(chicken.makeProduct()){
+                      //Image
                     }
 
 
@@ -1606,7 +1609,7 @@ class MainGame extends Application {
                             @Override
                             public void handle(MouseEvent event) {
                                 // add from warehouse
-                                Image flourIcon = new Image(Main.class.getResourceAsStream("EggPowder.png"));
+                               Image flourIcon = new Image(Main.class.getResourceAsStream("EggPowder.png"));
 
                                 Rectangle rec = new Rectangle(400, 900, 25, 25);
                                 rec.setFill(new ImagePattern(flourIcon));
@@ -2052,15 +2055,42 @@ class MainGame extends Application {
         pauseTableView.setFitHeight(250);
         pauseTableView.setFitWidth(380);
 
+        Image pauseText = new Image(Main.class.getResourceAsStream("pauseText.png"));
+        ImageView pauseTextView = new ImageView(pauseText);
+        pauseTextView.relocate(550, 310);
+        pauseTextView.setFitWidth(280);
+        pauseTextView.setFitHeight(150);
+
+        Image pauseResumeButton = new Image(Main.class.getResourceAsStream("play.png"));
+        ImageView pauseResumeView = new ImageView(pauseResumeButton);
+        pauseResumeView.relocate(640, 520);
+        pauseResumeView.setFitHeight(60);
+        pauseResumeView.setFitWidth(60);
+
 
 
         pauseView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                root.getChildren().addAll(pauseBgView, pauseHeaderView, pauseTableView);
+                orders.grassChecker = -1;
+                System.out.println(orders.grassChecker);
+                root.getChildren().addAll(pauseBgView, pauseHeaderView, pauseTableView,
+                        pauseTextView, pauseResumeView);
                 modeShow.pause();
                 timeShow.pause();
                 audioClip.stop();
+            }
+        });
+
+        pauseResumeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().removeAll(pauseBgView, pauseHeaderView, pauseTableView,
+                        pauseTextView, pauseResumeView);
+                modeShow.play();
+                timeShow.play();
+                audioClip.play();
+                orders.grassChecker = 0;
             }
         });
 
@@ -2121,8 +2151,8 @@ class MainGame extends Application {
 
         // for animation
 
-        // Image image1 = new Image(new FileInputStream("/Users/macbookpro/Desktop/Textures/Animals/Africa/Cat/left.png"));
-        // ImageView imageView = new ImageView(chickenImage);
+       // Image image1 = new Image(new FileInputStream("/Users/macbookpro/Desktop/Textures/Animals/Africa/Cat/left.png"));
+       // ImageView imageView = new ImageView(chickenImage);
 //        imageView.setX(20);
 //        imageView.setY(20);
 //
