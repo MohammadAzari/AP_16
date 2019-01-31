@@ -484,7 +484,7 @@ class Chicken extends Pet implements Upgradable, Printable{
     public Chicken(Map map, int label) {
         super(map);
         namedLabel = label;
-        feedCapacityUnit = 3;
+        feedCapacityUnit = 5;
         priceUnit = 100;
         price = priceUnit;
         type = TypeOfPet.Chicken;
@@ -520,10 +520,13 @@ class Chicken extends Pet implements Upgradable, Printable{
 
     @Override
     public void upgrade(){
-        level++;
-        feedCapacityUnit--;
-        price += 50;
-        System.out.println("Chicken is upgraded to level " + level);
+        if (level >= 4) System.out.println("There's no more upgrade for guinea fowl!");
+        else {
+            level++;
+            feedCapacityUnit--;
+            price += 100;
+            System.out.println("Chicken is upgraded to level " + level);
+        }
     }
 }
 
@@ -535,7 +538,7 @@ class Cow extends Pet implements Upgradable , Printable{
     public Cow(Map map, int label) {
         super(map);
         namedLabel = label;
-        feedCapacityUnit = 5;
+        feedCapacityUnit = 10;
         priceUnit = 200;
         price = priceUnit;
         type = TypeOfPet.Cow;
@@ -574,10 +577,13 @@ class Cow extends Pet implements Upgradable , Printable{
 
     @Override
     public void upgrade(){
-        level++;
-        feedCapacityUnit--;
-        price += 50;
-        System.out.println("Cow is upgraded to level " + level);
+        if (level >= 4) System.out.println("There's no more upgrade for cow!");
+        else {
+            level++;
+            feedCapacityUnit -= 2;
+            price += 200;
+            System.out.println("Cow is upgraded to level " + level);
+        }
     }
 
 
@@ -594,7 +600,7 @@ class Ostrich extends Pet implements Upgradable , Printable{
     public Ostrich(Map map, int label) {
         super(map);
         namedLabel = label;
-        feedCapacityUnit = 4;
+        feedCapacityUnit = 8;
         priceUnit = 300;
         price = priceUnit;
         type = TypeOfPet.Ostrich;
@@ -631,10 +637,13 @@ class Ostrich extends Pet implements Upgradable , Printable{
 
     @Override
     public void upgrade(){
-        level++;
-        feedCapacityUnit--;
-        price += 50;
-        System.out.println("Ostrich is upgraded to level " + level);
+        if (level >= 4) System.out.println("There's no more upgrade for ostrich!");
+        else {
+            level++;
+            feedCapacityUnit -= 2;
+            price += 300;
+            System.out.println("Ostrich is upgraded to level " + level);
+        }
     }
 
 
@@ -1312,8 +1321,9 @@ class MainGame extends Application {
 
         root.getChildren().add(wellAnimationImage);
 
-        Image wellUpgrade = new Image(Main.class.getResourceAsStream("upgrade.png"));
-        ImageView wellUpgradeView = new ImageView(wellUpgrade);
+        Image upgrade = new Image(Main.class.getResourceAsStream("upgrade.png"));
+
+        ImageView wellUpgradeView = new ImageView(upgrade);
         wellUpgradeView.setFitHeight(50);
         wellUpgradeView.setFitWidth(120);
         wellUpgradeView.setX(750);
@@ -1350,7 +1360,11 @@ class MainGame extends Application {
         Circle circle = new Circle(40,40,40);
         Image chickenImage = new Image(Main.class.getResourceAsStream("guinea_fowl.png"));
         circle.setFill(new ImagePattern(chickenImage));
-        root.getChildren().add(circle);
+
+        Rectangle chickenUpgrade = new Rectangle(80, 30);
+        chickenUpgrade.setFill(new ImagePattern(upgrade));
+        chickenUpgrade.relocate(0,80);
+        root.getChildren().addAll(circle, chickenUpgrade);
 
         Rectangle chickenDescription = new Rectangle(128, 90);
         Image descImage = new Image(Main.class.getResourceAsStream("4.png"));
@@ -1358,10 +1372,28 @@ class MainGame extends Application {
         chickenDescription.relocate(40, 80);
         Label chickenLabel = new Label();
         Chicken chicken = orders.getGameInfo().chicken;
-        chickenLabel.setText(chicken.getInfo());
+
+        final Timeline chickenDescTimeline = new Timeline(new KeyFrame(Duration.seconds(1),
+                new EventHandler<ActionEvent>()
+                {
+                    @Override
+                    public void handle(ActionEvent event)
+                    {
+                        chickenLabel.setText(chicken.getInfo());
+                    }
+                }));
+        chickenDescTimeline.setCycleCount(Animation.INDEFINITE);
+        chickenDescTimeline.play();
         chickenLabel.setLabelFor(chickenDescription);
         chickenLabel.relocate(48, 110);
         chickenLabel.setTextFill(Color.BROWN);
+
+        chickenUpgrade.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                orders.getGameInfo().chicken.upgrade();
+            }
+        });
 
 
 
@@ -1417,8 +1449,8 @@ class MainGame extends Application {
 
 
 
-                   if(chicken.makeProduct()){
-                      //Image
+                    if(chicken.makeProduct()){
+                        //Image
                     }
 
 
@@ -1452,19 +1484,38 @@ class MainGame extends Application {
         Circle circle4 = new Circle(120,40,40);
         Image cowImage = new Image(Main.class.getResourceAsStream("buffalo.png"));
         circle4.setFill(new ImagePattern(cowImage));
-        root.getChildren().add(circle4);
+        Rectangle cowUpgrade = new Rectangle(80, 30);
+        cowUpgrade.setFill(new ImagePattern(upgrade));
+        cowUpgrade.relocate(80,80);
+        root.getChildren().addAll(circle4, cowUpgrade);
 
         Rectangle cowDescription = new Rectangle(120, 90);
-        //Image descImage = new Image(Main.class.getResourceAsStream("4.png"));
         cowDescription.setFill(new ImagePattern(descImage));
         cowDescription.relocate(120, 80);
         Label cowLabel = new Label();
         Cow cow = orders.getGameInfo().cow;
-        //Chicken chicken = orders.buyChicken();
-        cowLabel.setText(cow.getInfo());
+
+        final Timeline buffaloDescTimeline = new Timeline(new KeyFrame(Duration.seconds(1),
+                new EventHandler<ActionEvent>()
+                {
+                    @Override
+                    public void handle(ActionEvent event)
+                    {
+                        cowLabel.setText(cow.getInfo());
+                    }
+                }));
+        buffaloDescTimeline.setCycleCount(Animation.INDEFINITE);
+        buffaloDescTimeline.play();
         cowLabel.setLabelFor(cowDescription);
         cowLabel.relocate(127, 110);
         cowLabel.setTextFill(Color.BROWN);
+
+        cowUpgrade.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                orders.getGameInfo().cow.upgrade();
+            }
+        });
 
 
 
@@ -1531,7 +1582,18 @@ class MainGame extends Application {
         Circle circle6 = new Circle(200,40,40);
         Image ostrichImage = new Image(Main.class.getResourceAsStream("ostrich.png"));
         circle6.setFill(new ImagePattern(ostrichImage));
-        root.getChildren().add(circle6);
+        Rectangle ostrichUpgrade = new Rectangle(80, 30);
+        ostrichUpgrade.setFill(new ImagePattern(upgrade));
+        ostrichUpgrade.relocate(160,80);
+        root.getChildren().addAll(circle6);
+        root.getChildren().addAll(ostrichUpgrade);
+
+        ostrichUpgrade.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                orders.getGameInfo().ostrich.upgrade();
+            }
+        });
 
         Rectangle ostrichDescription = new Rectangle(120, 90);
         //Image descImage = new Image(Main.class.getResourceAsStream("4.png"));
@@ -1539,8 +1601,19 @@ class MainGame extends Application {
         ostrichDescription.relocate(200, 80);
         Label ostrichLabel = new Label();
         Ostrich ostrich = orders.getGameInfo().ostrich;
-        //Chicken chicken = orders.buyChicken();
-        ostrichLabel.setText(ostrich.getInfo());
+
+        final Timeline ostrichDescTimeline = new Timeline(new KeyFrame(Duration.seconds(1),
+                new EventHandler<ActionEvent>()
+                {
+                    @Override
+                    public void handle(ActionEvent event)
+                    {
+                        ostrichLabel.setText(ostrich.getInfo());
+                    }
+                }));
+        ostrichDescTimeline.setCycleCount(Animation.INDEFINITE);
+        ostrichDescTimeline.play();
+
         ostrichLabel.setLabelFor(cowDescription);
         ostrichLabel.relocate(205, 110);
         ostrichLabel.setTextFill(Color.BROWN);
@@ -1703,7 +1776,7 @@ class MainGame extends Application {
                             @Override
                             public void handle(MouseEvent event) {
                                 // add from warehouse
-                               Image flourIcon = new Image(Main.class.getResourceAsStream("EggPowder.png"));
+                                Image flourIcon = new Image(Main.class.getResourceAsStream("EggPowder.png"));
 
                                 Rectangle rec = new Rectangle(400, 900, 25, 25);
                                 rec.setFill(new ImagePattern(flourIcon));
@@ -2275,8 +2348,8 @@ class MainGame extends Application {
 
         // for animation
 
-       // Image image1 = new Image(new FileInputStream("/Users/macbookpro/Desktop/Textures/Animals/Africa/Cat/left.png"));
-       // ImageView imageView = new ImageView(chickenImage);
+        // Image image1 = new Image(new FileInputStream("/Users/macbookpro/Desktop/Textures/Animals/Africa/Cat/left.png"));
+        // ImageView imageView = new ImageView(chickenImage);
 //        imageView.setX(20);
 //        imageView.setY(20);
 //
