@@ -2128,6 +2128,9 @@ class MainGame extends Application {
             public void handle(MouseEvent event) {
 
                 // for working
+                AudioClip audioClip1 = new AudioClip(this.getClass().getResource("fabricf.mp3").toString());
+                audioClip1.setCycleCount(3);
+                audioClip1.play();
                 final Animation weavingWSAnimation = new SpriteAnimation(
                         weavingWSview,
                         Duration.millis(1000),COUNT6, COLUMNS6,
