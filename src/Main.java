@@ -1185,7 +1185,6 @@ class MainGame extends Application {
         }
 
 
-
         Image mapImage = new Image(Main.class.getResourceAsStream("back.png"));
         ImageView mapView = new ImageView(mapImage);
         mapView.setPreserveRatio(false);
@@ -2248,6 +2247,27 @@ class MainGame extends Application {
         currentTime.setTextFill(Color.WHITE);
         currentTime.toFront();
         root.getChildren().addAll(timeBox,currentTime);
+
+        Rectangle levelBox = new Rectangle(126, 34);
+        levelBox.setFill(new ImagePattern(timeShape));
+        levelBox.relocate(915, 5);
+        Label currentLevel = new Label();
+        currentLevel.setLabelFor(levelBox);
+        currentLevel.relocate(929, 10);
+        currentLevel.setTextFill(Color.WHITE);
+        currentLevel.toFront();
+        root.getChildren().addAll(levelBox, currentLevel);
+
+        Timeline levelShow = new Timeline(new KeyFrame(Duration.seconds(1),
+                new EventHandler()
+                {
+                    @Override
+                    public void handle(Event event) {
+                        currentLevel.setText(String.valueOf("Current Level: "+ Level.levelNum));
+                    }
+                }));
+        levelShow.setCycleCount(Animation.INDEFINITE);
+        levelShow.play();
 
         Image pauseBack = new Image(Main.class.getResourceAsStream("pausebg.png"));
         ImageView endLevel = new ImageView(pauseBack);
