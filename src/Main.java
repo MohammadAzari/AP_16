@@ -2269,6 +2269,8 @@ class MainGame extends Application {
         levelShow.setCycleCount(Animation.INDEFINITE);
         levelShow.play();
 
+
+
         Image pauseBack = new Image(Main.class.getResourceAsStream("pausebg.png"));
         ImageView endLevel = new ImageView(pauseBack);
         endLevel.relocate(1050, 0);
@@ -2377,6 +2379,37 @@ class MainGame extends Application {
                 }));
         modeShow.setCycleCount(Animation.INDEFINITE);
         modeShow.play();
+
+        Image musicOffImage = new Image(Main.class.getResourceAsStream("music_off.png"));
+        ImageView musicOffView = new ImageView(musicOffImage);
+        musicOffView.setFitWidth(40);
+        musicOffView.setFitHeight(40);
+        musicOffView.relocate(860, 5);
+        root.getChildren().add(musicOffView);
+
+        Image musicOnImage = new Image(Main.class.getResourceAsStream("music.png"));
+        ImageView musicOnView = new ImageView(musicOnImage);
+        musicOnView.setFitHeight(40);
+        musicOnView.setFitWidth(40);
+        musicOnView.relocate(860, 5);
+
+        musicOffView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                audioClip.stop();
+                root.getChildren().remove(musicOffView);
+                root.getChildren().add(musicOnView);
+            }
+        });
+
+        musicOnView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                audioClip.play();
+                root.getChildren().remove(musicOnView);
+                root.getChildren().add(musicOffView);
+            }
+        });
 
         Image pauseImage = new Image(Main.class.getResourceAsStream("pause.png"));
         ImageView pauseView = new ImageView(pauseImage);
