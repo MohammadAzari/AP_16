@@ -1736,7 +1736,8 @@ class MainGame extends Application {
         exitButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-
+                AudioClip audioClip1 = new AudioClip(this.getClass().getResource("click1.mp3").toString());
+                audioClip1.play();
 
                 primaryStage.close();
             }
