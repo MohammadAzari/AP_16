@@ -2057,6 +2057,9 @@ class MainGame extends Application {
             @Override
             public void handle(MouseEvent event) {
                 // if ... rules should be written!
+                AudioClip audioClip1 = new AudioClip(this.getClass().getResource("clothf.mp3").toString());
+                audioClip1.setCycleCount(6);
+                audioClip1.play();
 
                 final Animation SewingAnimation = new SpriteAnimation(
                         SewingFactoryView,
