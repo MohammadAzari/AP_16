@@ -1859,6 +1859,9 @@ class MainGame extends Application {
             public void handle(MouseEvent event) {
 
                 // for working
+                AudioClip audioClip1 = new AudioClip(this.getClass().getResource("cakef1.mp3").toString());
+                audioClip1.setCycleCount(11);
+                audioClip1.play();
                 final Animation cookieWSanimation = new SpriteAnimation(
                         cookieWSview,
                         Duration.millis(1000),COUNT2, COLUMNS2,
@@ -1925,6 +1928,9 @@ class MainGame extends Application {
             public void handle(MouseEvent event) {
                 // if ... rules should be written!
 
+                AudioClip audioClip1 = new AudioClip(this.getClass().getResource("cakef.mp3").toString());
+                audioClip1.setCycleCount(20);
+                audioClip1.play();
                 final Animation FlouryCakeAnimation = new SpriteAnimation(
                         flouryCakeWSView,
                         Duration.millis(1000),COUNT3, COLUMNS3,
@@ -1936,6 +1942,7 @@ class MainGame extends Application {
                 FlouryCakeAnimation.setOnFinished(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
+
                         Image flouryCake = new Image(Main.class.getResourceAsStream("FlouryCake.png"));
                         ImageView flouryCakeView = new ImageView(flouryCake);
                         flouryCakeView.setX(1100);
@@ -1946,6 +1953,7 @@ class MainGame extends Application {
                             @Override
                             public void handle(MouseEvent event) {
                                 // add from warehouse
+
                                 Image flouryCakeIcon = new Image(Main.class.getResourceAsStream("FlouryCake.png"));
 
                                 Rectangle rec = new Rectangle(400, 900, 25, 25);
