@@ -649,6 +649,45 @@ class Ostrich extends Pet implements Upgradable , Printable{
 
 }
 
+class CakeWS{
+    private int price;
+    private int level;
+    private int cyclesToMakeProduct;
+    public CakeWS(){
+        level = 1;
+        price = 400;
+        cyclesToMakeProduct = 5;
+    }
+
+    public String getInfo(){
+        return "Get Egg Powder and Egg\nand make Cake!" + "\nlevel: " + level + "\nprice: " + price +
+                "\ncyclesToMakeProduct: " + cyclesToMakeProduct;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public int getCyclesToMakeProduct() {
+        return cyclesToMakeProduct;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void upgrade(){
+        if(level >= 3){
+            System.out.println("There's no more upgrade for CakeWS!");
+        }
+        else{
+            level++;
+            cyclesToMakeProduct--;
+            price += 300;
+        }
+    }
+}
+
 class EggPowderWS{
     private int price;
     private int level;
@@ -2013,8 +2052,113 @@ class MainGame extends Application {
 
         // for adding workshop
 
-        Image cookieWS = new Image(Main.class.getResourceAsStream("cakeW.png"));
-        ImageView cookieWSview = new ImageView(cookieWS);
+        Image rightTip = new Image(Main.class.getResourceAsStream("rightTip.png"));
+        Rectangle buildCakeWsBtn = new Rectangle(80, 30);
+        buildCakeWsBtn.setFill(new ImagePattern(buildImage));
+        buildCakeWsBtn.relocate(1210, 460);
+        Label cakePrice = new Label();
+        cakePrice.setTextFill(Color.YELLOW);
+        cakePrice.relocate(1245, 468);
+        Rectangle upgradeCakeBtn = new Rectangle(80, 30);
+        upgradeCakeBtn.setFill(new ImagePattern(upgrade));
+        upgradeCakeBtn.relocate(1300, 500);
+        Label cakeWSInfo = new Label();
+        Rectangle cakeWSI = new Rectangle(220, 150);
+        cakeWSI.setFill(new ImagePattern(rightTip));
+        cakeWSI.relocate(1035, 510);
+        cakeWSInfo.relocate(1075, 542);
+
+        Image cakeWS = new Image(Main.class.getResourceAsStream("cakeW.png"));
+        ImageView cakeWSview = new ImageView(cakeWS);
+        CakeWS cakeWSIns = new CakeWS();
+
+        Timeline cakeWIShow = new Timeline(new KeyFrame(Duration.seconds(1),
+                new EventHandler()
+                {
+                    @Override
+                    public void handle(Event event) {
+                        cakeWSInfo.setText(cakeWSIns.getInfo());
+                    }
+                }));
+        cakeWIShow.setCycleCount(Animation.INDEFINITE);
+        cakeWIShow.play();
+
+
+        Timeline cakePriceShower = new Timeline(new KeyFrame(Duration.seconds(1),
+                new EventHandler()
+                {
+                    @Override
+                    public void handle(Event event) {
+                        cakePrice.setText(String.valueOf(cakeWSIns.getPrice()));
+                    }
+                }));
+        cakePriceShower.setCycleCount(Animation.INDEFINITE);
+        cakePriceShower.play();
+
+        root.getChildren().addAll(buildCakeWsBtn, cakePrice);
+
+        chickenUpgrade.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                cakeWSIns.upgrade();
+            }
+        });
+
+        cakePrice.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                orders.getGameInfo().money -= cakeWSIns.getPrice();
+                root.getChildren().removeAll(buildCakeWsBtn, cakePrice);
+                root.getChildren().add(cakeWSview);
+                root.getChildren().add(upgradeCakeBtn);
+            }
+        });
+
+        buildCakeWsBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                orders.getGameInfo().money -= cakeWSIns.getPrice();
+                root.getChildren().removeAll(buildCakeWsBtn, cakePrice);
+                root.getChildren().add(cakeWSview);
+                root.getChildren().add(upgradeCakeBtn);
+            }
+        });
+
+        buildCakeWsBtn.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().addAll(cakeWSI, cakeWSInfo);
+            }
+        });
+
+        buildCakeWsBtn.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().removeAll(cakeWSI, cakeWSInfo);
+            }
+        });
+
+        cakeWSview.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().addAll(cakeWSI, cakeWSInfo);
+            }
+        });
+
+
+        cakeWSview.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().removeAll(cakeWSI, cakeWSInfo);
+            }
+        });
+
+        cakeWSI.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().removeAll(cakeWSI, cakeWSInfo);
+            }
+        });
 
         int COLUMNS2 = 8;
         int COUNT2 = 3;
@@ -2022,15 +2166,15 @@ class MainGame extends Application {
         int OFFSET_Y2 = 10;
         int WIDTH2 = 131;
         int HEIGHT2 = 140;
-        cookieWSview.setViewport(new Rectangle2D(OFFSET_X2, OFFSET_Y2, WIDTH2, HEIGHT2));
+        cakeWSview.setViewport(new Rectangle2D(OFFSET_X2, OFFSET_Y2, WIDTH2, HEIGHT2));
 
-        cookieWSview.setX(1210);
-        cookieWSview.setY(460);
+        cakeWSview.setX(1210);
+        cakeWSview.setY(460);
 
-        root.getChildren().add(cookieWSview);
+        //root.getChildren().add(cakeWSview);
 
 
-        cookieWSview.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        cakeWSview.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 
             @Override
@@ -2041,7 +2185,7 @@ class MainGame extends Application {
                 audioClip1.setCycleCount(11);
                 audioClip1.play();
                 final Animation cookieWSanimation = new SpriteAnimation(
-                        cookieWSview,
+                        cakeWSview,
                         Duration.millis(1000),COUNT2, COLUMNS2,
                         OFFSET_X2, OFFSET_Y2,
                         WIDTH2, HEIGHT2
