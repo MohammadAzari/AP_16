@@ -711,9 +711,32 @@ class Warehouse implements Upgradable{
 
 }
 
+class Level{
+    static int timeReminded = 180;
+    static int levelNum = 1;
+
+    public int getLevelMoney(){
+        if (levelNum == 1) return 800;
+        else if (levelNum == 2) return 1400;
+        else if (levelNum == 3) return 2000;
+        else return 3500;
+    }
+
+    public void upLevel(){
+        levelNum++;
+        if (levelNum == 2){
+            timeReminded = 300;
+        }
+        else if (levelNum == 3){
+            timeReminded = 420;
+        }
+    }
+}
+
 class GameInfo{
+    Level level = new Level();
     int time;
-    int initialMoney = 3500;
+    int initialMoney = level.getLevelMoney();
     int money;
     Map map = new Map(1300);
     Chicken chicken = new Chicken(map, 0);
@@ -1242,6 +1265,7 @@ class MainGame extends Application {
             @Override
             public void handle(MouseEvent event) {
                 AudioClip audioClip1 = new AudioClip(this.getClass().getResource("water.mp3").toString());
+                audioClip1.setCycleCount(3);
                 audioClip1.play();
                 final Animation wellAnimation = new SpriteAnimation(
                         wellAnimationImage,
@@ -1266,6 +1290,7 @@ class MainGame extends Application {
             @Override
             public void handle(MouseEvent event) {
                 AudioClip audioClip1 = new AudioClip(this.getClass().getResource("water.mp3").toString());
+                audioClip1.setCycleCount(3);
                 audioClip1.play();
                 final Animation wellAnimation = new SpriteAnimation(
                         wellTwoView,
@@ -1289,6 +1314,7 @@ class MainGame extends Application {
             @Override
             public void handle(MouseEvent event) {
                 AudioClip audioClip1 = new AudioClip(this.getClass().getResource("water.mp3").toString());
+                audioClip1.setCycleCount(3);
                 audioClip1.play();
                 final Animation wellAnimation = new SpriteAnimation(
                         wellThreeView,
@@ -1312,6 +1338,7 @@ class MainGame extends Application {
             @Override
             public void handle(MouseEvent event) {
                 AudioClip audioClip1 = new AudioClip(this.getClass().getResource("water.mp3").toString());
+                audioClip1.setCycleCount(3);
                 audioClip1.play();
                 final Animation wellAnimation = new SpriteAnimation(
                         wellFourView,
@@ -2208,16 +2235,85 @@ class MainGame extends Application {
             }
         });
 
-        Rectangle timeBox = new Rectangle(125, 34);
+        Rectangle timeBox = new Rectangle(150, 34);
         Image timeShape = new Image(Main.class.getResourceAsStream("btn.png"));
         timeBox.setFill(new ImagePattern(timeShape));
-        timeBox.relocate(1236, 103);
+        timeBox.relocate(1050, 5);
         Label currentTime = new Label();
         currentTime.setLabelFor(timeBox);
-        currentTime.relocate(1249, 110);
-        currentTime.setTextFill(Color.BLACK);
+        currentTime.relocate(1064, 10);
+        currentTime.setTextFill(Color.WHITE);
         currentTime.toFront();
         root.getChildren().addAll(timeBox,currentTime);
+
+        Image pauseBack = new Image(Main.class.getResourceAsStream("pausebg.png"));
+        ImageView endLevel = new ImageView(pauseBack);
+        endLevel.relocate(1050, 0);
+        endLevel.setFitHeight(790);
+        endLevel.setFitWidth(400);
+
+        Image endLevelImage = new Image(Main.class.getResourceAsStream("endLevelHeader.png"));
+        ImageView endLevelView = new ImageView(endLevelImage);
+        endLevelView.setFitWidth(200);
+        endLevelView.setFitHeight(90);
+        endLevelView.relocate(1120, 140);
+
+        Image starImage = new Image(Main.class.getResourceAsStream("star.png"));
+        ImageView starView = new ImageView(starImage);
+        starView.setFitWidth(150);
+        starView.setFitHeight(85);
+        starView.relocate(1145, 50);
+
+        Image closeGameImage = new Image(Main.class.getResourceAsStream("close.png"));
+        ImageView closeGameView = new ImageView(closeGameImage);
+        closeGameView.setFitHeight(70);
+        closeGameView.setFitWidth(70);
+        closeGameView.relocate(1187, 500);
+
+        Image nextLevelImage = new Image(Main.class.getResourceAsStream("next.png"));
+        ImageView nextLevelView = new ImageView(nextLevelImage);
+        nextLevelView.setFitHeight(70);
+        nextLevelView.setFitWidth(70);
+        nextLevelView.relocate(1187, 300);
+
+        Image mainMenuImage = new Image(Main.class.getResourceAsStream("menu.png"));
+        ImageView mainMenuView = new ImageView(mainMenuImage);
+        mainMenuView.setFitHeight(70);
+        mainMenuView.setFitWidth(70);
+        mainMenuView.relocate(1187, 400);
+
+        mainMenuView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                try {
+                    new Main().start(primaryStage);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        closeGameView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                primaryStage.close();
+            }
+        });
+
+        nextLevelView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                orders.getGameInfo().level.upLevel();
+                try {
+                    new MainGame().start(primaryStage);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+
         long startSecond = System.currentTimeMillis();
         Timeline timeShow = new Timeline(new KeyFrame(Duration.seconds(1),
                 new EventHandler()
@@ -2226,8 +2322,14 @@ class MainGame extends Application {
                     public void handle(Event event) {
                         //currentTime.setText(String.valueOf(System.currentTimeMillis()));
                         final long timePassed = (System.currentTimeMillis() - startSecond)/1000;
+                        final long timeReminded = orders.getGameInfo().level.timeReminded - timePassed;
                         //currentTime.setText(String.valueOf("Time Passed: "+((System.currentTimeMillis() - startSecond)/1000) + "s"));
-                        currentTime.setText(String.valueOf("Time Passed: "+ timePassed + " s"));
+                        //currentTime.setText(String.valueOf("Time Passed: "+ timePassed + " s"));
+                        currentTime.setText(String.valueOf("Time Reminded: " + timeReminded + " s"));
+                        if (timeReminded == 0){
+                            root.getChildren().addAll(endLevel, endLevelView, starView,
+                                    closeGameView, nextLevelView, mainMenuView);
+                        }
                     }
                 }));
         timeShow.setCycleCount(Animation.INDEFINITE);
@@ -2260,7 +2362,6 @@ class MainGame extends Application {
         pauseView.setFitHeight(40);
         root.getChildren().add(pauseView);
 
-        Image pauseBack = new Image(Main.class.getResourceAsStream("pausebg.png"));
         ImageView pauseBgView = new ImageView(pauseBack);
         pauseBgView.relocate(450, 150);
         pauseBgView.setFitHeight(500);
@@ -2521,13 +2622,14 @@ public class Main extends Application {
         mp.play();
         primaryStage.show();
 
+        AudioClip audioClip1 = new AudioClip(this.getClass().getResource("click1.mp3").toString());
+
 
         startButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 try {
-                    AudioClip audioClip1 = new AudioClip(this.getClass().getResource("click1.mp3").toString());
-                    audioClip1.play();
+                    //audioClip1.play();
                     new MainGame().start(primaryStage);
                     mp.stop();
                 } catch (Exception e) {
@@ -2536,19 +2638,19 @@ public class Main extends Application {
             }
         });
 
-        loadButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                AudioClip audioClip1 = new AudioClip(this.getClass().getResource("click1.mp3").toString());
-                audioClip1.play();
-            }
-        });
+
+//        loadButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent event) {
+//                audioClip1.play();
+//            }
+//        });
+
 
         exitButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                AudioClip audioClip1 = new AudioClip(this.getClass().getResource("click1.mp3").toString());
-                audioClip1.play();
+                //audioClip1.play();
                 primaryStage.close();
             }
         });
@@ -2610,11 +2712,14 @@ public class Main extends Application {
             text.setFill(Color.DARKGREY);
             text.setFont(javafx.scene.text.Font.font(30));
 
+            AudioClip audioClip1 = new AudioClip(this.getClass().getResource("click1.mp3").toString());
+
             setAlignment(Pos.CENTER);
             getChildren().addAll(bg, text);
             setOnMouseEntered(event -> {
                 bg.setFill(gradient);
                 text.setFill(Color.BLACK);
+                audioClip1.play();
 
             });
 
@@ -2624,6 +2729,7 @@ public class Main extends Application {
             });
             setOnMousePressed(event -> {
                 bg.setFill(Color.DARKVIOLET);
+                audioClip1.play();
 
             });
 
