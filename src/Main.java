@@ -2307,6 +2307,8 @@ class MainGame extends Application {
         pauseView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                AudioClip audioClip1 = new AudioClip(this.getClass().getResource("pause.mp3").toString());
+                audioClip1.play();
                 orders.grassChecker = -1;
                 System.out.println(orders.grassChecker);
                 root.getChildren().addAll(pauseBgView, pauseHeaderView, pauseTableView,
@@ -2320,6 +2322,8 @@ class MainGame extends Application {
         pauseResumeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                AudioClip audioClip1 = new AudioClip(this.getClass().getResource("pause.mp3").toString());
+                audioClip1.play();
                 root.getChildren().removeAll(pauseBgView, pauseHeaderView, pauseTableView,
                         pauseTextView, pauseResumeView, pauseExView, pauseMenuView);
                 modeShow.play();
@@ -2332,6 +2336,8 @@ class MainGame extends Application {
         pauseExView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                AudioClip audioClip1 = new AudioClip(this.getClass().getResource("pause.mp3").toString());
+                audioClip1.play();
                 primaryStage.close();
             }
         });
@@ -2340,6 +2346,8 @@ class MainGame extends Application {
             @Override
             public void handle(MouseEvent event) {
                 try {
+                    AudioClip audioClip1 = new AudioClip(this.getClass().getResource("pause.mp3").toString());
+                    audioClip1.play();
                     new Main().start(primaryStage);
                 } catch (Exception e) {
                     e.printStackTrace();
