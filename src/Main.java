@@ -1344,6 +1344,8 @@ class MainGame extends Application {
         wellUpgradeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                AudioClip audioClip1 = new AudioClip(this.getClass().getResource("upgrade.mp3").toString());
+                audioClip1.play();
                 if (orders.getGameInfo().well.getLevel() >= 4){
                     orders.wellUpgrade();
                 }
@@ -1403,6 +1405,8 @@ class MainGame extends Application {
         chickenUpgrade.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                AudioClip audioClip1 = new AudioClip(this.getClass().getResource("upgrade.mp3").toString());
+                audioClip1.play();
                 orders.getGameInfo().chicken.upgrade();
             }
         });
@@ -1528,6 +1532,8 @@ class MainGame extends Application {
         cowUpgrade.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                AudioClip audioClip1 = new AudioClip(this.getClass().getResource("upgrade.mp3").toString());
+                audioClip1.play();
                 orders.getGameInfo().cow.upgrade();
             }
         });
@@ -1608,6 +1614,8 @@ class MainGame extends Application {
         ostrichUpgrade.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                AudioClip audioClip1 = new AudioClip(this.getClass().getResource("upgrade.mp3").toString());
+                audioClip1.play();
 
                 orders.getGameInfo().ostrich.upgrade();
             }
@@ -2069,6 +2077,7 @@ class MainGame extends Application {
                                 root.getChildren().add(rec);
                                 root.getChildren().remove(fabricView);
 
+
                             }
                         });
                     }
@@ -2126,6 +2135,7 @@ class MainGame extends Application {
                         fabricView.setOnMouseClicked(new EventHandler<MouseEvent>() {
                             @Override
                             public void handle(MouseEvent event) {
+
                                 // add from warehouse
                                 Image sewingIcon = new Image(Main.class.getResourceAsStream("Fabric.png"));
 
@@ -2484,6 +2494,8 @@ public class Main extends Application {
             @Override
             public void handle(MouseEvent event) {
                 try {
+                    AudioClip audioClip1 = new AudioClip(this.getClass().getResource("click1.mp3").toString());
+                    audioClip1.play();
                     new MainGame().start(primaryStage);
                     mp.stop();
                 } catch (Exception e) {
@@ -2492,9 +2504,19 @@ public class Main extends Application {
             }
         });
 
+        loadButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                AudioClip audioClip1 = new AudioClip(this.getClass().getResource("click1.mp3").toString());
+                audioClip1.play();
+            }
+        });
+
         exitButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                AudioClip audioClip1 = new AudioClip(this.getClass().getResource("click1.mp3").toString());
+                audioClip1.play();
                 primaryStage.close();
             }
         });
