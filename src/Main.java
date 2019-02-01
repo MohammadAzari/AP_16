@@ -1034,8 +1034,11 @@ class MainGame extends Application {
         scene1.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+
                 int pNum = -1;
                 if (event.getX() > 350 && event.getY() > 300 && event.getX()<1000 && event.getY()<600 && orders.grassChecker == 0){
+                    AudioClip audioClip1 = new AudioClip(this.getClass().getResource("grass.mp3").toString());
+                    audioClip1.play();
                     pNum = orders.plant((int)event.getX() , (int)event.getY());
                     orders.grassChecker = 0;
                     System.out.println(orders.grassChecker);
