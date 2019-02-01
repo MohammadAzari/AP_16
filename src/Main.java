@@ -649,6 +649,45 @@ class Ostrich extends Pet implements Upgradable , Printable{
 
 }
 
+class FlouryCakeWS{
+    private int price;
+    private int level;
+    private int cyclesToMakeProduct;
+    public FlouryCakeWS(){
+        level = 1;
+        price = 500;
+        cyclesToMakeProduct = 5;
+    }
+
+    public String getInfo(){
+        return "Get Cake and make\nFloury Cake!" + "\nlevel: " + level + "\nprice: " + price +
+                "\ncyclesToMakeProduct: " + cyclesToMakeProduct;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public int getCyclesToMakeProduct() {
+        return cyclesToMakeProduct;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void upgrade(){
+        if(level >= 3){
+            System.out.println("There's no more upgrade for Floury Cake Ws!");
+        }
+        else{
+            level++;
+            cyclesToMakeProduct--;
+            price += 300;
+        }
+    }
+}
+
 class CakeWS{
     private int price;
     private int level;
@@ -1945,7 +1984,7 @@ class MainGame extends Application {
             }
         });
 
-        buildEggPowderWsBtn.setOnMouseEntered(new EventHandler<MouseEvent>() {
+        /*buildEggPowderWsBtn.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 root.getChildren().addAll(eggPWSI, eggPWSInfo);
@@ -1957,7 +1996,7 @@ class MainGame extends Application {
             public void handle(MouseEvent event) {
                 root.getChildren().removeAll(eggPWSI, eggPWSInfo);
             }
-        });
+        });*/
 
         eggPowderWSView.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
@@ -2124,7 +2163,7 @@ class MainGame extends Application {
             }
         });
 
-        buildCakeWsBtn.setOnMouseEntered(new EventHandler<MouseEvent>() {
+        /*buildCakeWsBtn.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 root.getChildren().addAll(cakeWSI, cakeWSInfo);
@@ -2136,7 +2175,7 @@ class MainGame extends Application {
             public void handle(MouseEvent event) {
                 root.getChildren().removeAll(cakeWSI, cakeWSInfo);
             }
-        });
+        });*/
 
         cakeWSview.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
@@ -2228,8 +2267,112 @@ class MainGame extends Application {
 
         // for animation of Floury cake workshop
 
-        Image FlouryCakeWS = new Image(Main.class.getResourceAsStream("flouryCakeWS.png"));
-        ImageView flouryCakeWSView = new ImageView(FlouryCakeWS);
+        Image flouryCakeWS = new Image(Main.class.getResourceAsStream("flouryCakeWS.png"));
+        ImageView flouryCakeWSView = new ImageView(flouryCakeWS);
+        Rectangle buildFlouryCakeWsBtn = new Rectangle(80, 30);
+        buildFlouryCakeWsBtn.setFill(new ImagePattern(buildImage));
+        buildFlouryCakeWsBtn.relocate(1180, 250);
+        Label flouryCakePrice = new Label();
+        flouryCakePrice.setTextFill(Color.YELLOW);
+        flouryCakePrice.relocate(1218, 255);
+        Rectangle upgradeFlouryCakeBtn = new Rectangle(80, 30);
+        upgradeFlouryCakeBtn.setFill(new ImagePattern(upgrade));
+        upgradeFlouryCakeBtn.relocate(1240, 255);
+        Label flourycakeWSInfo = new Label();
+        Rectangle flourycakeWSI = new Rectangle(220, 170);
+        flourycakeWSI.setFill(new ImagePattern(rightTip));
+        flourycakeWSI.relocate(1000, 330);
+        flourycakeWSInfo.relocate(1035, 370);
+
+        FlouryCakeWS flouryCakeWSIns = new FlouryCakeWS();
+
+        Timeline flourycakeWIShow = new Timeline(new KeyFrame(Duration.seconds(1),
+                new EventHandler()
+                {
+                    @Override
+                    public void handle(Event event) {
+                        flourycakeWSInfo.setText(flouryCakeWSIns.getInfo());
+                    }
+                }));
+        flourycakeWIShow.setCycleCount(Animation.INDEFINITE);
+        flourycakeWIShow.play();
+
+
+        Timeline flourycakePriceShower = new Timeline(new KeyFrame(Duration.seconds(1),
+                new EventHandler()
+                {
+                    @Override
+                    public void handle(Event event) {
+                        flouryCakePrice.setText(String.valueOf(flouryCakeWSIns.getPrice()));
+                    }
+                }));
+        flourycakePriceShower.setCycleCount(Animation.INDEFINITE);
+        flourycakePriceShower.play();
+
+        root.getChildren().addAll(buildFlouryCakeWsBtn, flouryCakePrice);
+
+        chickenUpgrade.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                flouryCakeWSIns.upgrade();
+            }
+        });
+
+        flouryCakePrice.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                orders.getGameInfo().money -= flouryCakeWSIns.getPrice();
+                root.getChildren().removeAll(buildFlouryCakeWsBtn, flouryCakePrice);
+                root.getChildren().add(flouryCakeWSView);
+                root.getChildren().add(upgradeFlouryCakeBtn);
+            }
+        });
+
+        buildFlouryCakeWsBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                orders.getGameInfo().money -= flouryCakeWSIns.getPrice();
+                root.getChildren().removeAll(buildFlouryCakeWsBtn, flouryCakePrice);
+                root.getChildren().add(flouryCakeWSView);
+                root.getChildren().add(upgradeFlouryCakeBtn);
+            }
+        });
+
+        /*buildFlouryCakeWsBtn.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().addAll(flourycakeWSI, flourycakeWSInfo);
+            }
+        });
+
+        buildFlouryCakeWsBtn.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().removeAll(flourycakeWSI, flourycakeWSInfo);
+            }
+        });*/
+
+       flouryCakeWSView.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().addAll(flourycakeWSI, flourycakeWSInfo);
+            }
+        });
+
+
+        flouryCakeWSView.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().removeAll(flourycakeWSI, flourycakeWSInfo);
+            }
+        });
+
+        flourycakeWSI.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().removeAll(flourycakeWSI, flourycakeWSInfo);
+            }
+        });
 
         int COLUMNS3 = 8;
         int COUNT3 = 2;
@@ -2242,7 +2385,7 @@ class MainGame extends Application {
         flouryCakeWSView.setX(1100);
         flouryCakeWSView.setY(220);
 
-        root.getChildren().add(flouryCakeWSView);
+        //root.getChildren().add(flouryCakeWSView);
 
 
         flouryCakeWSView.setOnMouseClicked(new EventHandler<MouseEvent>() {
