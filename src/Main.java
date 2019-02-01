@@ -1042,6 +1042,7 @@ class Hellicopter{
 
 
 class MainGame extends Application {
+    private static int audioFlag = 0;
 
 
 
@@ -1175,11 +1176,13 @@ class MainGame extends Application {
         });*/
         /*primaryStage.setScene(scene1);
         primaryStage.show();*/
-
-
         AudioClip audioClip = new AudioClip(this.getClass().getResource("main.mp3").toString());
         audioClip.setCycleCount(Animation.INDEFINITE);
-        audioClip.play();
+
+        if (audioFlag == 0) {
+            audioClip.play();
+            audioFlag = 1;
+        }
 
 
 
@@ -1756,7 +1759,7 @@ class MainGame extends Application {
         root.getChildren().addAll(moneyCurrent, money);
 
 
-        Rectangle exitButton = new Rectangle(120, 50);
+        /*Rectangle exitButton = new Rectangle(120, 50);
         Image exitImage = new Image(Main.class.getResourceAsStream("exit.png"));
         exitButton.setFill(new ImagePattern(exitImage));
         exitButton.relocate(1245, 45);
@@ -1769,7 +1772,7 @@ class MainGame extends Application {
                 primaryStage.close();
             }
         });
-        root.getChildren().add(exitButton);
+        root.getChildren().add(exitButton);*/
 
 
 
