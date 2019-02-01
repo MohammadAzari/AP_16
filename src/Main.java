@@ -649,6 +649,45 @@ class Ostrich extends Pet implements Upgradable , Printable{
 
 }
 
+class EggPowderWS{
+    private int price;
+    private int level;
+    private int cyclesToMakeProduct;
+    public EggPowderWS(){
+        level = 1;
+        price = 300;
+        cyclesToMakeProduct = 5;
+    }
+
+    public String getInfo(){
+        return "Get Egg and make Egg Powder!" + "\nlevel: " + level + "\nprice: " + price +
+                "\ncyclesToMakeProduct: " + cyclesToMakeProduct;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public int getCyclesToMakeProduct() {
+        return cyclesToMakeProduct;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void upgrade(){
+        if(level >= 3){
+            System.out.println("There's no more upgrade for EggPowderWS!");
+        }
+        else{
+            level++;
+            cyclesToMakeProduct--;
+            price += 300;
+        }
+    }
+}
+
 
 
 
@@ -1789,12 +1828,122 @@ class MainGame extends Application {
 
 
 
+        Image tipForDescription = new Image(Main.class.getResourceAsStream("tip.png"));
+
+
+        Rectangle buildEggPowderWsBtn = new Rectangle(80, 30);
+        Image buildImage = new Image(Main.class.getResourceAsStream("buildBtn.png"));
+        buildEggPowderWsBtn.setFill(new ImagePattern(buildImage));
+        buildEggPowderWsBtn.relocate(150, 280);
+        Label eggPowderPrice = new Label();
+        eggPowderPrice.setTextFill(Color.YELLOW);
+        eggPowderPrice.relocate(185, 285);
+        Rectangle upgradeEggPowderBtn = new Rectangle(80, 30);
+        upgradeEggPowderBtn.setFill(new ImagePattern(upgrade));
+        upgradeEggPowderBtn.relocate(230, 285);
+        Label eggPWSInfo = new Label();
+        Rectangle eggPWSI = new Rectangle(240, 150);
+        eggPWSI.setFill(new ImagePattern(tipForDescription));
+        eggPWSI.relocate(210, 345);
+        eggPWSInfo.relocate(250, 380);
+
+
 
 
 // for animation of egg powder workshop
 
-        Image flouryCakeWS = new Image(Main.class.getResourceAsStream("eggp.png"));
-        ImageView eggPowderWSView = new ImageView(flouryCakeWS);
+        Image eggPowderWS = new Image(Main.class.getResourceAsStream("eggp.png"));
+        ImageView eggPowderWSView = new ImageView(eggPowderWS);
+        EggPowderWS eggPowderWSIns = new EggPowderWS();
+
+        Timeline eggPWIShow = new Timeline(new KeyFrame(Duration.seconds(1),
+                new EventHandler()
+                {
+                    @Override
+                    public void handle(Event event) {
+                        eggPWSInfo.setText(eggPowderWSIns.getInfo());
+                    }
+                }));
+        eggPWIShow.setCycleCount(Animation.INDEFINITE);
+        eggPWIShow.play();
+
+
+        Timeline eggPowderPriceShower = new Timeline(new KeyFrame(Duration.seconds(1),
+                new EventHandler()
+                {
+                    @Override
+                    public void handle(Event event) {
+                        eggPowderPrice.setText(String.valueOf(eggPowderWSIns.getPrice()));
+                    }
+                }));
+        eggPowderPriceShower.setCycleCount(Animation.INDEFINITE);
+        eggPowderPriceShower.play();
+
+        root.getChildren().addAll(buildEggPowderWsBtn, eggPowderPrice);
+
+        chickenUpgrade.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                eggPowderWSIns.upgrade();
+            }
+        });
+
+        eggPowderPrice.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                orders.getGameInfo().money -= eggPowderWSIns.getPrice();
+                root.getChildren().removeAll(buildEggPowderWsBtn, eggPowderPrice);
+                root.getChildren().addAll(eggPowderWSView, upgradeEggPowderBtn);
+            }
+        });
+
+        buildEggPowderWsBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                orders.getGameInfo().money -= eggPowderWSIns.getPrice();
+                root.getChildren().removeAll(buildEggPowderWsBtn, eggPowderPrice);
+                root.getChildren().add(eggPowderWSView);
+            }
+        });
+
+        buildEggPowderWsBtn.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().addAll(eggPWSI, eggPWSInfo);
+            }
+        });
+
+        buildEggPowderWsBtn.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().removeAll(eggPWSI, eggPWSInfo);
+            }
+        });
+
+        eggPowderWSView.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().addAll(eggPWSI, eggPWSInfo);
+            }
+        });
+
+
+        eggPowderWSView.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().removeAll(eggPWSI, eggPWSInfo);
+            }
+        });
+
+        eggPWSI.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().removeAll(eggPWSI, eggPWSInfo);
+            }
+        });
+
+
+
 
         int COLUMNS1 = 8;
         int COUNT1 = 3;
@@ -1808,7 +1957,7 @@ class MainGame extends Application {
         eggPowderWSView.setX(150);
         eggPowderWSView.setY(280);
 
-        root.getChildren().add(eggPowderWSView);
+        //root.getChildren().add(eggPowderWSView);
 
 
         eggPowderWSView.setOnMouseClicked(new EventHandler<MouseEvent>() {
