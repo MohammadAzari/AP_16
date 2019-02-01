@@ -1787,6 +1787,11 @@ class MainGame extends Application {
             public void handle(MouseEvent event) {
                 // if ... rules should be written!
 
+                AudioClip audioClip1 = new AudioClip(this.getClass().getResource("eggf.mp3").toString());
+                audioClip1.setCycleCount(5);
+                audioClip1.play();
+
+
                 final Animation eggpWSanimation = new SpriteAnimation(
                         eggPowderWSView,
                         Duration.millis(1000),COUNT1, COLUMNS1,
@@ -1983,6 +1988,10 @@ class MainGame extends Application {
             @Override
             public void handle(MouseEvent event) {
                 // if ... rules should be written!
+
+                AudioClip audioClip1 = new AudioClip(this.getClass().getResource("sewf.mp3").toString());
+                audioClip1.setCycleCount(4);
+                audioClip1.play();
 
                 final Animation SpinneryAnimation = new SpriteAnimation(
                         SpinView,
