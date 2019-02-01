@@ -1189,6 +1189,7 @@ class MainGame extends Application {
                     @Override
                     public void handle(ActionEvent event)
                     {
+
                         wellCapacity.setText("Capacity: " + String.valueOf(orders.getGameInfo().well.getCapacity()));
                     }
                 }));
@@ -1237,6 +1238,8 @@ class MainGame extends Application {
         wellAnimationImage.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                AudioClip audioClip1 = new AudioClip(this.getClass().getResource("water.mp3").toString());
+                audioClip1.play();
                 final Animation wellAnimation = new SpriteAnimation(
                         wellAnimationImage,
                         Duration.millis(1000),COUNTW, COLUMNSW,
@@ -1259,6 +1262,8 @@ class MainGame extends Application {
         wellTwoView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                AudioClip audioClip1 = new AudioClip(this.getClass().getResource("water.mp3").toString());
+                audioClip1.play();
                 final Animation wellAnimation = new SpriteAnimation(
                         wellTwoView,
                         Duration.millis(1000),COUNTW, COLUMNSW,
@@ -1280,6 +1285,8 @@ class MainGame extends Application {
         wellThreeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                AudioClip audioClip1 = new AudioClip(this.getClass().getResource("water.mp3").toString());
+                audioClip1.play();
                 final Animation wellAnimation = new SpriteAnimation(
                         wellThreeView,
                         Duration.millis(1000),COUNTW, COLUMNSW,
@@ -1301,6 +1308,8 @@ class MainGame extends Application {
         wellFourView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                AudioClip audioClip1 = new AudioClip(this.getClass().getResource("water.mp3").toString());
+                audioClip1.play();
                 final Animation wellAnimation = new SpriteAnimation(
                         wellFourView,
                         Duration.millis(1000),COUNTW, COLUMNSW,
@@ -1429,6 +1438,8 @@ class MainGame extends Application {
             @Override
             public void handle(MouseEvent event) {
                 try {
+                    AudioClip audioClip1 = new AudioClip(this.getClass().getResource("click.mp3").toString());
+                    audioClip1.play();
                     Pet chicken = orders.buyChicken();
                     Image chickenImage = new Image(Main.class.getResourceAsStream("guinea_fowl_map.png"));
                     ImageView chickenView = new ImageView(chickenImage);
@@ -1501,6 +1512,7 @@ class MainGame extends Application {
                     @Override
                     public void handle(ActionEvent event)
                     {
+
                         cowLabel.setText(cow.getInfo());
                     }
                 }));
@@ -1554,6 +1566,8 @@ class MainGame extends Application {
             @Override
             public void handle(MouseEvent event) {
                 try {
+                    AudioClip audioClip1 = new AudioClip(this.getClass().getResource("click.mp3").toString());
+                    audioClip1.play();
                     Cow cowInGame = orders.buyCow();
                     Image cowImage = new Image(Main.class.getResourceAsStream("cow.png"));
                     ImageView cowView = new ImageView(cowImage);
@@ -1591,6 +1605,7 @@ class MainGame extends Application {
         ostrichUpgrade.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+
                 orders.getGameInfo().ostrich.upgrade();
             }
         });
@@ -1655,6 +1670,8 @@ class MainGame extends Application {
             @Override
             public void handle(MouseEvent event) {
                 try {
+                    AudioClip audioClip1 = new AudioClip(this.getClass().getResource("click.mp3").toString());
+                    audioClip1.play();
                     orders.buyOstrich();
                     Image ostrichImage = new Image(Main.class.getResourceAsStream("OstrichGame.png"));
                     ImageView ostrichView = new ImageView(ostrichImage);
@@ -1708,6 +1725,8 @@ class MainGame extends Application {
         exitButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+
+
                 primaryStage.close();
             }
         });
