@@ -649,6 +649,45 @@ class Ostrich extends Pet implements Upgradable , Printable{
 
 }
 
+class SpinneryWS{
+    private int price;
+    private int level;
+    private int cyclesToMakeProduct;
+    public SpinneryWS(){
+        level = 1;
+        price = 400;
+        cyclesToMakeProduct = 5;
+    }
+
+    public String getInfo(){
+        return "Get Wool and make Sewing!" + "\nlevel: " + level + "\nprice: " + price +
+                "\ncyclesToMakeProduct: " + cyclesToMakeProduct;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public int getCyclesToMakeProduct() {
+        return cyclesToMakeProduct;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void upgrade(){
+        if(level >= 3){
+            System.out.println("There's no more upgrade for Spinnery Ws!");
+        }
+        else{
+            level++;
+            cyclesToMakeProduct--;
+            price += 300;
+        }
+    }
+}
+
 class FlouryCakeWS{
     private int price;
     private int level;
@@ -1934,6 +1973,12 @@ class MainGame extends Application {
         ImageView eggPowderWSView = new ImageView(eggPowderWS);
         EggPowderWS eggPowderWSIns = new EggPowderWS();
 
+        Label eggPowderWSName = new Label("Egg Powder WorkShop");
+        eggPowderWSName.setTextFill(Color.YELLOW);
+        eggPowderWSName.relocate(150, 260);
+        root.getChildren().add(eggPowderWSName);
+
+
         Timeline eggPWIShow = new Timeline(new KeyFrame(Duration.seconds(1),
                 new EventHandler()
                 {
@@ -1970,7 +2015,7 @@ class MainGame extends Application {
             @Override
             public void handle(MouseEvent event) {
                 orders.getGameInfo().money -= eggPowderWSIns.getPrice();
-                root.getChildren().removeAll(buildEggPowderWsBtn, eggPowderPrice);
+                root.getChildren().removeAll(buildEggPowderWsBtn, eggPowderPrice, eggPowderWSName);
                 root.getChildren().addAll(eggPowderWSView, upgradeEggPowderBtn);
             }
         });
@@ -1979,7 +2024,7 @@ class MainGame extends Application {
             @Override
             public void handle(MouseEvent event) {
                 orders.getGameInfo().money -= eggPowderWSIns.getPrice();
-                root.getChildren().removeAll(buildEggPowderWsBtn, eggPowderPrice);
+                root.getChildren().removeAll(buildEggPowderWsBtn, eggPowderPrice, eggPowderWSName);
                 root.getChildren().add(eggPowderWSView);
             }
         });
@@ -2111,6 +2156,11 @@ class MainGame extends Application {
         ImageView cakeWSview = new ImageView(cakeWS);
         CakeWS cakeWSIns = new CakeWS();
 
+        Label cakeWSName = new Label("Cake WorkShop");
+        cakeWSName.setTextFill(Color.YELLOW);
+        cakeWSName.relocate(1210, 440);
+        root.getChildren().add(cakeWSName);
+
         Timeline cakeWIShow = new Timeline(new KeyFrame(Duration.seconds(1),
                 new EventHandler()
                 {
@@ -2147,7 +2197,7 @@ class MainGame extends Application {
             @Override
             public void handle(MouseEvent event) {
                 orders.getGameInfo().money -= cakeWSIns.getPrice();
-                root.getChildren().removeAll(buildCakeWsBtn, cakePrice);
+                root.getChildren().removeAll(buildCakeWsBtn, cakePrice, cakeWSName);
                 root.getChildren().add(cakeWSview);
                 root.getChildren().add(upgradeCakeBtn);
             }
@@ -2157,7 +2207,7 @@ class MainGame extends Application {
             @Override
             public void handle(MouseEvent event) {
                 orders.getGameInfo().money -= cakeWSIns.getPrice();
-                root.getChildren().removeAll(buildCakeWsBtn, cakePrice);
+                root.getChildren().removeAll(buildCakeWsBtn, cakePrice, cakeWSName);
                 root.getChildren().add(cakeWSview);
                 root.getChildren().add(upgradeCakeBtn);
             }
@@ -2284,6 +2334,11 @@ class MainGame extends Application {
         flourycakeWSI.relocate(1000, 330);
         flourycakeWSInfo.relocate(1035, 370);
 
+        Label flouryCakeWSName = new Label("Floury Cake WorkShop");
+        flouryCakeWSName.setTextFill(Color.YELLOW);
+        flouryCakeWSName.relocate(1160, 230);
+        root.getChildren().add(flouryCakeWSName);
+
         FlouryCakeWS flouryCakeWSIns = new FlouryCakeWS();
 
         Timeline flourycakeWIShow = new Timeline(new KeyFrame(Duration.seconds(1),
@@ -2322,7 +2377,7 @@ class MainGame extends Application {
             @Override
             public void handle(MouseEvent event) {
                 orders.getGameInfo().money -= flouryCakeWSIns.getPrice();
-                root.getChildren().removeAll(buildFlouryCakeWsBtn, flouryCakePrice);
+                root.getChildren().removeAll(buildFlouryCakeWsBtn, flouryCakePrice, flouryCakeWSName);
                 root.getChildren().add(flouryCakeWSView);
                 root.getChildren().add(upgradeFlouryCakeBtn);
             }
@@ -2332,7 +2387,7 @@ class MainGame extends Application {
             @Override
             public void handle(MouseEvent event) {
                 orders.getGameInfo().money -= flouryCakeWSIns.getPrice();
-                root.getChildren().removeAll(buildFlouryCakeWsBtn, flouryCakePrice);
+                root.getChildren().removeAll(buildFlouryCakeWsBtn, flouryCakePrice, flouryCakeWSName);
                 root.getChildren().add(flouryCakeWSView);
                 root.getChildren().add(upgradeFlouryCakeBtn);
             }
@@ -2352,7 +2407,7 @@ class MainGame extends Application {
             }
         });*/
 
-       flouryCakeWSView.setOnMouseEntered(new EventHandler<MouseEvent>() {
+        flouryCakeWSView.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 root.getChildren().addAll(flourycakeWSI, flourycakeWSInfo);
@@ -2441,7 +2496,124 @@ class MainGame extends Application {
         // for animation of Spinnery workshop
 
         Image SpinneryWS = new Image(Main.class.getResourceAsStream("spinneryWS.png"));
-        ImageView SpinView = new ImageView(SpinneryWS);
+        ImageView spinneryWSview = new ImageView(SpinneryWS);
+
+        Rectangle buildspinneryWsBtn = new Rectangle(80, 30);
+        buildspinneryWsBtn.setFill(new ImagePattern(buildImage));
+        buildspinneryWsBtn.relocate(140, 650);
+        Label spinneryPrice = new Label();
+        spinneryPrice.setTextFill(Color.YELLOW);
+        spinneryPrice.relocate(175, 657);
+        Rectangle upgradespinneryBtn = new Rectangle(80, 30);
+        upgradespinneryBtn.setFill(new ImagePattern(upgrade));
+        upgradespinneryBtn.relocate(220, 652);
+        Label spinneryWSInfo = new Label();
+        Rectangle spinneryWSI = new Rectangle(220, 150);
+        spinneryWSI.setFill(new ImagePattern(tipForDescription));
+        spinneryWSI.relocate(198, 700);
+        spinneryWSInfo.relocate(230, 730);
+
+        Label spinneryWSName = new Label("Spinnery WorkShop");
+        spinneryWSName.setTextFill(Color.YELLOW);
+        spinneryWSName.relocate(145, 630);
+        root.getChildren().add(spinneryWSName);
+
+        SpinneryWS spinneryWSIns = new SpinneryWS();
+
+        Timeline spinneryWIShow = new Timeline(new KeyFrame(Duration.seconds(1),
+                new EventHandler()
+                {
+                    @Override
+                    public void handle(Event event) {
+                        spinneryWSInfo.setText(spinneryWSIns.getInfo());
+                    }
+                }));
+        spinneryWIShow.setCycleCount(Animation.INDEFINITE);
+        spinneryWIShow.play();
+
+
+        Timeline spinneryPriceShower = new Timeline(new KeyFrame(Duration.seconds(1),
+                new EventHandler()
+                {
+                    @Override
+                    public void handle(Event event) {
+                        spinneryPrice.setText(String.valueOf(spinneryWSIns.getPrice()));
+                    }
+                }));
+        spinneryPriceShower.setCycleCount(Animation.INDEFINITE);
+        spinneryPriceShower.play();
+
+        root.getChildren().addAll(buildspinneryWsBtn, spinneryPrice);
+
+        chickenUpgrade.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                spinneryWSIns.upgrade();
+            }
+        });
+
+        spinneryPrice.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                orders.getGameInfo().money -= spinneryWSIns.getPrice();
+                root.getChildren().removeAll(buildspinneryWsBtn, spinneryPrice, spinneryWSName);
+                root.getChildren().add(spinneryWSview);
+                root.getChildren().add(upgradespinneryBtn);
+            }
+        });
+
+        buildspinneryWsBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                orders.getGameInfo().money -= spinneryWSIns.getPrice();
+                root.getChildren().removeAll(buildspinneryWsBtn, spinneryPrice, spinneryWSName);
+                root.getChildren().add(spinneryWSview);
+                root.getChildren().add(upgradespinneryBtn);
+            }
+        });
+
+        /*buildspinneryWsBtn.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().addAll(spinneryWSI, spinneryWSInfo);
+            }
+        });
+
+        buildspinneryWsBtn.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().removeAll(spinneryWSI, spinneryWSInfo);
+            }
+        });*/
+
+        spinneryWSview.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().addAll(spinneryWSI, spinneryWSInfo);
+            }
+        });
+
+
+        spinneryWSview.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().removeAll(spinneryWSI, spinneryWSInfo);
+            }
+        });
+
+        spinneryWSI.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().removeAll(spinneryWSI, spinneryWSInfo);
+            }
+        });
+
+        upgradespinneryBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                spinneryWSIns.upgrade();
+            }
+        });
 
         int COLUMNS4 = 8;
         int COUNT4 = 2;
@@ -2449,15 +2621,13 @@ class MainGame extends Application {
         int OFFSET_Y4 = 1;
         int WIDTH4 = 130;
         int HEIGHT4 = 100;
-        SpinView.setViewport(new Rectangle2D(OFFSET_X4, OFFSET_Y4, WIDTH4, HEIGHT4));
+        spinneryWSview.setViewport(new Rectangle2D(OFFSET_X4, OFFSET_Y4, WIDTH4, HEIGHT4));
 
-        SpinView.setX(130);
-        SpinView.setY(630);
-
-        root.getChildren().add(SpinView);
+        spinneryWSview.setX(130);
+        spinneryWSview.setY(630);
 
 
-        SpinView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        spinneryWSview.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 // if ... rules should be written!
@@ -2467,7 +2637,7 @@ class MainGame extends Application {
                 audioClip1.play();
 
                 final Animation SpinneryAnimation = new SpriteAnimation(
-                        SpinView,
+                        spinneryWSview,
                         Duration.millis(1000),COUNT4, COLUMNS4,
                         OFFSET_X4, OFFSET_Y4,
                         WIDTH4, HEIGHT4
