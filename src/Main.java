@@ -1641,7 +1641,13 @@ class MainGame extends Application {
                     chickenView.setX(Math.random()*770 + 300);
                     chickenView.toFront();
 
-                    chicken.move();
+                    //chicken.move();
+
+
+
+
+
+
 
                     root.getChildren().add(chickenView);
 
@@ -2829,6 +2835,8 @@ class MainGame extends Application {
 
 
 
+
+
         Image wareHouseImage = new Image(Main.class.getResourceAsStream("1.png"));
         ImageView wareHouseView = new ImageView(wareHouseImage);
         wareHouseView.setFitHeight(250);
@@ -3189,11 +3197,46 @@ class MainGame extends Application {
 //                Duration.millis(7000),
 //                24, 4,
 //                0, 0,
-//                // 64=829/13
+//
 //                100, 50
 //        );
 //        animation.setCycleCount(Animation.INDEFINITE);
 //        animation.play();
+//
+//        public void movements(){
+//
+//            GameInfo gameInfo = new GameInfo();
+//
+//            Map map = new Map(1300);
+//            for (int i = 0; i <gameInfo.pets.size() ; i++) {
+//                gameInfo.pets.get(i).move();
+//            }
+//
+//
+//        }
+//
+//        public void ChickenMovement(){
+//            Map map = new Map(200);
+//            Chicken chicken1 = new Chicken(map,3);
+//
+//            chicken.move();
+//        }
+//
+//
+//
+//
+//
+//        Timeline animation = new Timeline(new KeyFrame(Duration.millis(0.1), event -> movements()));
+//
+//        animation.setCycleCount(Timeline.INDEFINITE);
+//
+//        animation.play();
+
+
+
+
+
+
 
 
         primaryStage.setScene(scene1);
@@ -3207,6 +3250,15 @@ class MainGame extends Application {
 
 
 
+
+
+//    public void CowMovement(){
+//
+//    }
+//
+//    public void OstrichMovement(){
+//
+//    }
 
 
 }
