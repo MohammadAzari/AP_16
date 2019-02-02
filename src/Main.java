@@ -649,6 +649,84 @@ class Ostrich extends Pet implements Upgradable , Printable{
 
 }
 
+class WeavingFactory{
+    private int price;
+    private int level;
+    private int cyclesToMakeProduct;
+    public WeavingFactory(){
+        level = 1;
+        price = 350;
+        cyclesToMakeProduct = 5;
+    }
+
+    public String getInfo(){
+        return "Get Wool and make\nFabric!" + "\nlevel: " + level + "\nprice: " + price +
+                "\ncyclesToMakeProduct: " + cyclesToMakeProduct;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public int getCyclesToMakeProduct() {
+        return cyclesToMakeProduct;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void upgrade(){
+        if(level >= 3){
+            System.out.println("There's no more upgrade for Weaving Factory!");
+        }
+        else{
+            level++;
+            cyclesToMakeProduct--;
+            price += 300;
+        }
+    }
+}
+
+class SewingFactory{
+    private int price;
+    private int level;
+    private int cyclesToMakeProduct;
+    public SewingFactory(){
+        level = 1;
+        price = 500;
+        cyclesToMakeProduct = 5;
+    }
+
+    public String getInfo(){
+        return "Get Fabric and make\nCarnival Clothes!" + "\nlevel: " + level + "\nprice: " + price +
+                "\ncyclesToMakeProduct: " + cyclesToMakeProduct;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public int getCyclesToMakeProduct() {
+        return cyclesToMakeProduct;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void upgrade(){
+        if(level >= 3){
+            System.out.println("There's no more upgrade for Sewing Factory!");
+        }
+        else{
+            level++;
+            cyclesToMakeProduct--;
+            price += 300;
+        }
+    }
+}
+
 class SpinneryWS{
     private int price;
     private int level;
@@ -869,6 +947,7 @@ class Warehouse implements Upgradable{
 
 class Level{
     static int timeReminded = 180;
+    //static int timeReminded = 4;
     static int levelNum = 1;
 
     public int getLevelMoney(){
@@ -882,9 +961,15 @@ class Level{
         levelNum++;
         if (levelNum == 2){
             timeReminded = 300;
+            //timeReminded = 3;
         }
         else if (levelNum == 3){
             timeReminded = 420;
+            //timeReminded = 3;
+        }
+        else if (levelNum == 4){
+            //timeReminded = 3;
+            timeReminded = 600;
         }
     }
 }
@@ -1341,15 +1426,45 @@ class MainGame extends Application {
         }
 
 
-        Image mapImage = new Image(Main.class.getResourceAsStream("back.png"));
-        ImageView mapView = new ImageView(mapImage);
-        mapView.setPreserveRatio(false);
-        mapView.setSmooth(true);
-        root.getChildren().add(mapView);
-        /*mapView.setFitHeight(780);
-        mapView.setFitWidth(1400);*/
-        mapView.setFitHeight(1000);
-        mapView.setFitWidth(1500);
+        Image mapImageLevelOne = new Image(Main.class.getResourceAsStream("back.png"));
+        ImageView mapViewLevelOne = new ImageView(mapImageLevelOne);
+        mapViewLevelOne.setPreserveRatio(false);
+        mapViewLevelOne.setSmooth(true);
+        mapViewLevelOne.setFitHeight(1000);
+        mapViewLevelOne.setFitWidth(1500);
+
+        Image mapImageLevelTwo = new Image(Main.class.getResourceAsStream("back_two.png"));
+        ImageView mapViewLevelTwo = new ImageView(mapImageLevelTwo);
+        mapViewLevelTwo.setSmooth(true);
+        mapViewLevelTwo.setFitHeight(1000);
+        mapViewLevelTwo.setFitWidth(1500);
+
+        Image mapImageLevelThree = new Image(Main.class.getResourceAsStream("back_three.png"));
+        ImageView mapViewLevelThree = new ImageView(mapImageLevelThree);
+        mapViewLevelThree.setSmooth(true);
+        mapViewLevelThree.setFitHeight(1000);
+        mapViewLevelThree.setFitWidth(1500);
+
+        Image mapImageLevelFour = new Image(Main.class.getResourceAsStream("back_four.png"));
+        ImageView mapViewLevelFour = new ImageView(mapImageLevelFour);
+        mapViewLevelFour.setSmooth(true);
+        mapViewLevelFour.setFitHeight(1000);
+        mapViewLevelFour.setFitWidth(1500);
+
+        if (Level.levelNum == 1) {
+            root.getChildren().add(mapViewLevelOne);
+        }
+        else if (Level.levelNum == 2){
+            root.getChildren().add(mapViewLevelTwo);
+        }
+
+        else if (Level.levelNum == 3){
+            root.getChildren().add(mapViewLevelThree);
+        }
+
+        else {
+            root.getChildren().add(mapViewLevelFour);
+        }
         //mapView.fitWidthProperty();
         //mapView.fitHeightProperty();
         //mapView.setX(100);
@@ -2025,7 +2140,16 @@ class MainGame extends Application {
             public void handle(MouseEvent event) {
                 orders.getGameInfo().money -= eggPowderWSIns.getPrice();
                 root.getChildren().removeAll(buildEggPowderWsBtn, eggPowderPrice, eggPowderWSName);
-                root.getChildren().add(eggPowderWSView);
+                root.getChildren().addAll(eggPowderWSView, upgradeEggPowderBtn);
+            }
+        });
+
+        upgradeEggPowderBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (eggPowderWSIns.getLevel() <= 2)
+                orders.getGameInfo().money -= eggPowderWSIns.getLevel() * 300;
+                eggPowderWSIns.upgrade();
             }
         });
 
@@ -2089,7 +2213,7 @@ class MainGame extends Application {
                 // if ... rules should be written!
 
                 AudioClip audioClip1 = new AudioClip(this.getClass().getResource("eggf.mp3").toString());
-                audioClip1.setCycleCount(5);
+                audioClip1.setCycleCount(eggPowderWSIns.getCyclesToMakeProduct());
                 audioClip1.play();
 
 
@@ -2213,6 +2337,15 @@ class MainGame extends Application {
             }
         });
 
+        upgradeCakeBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (cakeWSIns.getLevel() <= 2)
+                orders.getGameInfo().money -= cakeWSIns.getLevel() * 300;
+                cakeWSIns.upgrade();
+            }
+        });
+
         /*buildCakeWsBtn.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -2280,7 +2413,7 @@ class MainGame extends Application {
                         WIDTH2, HEIGHT2
                 );
 
-                cookieWSanimation.setCycleCount(5);
+                cookieWSanimation.setCycleCount(cakeWSIns.getCyclesToMakeProduct());
                 cookieWSanimation.setOnFinished(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
@@ -2393,6 +2526,15 @@ class MainGame extends Application {
             }
         });
 
+        upgradeFlouryCakeBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (flouryCakeWSIns.getLevel() <= 2)
+                orders.getGameInfo().money -= flouryCakeWSIns.getLevel() * 300;
+                flouryCakeWSIns.upgrade();
+            }
+        });
+
         /*buildFlouryCakeWsBtn.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -2407,7 +2549,7 @@ class MainGame extends Application {
             }
         });*/
 
-        flouryCakeWSView.setOnMouseEntered(new EventHandler<MouseEvent>() {
+       flouryCakeWSView.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 root.getChildren().addAll(flourycakeWSI, flourycakeWSInfo);
@@ -2458,7 +2600,7 @@ class MainGame extends Application {
                         WIDTH3, HEIGHT3
 
                 );
-                FlouryCakeAnimation.setCycleCount(6);
+                FlouryCakeAnimation.setCycleCount(flouryCakeWSIns.getCyclesToMakeProduct());
                 FlouryCakeAnimation.setOnFinished(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
@@ -2611,6 +2753,8 @@ class MainGame extends Application {
         upgradespinneryBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                if (spinneryWSIns.getLevel() <= 2)
+                orders.getGameInfo().money -= spinneryWSIns.getLevel() * 300;
                 spinneryWSIns.upgrade();
             }
         });
@@ -2643,7 +2787,7 @@ class MainGame extends Application {
                         WIDTH4, HEIGHT4
 
                 );
-                SpinneryAnimation.setCycleCount(5);
+                SpinneryAnimation.setCycleCount(spinneryWSIns.getCyclesToMakeProduct());
                 SpinneryAnimation.setOnFinished(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
@@ -2680,7 +2824,126 @@ class MainGame extends Application {
         // for adding sewing factory
 
         Image sewingFactory = new Image(Main.class.getResourceAsStream("SewingFactory.png"));
-        ImageView SewingFactoryView = new ImageView(sewingFactory);
+        ImageView sewingFactoryview = new ImageView(sewingFactory);
+
+        Rectangle buildsewingFactoryBtn = new Rectangle(80, 30);
+        buildsewingFactoryBtn.setFill(new ImagePattern(buildImage));
+        buildsewingFactoryBtn.relocate(160, 440);
+        Label sewingFactoryPrice = new Label();
+        sewingFactoryPrice.setTextFill(Color.YELLOW);
+        sewingFactoryPrice.relocate(192, 447);
+        Rectangle upgradesewingFactoryBtn = new Rectangle(80, 30);
+        upgradesewingFactoryBtn.setFill(new ImagePattern(upgrade));
+        upgradesewingFactoryBtn.relocate(280, 460);
+        Label sewingFactoryInfo = new Label();
+        Rectangle sewingFactoryI = new Rectangle(220, 150);
+        sewingFactoryI.setFill(new ImagePattern(tipForDescription));
+        sewingFactoryI.relocate(220, 520);
+        sewingFactoryInfo.relocate(260, 550);
+
+        Label sewingFactoryName = new Label("Sewing Factory");
+        sewingFactoryName.setTextFill(Color.YELLOW);
+        sewingFactoryName.relocate(145, 421);
+        root.getChildren().add(sewingFactoryName);
+
+        SewingFactory sewingFactoryIns = new SewingFactory();
+
+        Timeline sewingFactoryIShow = new Timeline(new KeyFrame(Duration.seconds(1),
+                new EventHandler()
+                {
+                    @Override
+                    public void handle(Event event) {
+                        sewingFactoryInfo.setText(sewingFactoryIns.getInfo());
+                    }
+                }));
+        sewingFactoryIShow.setCycleCount(Animation.INDEFINITE);
+        sewingFactoryIShow.play();
+
+
+        Timeline sewingFactoryPriceShower = new Timeline(new KeyFrame(Duration.seconds(1),
+                new EventHandler()
+                {
+                    @Override
+                    public void handle(Event event) {
+                        sewingFactoryPrice.setText(String.valueOf(sewingFactoryIns.getPrice()));
+                    }
+                }));
+        sewingFactoryPriceShower.setCycleCount(Animation.INDEFINITE);
+        sewingFactoryPriceShower.play();
+
+        root.getChildren().addAll(buildsewingFactoryBtn, sewingFactoryPrice);
+
+        chickenUpgrade.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                sewingFactoryIns.upgrade();
+            }
+        });
+
+        sewingFactoryPrice.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                orders.getGameInfo().money -= sewingFactoryIns.getPrice();
+                root.getChildren().removeAll(buildsewingFactoryBtn, sewingFactoryPrice, sewingFactoryName);
+                root.getChildren().add(sewingFactoryview);
+                root.getChildren().add(upgradesewingFactoryBtn);
+            }
+        });
+
+        buildsewingFactoryBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                orders.getGameInfo().money -= sewingFactoryIns.getPrice();
+                root.getChildren().removeAll(buildsewingFactoryBtn, sewingFactoryPrice, sewingFactoryName);
+                root.getChildren().add(sewingFactoryview);
+                root.getChildren().add(upgradesewingFactoryBtn);
+            }
+        });
+
+        /*buildsewingFactoryBtn.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().addAll(sewingFactoryI, sewingFactoryInfo);
+            }
+        });
+
+        buildsewingFactoryBtn.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().removeAll(sewingFactoryI, sewingFactoryInfo);
+            }
+        });*/
+
+        sewingFactoryview.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().addAll(sewingFactoryI, sewingFactoryInfo);
+            }
+        });
+
+
+        sewingFactoryview.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().removeAll(sewingFactoryI, sewingFactoryInfo);
+            }
+        });
+
+        sewingFactoryI.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().removeAll(sewingFactoryI, sewingFactoryInfo);
+            }
+        });
+
+        upgradesewingFactoryBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (sewingFactoryIns.getLevel() <= 2)
+                orders.getGameInfo().money -= sewingFactoryIns.getLevel() * 300;
+                sewingFactoryIns.upgrade();
+            }
+        });
 
         int COLUMNS5 = 8;
         int COUNT5 = 2;
@@ -2688,15 +2951,13 @@ class MainGame extends Application {
         int OFFSET_Y5 = 5;
         int WIDTH5 = 170;
         int HEIGHT5 = 120;
-        SewingFactoryView.setViewport(new Rectangle2D(OFFSET_X5, OFFSET_Y5, WIDTH5, HEIGHT5));
+        sewingFactoryview.setViewport(new Rectangle2D(OFFSET_X5, OFFSET_Y5, WIDTH5, HEIGHT5));
 
-        SewingFactoryView.setX(150);
-        SewingFactoryView.setY(420);
-
-        root.getChildren().add(SewingFactoryView);
+        sewingFactoryview.setX(150);
+        sewingFactoryview.setY(420);
 
 
-        SewingFactoryView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        sewingFactoryview.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 // if ... rules should be written!
@@ -2705,13 +2966,13 @@ class MainGame extends Application {
                 audioClip1.play();
 
                 final Animation SewingAnimation = new SpriteAnimation(
-                        SewingFactoryView,
+                        sewingFactoryview,
                         Duration.millis(1000),COUNT5, COLUMNS5,
                         OFFSET_X5, OFFSET_Y5,
                         WIDTH5, HEIGHT5
 
                 );
-                SewingAnimation.setCycleCount(5);
+                SewingAnimation.setCycleCount(sewingFactoryIns.getCyclesToMakeProduct());
                 SewingAnimation.setOnFinished(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
@@ -2747,8 +3008,127 @@ class MainGame extends Application {
 
         // for weaving factory
 
-        Image weavingWS = new Image(Main.class.getResourceAsStream("weaving.png"));
-        ImageView weavingWSview = new ImageView(weavingWS);
+        Image weavingFactoryImage = new Image(Main.class.getResourceAsStream("weaving.png"));
+        ImageView weavingFactoryview = new ImageView(weavingFactoryImage);
+
+        Rectangle buildweavingFactoryBtn = new Rectangle(80, 30);
+        buildweavingFactoryBtn.setFill(new ImagePattern(buildImage));
+        buildweavingFactoryBtn.relocate(1180, 650);
+        Label weavingFactoryPrice = new Label();
+        weavingFactoryPrice.setTextFill(Color.YELLOW);
+        weavingFactoryPrice.relocate(1218, 655);
+        Rectangle upgradeweavingFactoryBtn = new Rectangle(80, 30);
+        upgradeweavingFactoryBtn.setFill(new ImagePattern(upgrade));
+        upgradeweavingFactoryBtn.relocate(1240, 660);
+        Label weavingFactoryInfo = new Label();
+        Rectangle weavingFactoryI = new Rectangle(220, 170);
+        weavingFactoryI.setFill(new ImagePattern(rightTip));
+        weavingFactoryI.relocate(980, 680);
+        weavingFactoryInfo.relocate(1000, 720);
+
+        Label weavingFactoryName = new Label("Weaving Factory WorkShop");
+        weavingFactoryName.setTextFill(Color.YELLOW);
+        weavingFactoryName.relocate(1190, 630);
+        root.getChildren().add(weavingFactoryName);
+
+        WeavingFactory weavingFactoryIns = new WeavingFactory();
+
+        Timeline weavingFactoryIShow = new Timeline(new KeyFrame(Duration.seconds(1),
+                new EventHandler()
+                {
+                    @Override
+                    public void handle(Event event) {
+                        weavingFactoryInfo.setText(weavingFactoryIns.getInfo());
+                    }
+                }));
+        weavingFactoryIShow.setCycleCount(Animation.INDEFINITE);
+        weavingFactoryIShow.play();
+
+
+        Timeline weavingFactoryPriceShower = new Timeline(new KeyFrame(Duration.seconds(1),
+                new EventHandler()
+                {
+                    @Override
+                    public void handle(Event event) {
+                        weavingFactoryPrice.setText(String.valueOf(weavingFactoryIns.getPrice()));
+                    }
+                }));
+        weavingFactoryPriceShower.setCycleCount(Animation.INDEFINITE);
+        weavingFactoryPriceShower.play();
+
+        root.getChildren().addAll(buildweavingFactoryBtn, weavingFactoryPrice);
+
+        chickenUpgrade.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                weavingFactoryIns.upgrade();
+            }
+        });
+
+        weavingFactoryPrice.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                orders.getGameInfo().money -= weavingFactoryIns.getPrice();
+                root.getChildren().removeAll(buildweavingFactoryBtn, weavingFactoryPrice, weavingFactoryName);
+                root.getChildren().add(weavingFactoryview);
+                root.getChildren().add(upgradeweavingFactoryBtn);
+            }
+        });
+
+        buildweavingFactoryBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                orders.getGameInfo().money -= weavingFactoryIns.getPrice();
+                root.getChildren().removeAll(buildweavingFactoryBtn, weavingFactoryPrice, weavingFactoryName);
+                root.getChildren().add(weavingFactoryview);
+                root.getChildren().add(upgradeweavingFactoryBtn);
+            }
+        });
+
+        upgradeweavingFactoryBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (weavingFactoryIns.getLevel() <= 2)
+                orders.getGameInfo().money -= weavingFactoryIns.getLevel() * 300;
+                weavingFactoryIns.upgrade();
+            }
+        });
+
+        /*buildweavingFactoryBtn.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().addAll(weavingFactoryI, weavingFactoryInfo);
+            }
+        });
+
+        buildweavingFactoryBtn.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().removeAll(weavingFactoryI, weavingFactoryInfo);
+            }
+        });*/
+
+        weavingFactoryview.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().addAll(weavingFactoryI, weavingFactoryInfo);
+            }
+        });
+
+
+        weavingFactoryview.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().removeAll(weavingFactoryI, weavingFactoryInfo);
+            }
+        });
+
+        weavingFactoryI.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                root.getChildren().removeAll(weavingFactoryI, weavingFactoryInfo);
+            }
+        });
 
         int COLUMNS6 = 8;
         int COUNT6 = 3;
@@ -2756,15 +3136,13 @@ class MainGame extends Application {
         int OFFSET_Y6 = 9;
         int WIDTH6 = 170;
         int HEIGHT6 = 105;
-        weavingWSview.setViewport(new Rectangle2D(OFFSET_X6, OFFSET_Y6, WIDTH6, HEIGHT6));
+        weavingFactoryview.setViewport(new Rectangle2D(OFFSET_X6, OFFSET_Y6, WIDTH6, HEIGHT6));
 
-        weavingWSview.setX(1150);
-        weavingWSview.setY(640);
-
-        root.getChildren().add(weavingWSview);
+        weavingFactoryview.setX(1150);
+        weavingFactoryview.setY(640);
 
 
-        weavingWSview.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        weavingFactoryview.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 
             @Override
@@ -2775,13 +3153,13 @@ class MainGame extends Application {
                 audioClip1.setCycleCount(3);
                 audioClip1.play();
                 final Animation weavingWSAnimation = new SpriteAnimation(
-                        weavingWSview,
+                        weavingFactoryview,
                         Duration.millis(1000),COUNT6, COLUMNS6,
                         OFFSET_X6, OFFSET_Y6,
                         WIDTH6, HEIGHT6
                 );
 
-                weavingWSAnimation.setCycleCount(5);
+                weavingWSAnimation.setCycleCount(weavingFactoryIns.getCyclesToMakeProduct());
                 weavingWSAnimation.setOnFinished(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
@@ -2944,29 +3322,7 @@ class MainGame extends Application {
         });
 
 
-
         long startSecond = System.currentTimeMillis();
-        Timeline timeShow = new Timeline(new KeyFrame(Duration.seconds(1),
-                new EventHandler()
-                {
-                    @Override
-                    public void handle(Event event) {
-                        //currentTime.setText(String.valueOf(System.currentTimeMillis()));
-                        final long timePassed = (System.currentTimeMillis() - startSecond)/1000;
-                        final long timeReminded = orders.getGameInfo().level.timeReminded - timePassed;
-                        //currentTime.setText(String.valueOf("Time Passed: "+((System.currentTimeMillis() - startSecond)/1000) + "s"));
-                        //currentTime.setText(String.valueOf("Time Passed: "+ timePassed + " s"));
-                        currentTime.setText(String.valueOf("Time Reminded: " + timeReminded + " s"));
-                        if (timeReminded == 0){
-                            root.getChildren().addAll(endLevel, endLevelView, starView,
-                                    closeGameView, nextLevelView, mainMenuView);
-                        }
-                    }
-                }));
-        timeShow.setCycleCount(Animation.INDEFINITE);
-        timeShow.play();
-
-
         Circle circle1 = new Circle(250, 40 ,15);
         circle1.setFill(Color.RED);
         root.getChildren().addAll(circle1);
@@ -2985,6 +3341,30 @@ class MainGame extends Application {
                 }));
         modeShow.setCycleCount(Animation.INDEFINITE);
         modeShow.play();
+
+
+
+        Timeline timeShow = new Timeline(new KeyFrame(Duration.seconds(1),
+                new EventHandler()
+                {
+                    @Override
+                    public void handle(Event event) {
+                        //currentTime.setText(String.valueOf(System.currentTimeMillis()));
+                        final long timePassed = (System.currentTimeMillis() - startSecond)/1000;
+                        final long timeReminded = orders.getGameInfo().level.timeReminded - timePassed;
+                        //currentTime.setText(String.valueOf("Time Passed: "+((System.currentTimeMillis() - startSecond)/1000) + "s"));
+                        //currentTime.setText(String.valueOf("Time Passed: "+ timePassed + " s"));
+                        currentTime.setText(String.valueOf("Time Reminded: " + timeReminded + " s"));
+                        if (timeReminded == 0){
+                            modeShow.pause();
+                            root.getChildren().addAll(endLevel, endLevelView, starView,
+                                    closeGameView, nextLevelView, mainMenuView);
+                        }
+                    }
+                }));
+        timeShow.setCycleCount(Animation.INDEFINITE);
+        timeShow.play();
+
 
         Image musicOffImage = new Image(Main.class.getResourceAsStream("music_off.png"));
         ImageView musicOffView = new ImageView(musicOffImage);
