@@ -466,6 +466,8 @@ abstract class Pet extends Animal implements Upgradable,Printable {
         }
     }
 
+
+
     public abstract boolean makeProduct();
 
     public abstract void upgrade();
@@ -494,6 +496,12 @@ class Chicken extends Pet implements Upgradable, Printable{
         return "price: " + price + "\n" +
                 "level: " + level + "\n" +
                 "feed capacity unit: " + feedCapacityUnit;
+    }
+    public void moveInMap(Group root, ImageView view){
+        root.getChildren().removeAll(view);
+        view.setX((int)this.getPosition().getX() * 120);
+        view.setY((int)this.getPosition().getY() * 120);
+        root.getChildren().addAll(view);
     }
 
     public void printInfo(){
@@ -548,6 +556,13 @@ class Cow extends Pet implements Upgradable , Printable{
         return "price: " + price + "\n" +
                 "level: " + level + "\n" +
                 "feed capacity unit: " + feedCapacityUnit;
+    }
+
+    public void moveInMap(Group root, ImageView view){
+        root.getChildren().removeAll(view);
+        view.setX((int)this.getPosition().getX() * 120);
+        view.setY((int)this.getPosition().getY() * 120);
+        root.getChildren().addAll(view);
     }
 
 
@@ -610,6 +625,13 @@ class Ostrich extends Pet implements Upgradable , Printable{
         return "price: " + price + "\n" +
                 "level: " + level + "\n" +
                 "feed capacity unit: " + feedCapacityUnit;
+    }
+
+    public void moveInMap(Group root, ImageView view){
+        root.getChildren().removeAll(view);
+        view.setX((int)this.getPosition().getX() * 120);
+        view.setY((int)this.getPosition().getY() * 120);
+        root.getChildren().addAll(view);
     }
 
     public void printInfo(){
@@ -979,13 +1001,20 @@ class GameInfo{
     int time;
     int initialMoney = level.getLevelMoney();
     int money;
-    Map map = new Map(1300);
+    Map map = new Map(10);
     Chicken chicken = new Chicken(map, 0);
     Cow cow = new Cow(map, 0);
     Ostrich ostrich = new Ostrich(map, 0);
     Warehouse warehouse = Warehouse.getclass();
     Well well = Well.getclass();
     ArrayList<Pet> pets = new ArrayList<>();
+    ArrayList<Chicken> chickens = new ArrayList<>();
+    ArrayList<Cow> cows = new ArrayList<>();
+    ArrayList<Ostrich> ostrichs = new ArrayList<>();
+    ArrayList<ImageView> chickenImageViews = new ArrayList<>();
+    ArrayList<ImageView> cowImageViews = new ArrayList<>();
+    ArrayList<ImageView> ostrichImageViews = new ArrayList<>();
+
 
     public GameInfo(){
         time = 0;
@@ -1007,7 +1036,7 @@ class Orders{
     public Chicken buyChicken() throws FileNotFoundException {
         Chicken chicken = new Chicken(gameInfo.map, chickenLabel);
         chickenLabel++;
-        gameInfo.pets.add(chicken);
+        gameInfo.chickens.add(chicken);
         gameInfo.money -= chicken.price;
         System.out.println("A chicken is bought! and money = " + gameInfo.money);
         return chicken;
@@ -1021,7 +1050,7 @@ class Orders{
     public Cow buyCow() throws FileNotFoundException {
         Cow cow = new Cow(gameInfo.map, cowLabel);
         cowLabel++;
-        gameInfo.pets.add(cow);
+        gameInfo.cows.add(cow);
         gameInfo.money -= cow.price;
         System.out.println("A cow is bought! and money = " + gameInfo.money);
         return cow;
@@ -1035,7 +1064,7 @@ class Orders{
     public Ostrich buyOstrich() throws FileNotFoundException {
         Ostrich ostrich = new Ostrich(gameInfo.map, ostrichLabel);
         cowLabel++;
-        gameInfo.pets.add(ostrich);
+        gameInfo.ostrichs.add(ostrich);
         gameInfo.money -= ostrich.price;
         System.out.println("A ostrich is bought! and money = " + gameInfo.money);
         return ostrich;
@@ -1059,7 +1088,7 @@ class Orders{
     }
 
     public int plant(int x, int y) {
-        if (x > 1200 || y > 1200 || x < 350 || y < 350) {
+        if (x > 10 || y > 10 || x < 3 || y < 3) {
             System.out.println("Entered Numbers are illigal!!!");
             return -1;
         }
@@ -1304,7 +1333,7 @@ class MainGame extends Application {
                 if (event.getX() > 350 && event.getY() > 300 && event.getX()<1000 && event.getY()<600 && orders.grassChecker == 0){
                     AudioClip audioClip1 = new AudioClip(this.getClass().getResource("grass.mp3").toString());
                     audioClip1.play();
-                    pNum = orders.plant((int)event.getX() , (int)event.getY());
+                    pNum = orders.plant((int)Math.floor(event.getX()/100) , (int)Math.floor(event.getY()/100));
                     orders.grassChecker = 0;
                     System.out.println(orders.grassChecker);
                 }
@@ -1705,9 +1734,9 @@ class MainGame extends Application {
         chickenUpgrade.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                AudioClip audioClip1 = new AudioClip(this.getClass().getResource("upgrade.mp3").toString());
-                audioClip1.play();
                 orders.getGameInfo().chicken.upgrade();
+                /*AudioClip audioClip1 = new AudioClip(this.getClass().getResource("upgrade.mp3").toString());
+                audioClip1.play();*/
             }
         });
 
@@ -1741,6 +1770,7 @@ class MainGame extends Application {
             }
         });
 
+        Image chickenInMap = new Image(Main.class.getResourceAsStream("guinea_fowl_map.png"));
         circle.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -1748,23 +1778,18 @@ class MainGame extends Application {
                     AudioClip audioClip1 = new AudioClip(this.getClass().getResource("click.mp3").toString());
                     audioClip1.play();
                     Pet chicken = orders.buyChicken();
-                    Image chickenImage = new Image(Main.class.getResourceAsStream("guinea_fowl_map.png"));
-                    ImageView chickenView = new ImageView(chickenImage);
+                    ImageView chickenView = new ImageView(chickenInMap);
                     chickenView.setFitWidth(90);
                     chickenView.setFitHeight(90);
                     chickenView.setY(Math.random()*350 + 300);
                     chickenView.setX(Math.random()*770 + 300);
                     chickenView.toFront();
+                    orders.getGameInfo().chickenImageViews.add(chickenView);
 
-                    //chicken.move();
-
-
-
-
-
-
+                    chicken.move();
 
                     root.getChildren().add(chickenView);
+
 
 
 
@@ -1797,7 +1822,6 @@ class MainGame extends Application {
                 }
             }
         });
-
 
 
 
@@ -1886,6 +1910,7 @@ class MainGame extends Application {
                     Cow cowInGame = orders.buyCow();
                     Image cowImage = new Image(Main.class.getResourceAsStream("cow.png"));
                     ImageView cowView = new ImageView(cowImage);
+                    orders.getGameInfo().cowImageViews.add(cowView);
                     cowView.setX(Math.random()*770 + 300);
                     cowView.setY(Math.random()*350 + 300);
                     cowView.setFitHeight(150);
@@ -1992,6 +2017,7 @@ class MainGame extends Application {
                     orders.buyOstrich();
                     Image ostrichImage = new Image(Main.class.getResourceAsStream("OstrichGame.png"));
                     ImageView ostrichView = new ImageView(ostrichImage);
+                    orders.getGameInfo().ostrichImageViews.add(ostrichView);
                     ostrichView.setX(Math.random()*770 + 300);
                     ostrichView.setY(Math.random()*350 + 300);
                     ostrichView.setFitWidth(150);
@@ -2094,10 +2120,17 @@ class MainGame extends Application {
         ImageView eggPowderWSView = new ImageView(eggPowderWS);
         EggPowderWS eggPowderWSIns = new EggPowderWS();
 
+//        Image woodTableForName = new Image(Main.class.getResourceAsStream("workshop_table.png"));
+//        ImageView eggPowderTable = new ImageView(woodTableForName);
+//        eggPowderTable.setFitWidth(100);
+//        eggPowderTable.setFitHeight(40);
+//        eggPowderTable.relocate(150,250);
+
+
         Label eggPowderWSName = new Label("Egg Powder WorkShop");
         eggPowderWSName.setTextFill(Color.YELLOW);
         eggPowderWSName.relocate(150, 260);
-        root.getChildren().add(eggPowderWSName);
+        root.getChildren().addAll(eggPowderWSName);
 
 
         Timeline eggPWIShow = new Timeline(new KeyFrame(Duration.seconds(1),
@@ -2125,12 +2158,6 @@ class MainGame extends Application {
 
         root.getChildren().addAll(buildEggPowderWsBtn, eggPowderPrice);
 
-        chickenUpgrade.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                eggPowderWSIns.upgrade();
-            }
-        });
 
         eggPowderPrice.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -2316,12 +2343,6 @@ class MainGame extends Application {
 
         root.getChildren().addAll(buildCakeWsBtn, cakePrice);
 
-        chickenUpgrade.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                cakeWSIns.upgrade();
-            }
-        });
 
         cakePrice.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -2505,12 +2526,6 @@ class MainGame extends Application {
 
         root.getChildren().addAll(buildFlouryCakeWsBtn, flouryCakePrice);
 
-        chickenUpgrade.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                flouryCakeWSIns.upgrade();
-            }
-        });
 
         flouryCakePrice.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -2693,12 +2708,6 @@ class MainGame extends Application {
 
         root.getChildren().addAll(buildspinneryWsBtn, spinneryPrice);
 
-        chickenUpgrade.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                spinneryWSIns.upgrade();
-            }
-        });
 
         spinneryPrice.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -2879,12 +2888,6 @@ class MainGame extends Application {
 
         root.getChildren().addAll(buildsewingFactoryBtn, sewingFactoryPrice);
 
-        chickenUpgrade.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                sewingFactoryIns.upgrade();
-            }
-        });
 
         sewingFactoryPrice.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -3064,12 +3067,6 @@ class MainGame extends Application {
 
         root.getChildren().addAll(buildweavingFactoryBtn, weavingFactoryPrice);
 
-        chickenUpgrade.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                weavingFactoryIns.upgrade();
-            }
-        });
 
         weavingFactoryPrice.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -3213,8 +3210,6 @@ class MainGame extends Application {
 
 
 
-
-
         Image wareHouseImage = new Image(Main.class.getResourceAsStream("1.png"));
         ImageView wareHouseView = new ImageView(wareHouseImage);
         wareHouseView.setFitHeight(250);
@@ -3330,7 +3325,10 @@ class MainGame extends Application {
         });
 
 
+
         long startSecond = System.currentTimeMillis();
+
+
         Circle circle1 = new Circle(250, 40 ,15);
         circle1.setFill(Color.RED);
         root.getChildren().addAll(circle1);
@@ -3343,12 +3341,34 @@ class MainGame extends Application {
                         if (timePassed % 3 == 0){
                             circle1.setFill(Color.GREEN);
                             orders.turn(1);
+                            int i = 0;
+                            for (ImageView e : orders.getGameInfo().chickenImageViews){
+                                orders.getGameInfo().chickens.get(i).moveInMap(root, e);
+                                i++;
+                            }
+                            int j = 0;
+                            for (ImageView e : orders.getGameInfo().cowImageViews){
+                                orders.getGameInfo().cows.get(j).moveInMap(root, e);
+                                j++;
+                            }
+                            int k = 0;
+                            for (ImageView e : orders.getGameInfo().ostrichImageViews){
+                                orders.getGameInfo().ostrichs.get(k).moveInMap(root, e);
+                                k++;
+                            }
+                            //System.out.println("pass");
+
+
+
+
                         }
                         else if (timePassed % 3 != 0) circle1.setFill(Color.RED);
                     }
                 }));
         modeShow.setCycleCount(Animation.INDEFINITE);
         modeShow.play();
+
+
 
 
 
@@ -3577,44 +3597,11 @@ class MainGame extends Application {
 //                Duration.millis(7000),
 //                24, 4,
 //                0, 0,
-//
+//                // 64=829/13
 //                100, 50
 //        );
 //        animation.setCycleCount(Animation.INDEFINITE);
 //        animation.play();
-//
-//        public void movements(){
-//
-//            GameInfo gameInfo = new GameInfo();
-//
-//            Map map = new Map(1300);
-//            for (int i = 0; i <gameInfo.pets.size() ; i++) {
-//                gameInfo.pets.get(i).move();
-//            }
-//
-//
-//        }
-//
-//        public void ChickenMovement(){
-//            Map map = new Map(200);
-//            Chicken chicken1 = new Chicken(map,3);
-//
-//            chicken.move();
-//        }
-//
-//
-//
-//
-//
-//        Timeline animation = new Timeline(new KeyFrame(Duration.millis(0.1), event -> movements()));
-//
-//        animation.setCycleCount(Timeline.INDEFINITE);
-//
-//        animation.play();
-
-
-
-
 
 
 
@@ -3630,15 +3617,6 @@ class MainGame extends Application {
 
 
 
-
-
-//    public void CowMovement(){
-//
-//    }
-//
-//    public void OstrichMovement(){
-//
-//    }
 
 
 }
